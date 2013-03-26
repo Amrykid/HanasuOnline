@@ -1,8 +1,17 @@
 declare var $;
 
+$(document).ready(function () {
+	var hanasu = new Hanasu();
+	hanasu.initializeApplication();
+	hanasu.loadStations();
+
+	self.App = hanasu;
+});
+
 class Hanasu {
 	public IsPlaying: bool;
 	private Player: any;
+	public Stations: any;
 	private muted: bool;
 	private mutedOriginalVolume: any;
 	public initializeApplication() {
@@ -50,6 +59,26 @@ class Hanasu {
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
 	}
 	
+	public loadStations() {
+		$.get("data/Stations.xml", function(data) {
+			var $stations = $(data).find("Station");
+			
+			Hanasu.prototype.Stations = new Station[];
+			
+			$stations.each(function() {
+				var stat = new Station();
+				stat.Name = $(this).find("Name").text();
+				stat.Stream = $(this).find("DataSource").text();
+				stat.Homepage = $(this).find("Homepage").text();
+				stat.PlaylistExt = $(this).find("ExplicitExtension").text();
+				stat.ServerType = $(this).find("ServerType").text();
+				stat.Logo = $(this).find("Logo").text();
+				
+				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
+			});
+		});
+	}
+	
 	public togglePlayStatus() {
 		Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
 	}
@@ -89,9 +118,12 @@ class Hanasu {
 		Hanasu.prototype.changeVolume(volumeControl.value);
 	 }
 }
-$(document).ready(function () {
-	var hanasu = new Hanasu();
-	hanasu.initializeApplication();
-	
-	self.App = hanasu;
-});
+
+class Station {
+	public Name: string;
+	public Stream: string;
+	public Homepage: string;
+	public PlaylistExt: string; //maps to 'ExplicitExtension' in xml
+	public ServerType: string;
+	public Logo: string;
+}
