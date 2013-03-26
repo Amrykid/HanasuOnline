@@ -1,55 +1,50 @@
 var Hanasu = (function () {
     function Hanasu() { }
     Hanasu.prototype.initializeApplication = function () {
-        self.IsPlaying = false;
-        $.getScript("js/jquery.timer.js", function (data, textStatus, jqxhr) {
-            var stationTimer = $.timer(function () {
-            });
-            stationTimer.set({
-                time: 5000,
-                autostart: true
-            });
+        Hanasu.prototype.IsPlaying = false;
+        var stationTimer = $.timer(function () {
         });
-        $.getScript("js/jplayer/jquery.jplayer.min.js", function (data, textStatus, jqxhr) {
-            $("#jquery_jplayer").jPlayer({
-                swfPath: "/js/jplayer",
-                solution: "html, flash",
-                supplied: "mp3",
-                playing: function (e) {
-                    setPlayStatus(true);
-                },
-                paused: function (e) {
-                    setPlayStatus(false);
-                },
-                ended: function (e) {
-                    setPlayStatus(false);
-                },
-                error: function (event) {
-                    alert(event.jPlayer.error.type);
-                },
-                progress: function (e) {
-                    alert(e);
-                }
-            });
-            self.Player = $("#jquery_jplayer")[0];
+        stationTimer.set({
+            time: 5000,
+            autostart: true
         });
+        $("#jquery_jplayer").jPlayer({
+            swfPath: "js/jplayer",
+            solution: "html, flash",
+            supplied: "mp3",
+            wmode: "window",
+            playing: function (e) {
+                Hanasu.prototype.setPlayStatus(true);
+            },
+            paused: function (e) {
+                Hanasu.prototype.setPlayStatus(false);
+            },
+            ended: function (e) {
+                Hanasu.prototype.setPlayStatus(false);
+            },
+            error: function (event) {
+                alert(event.jPlayer.error.type);
+            }
+        });
+        Hanasu.prototype.Player = $("#jquery_jplayer")[0];
         $("#controlPlayPause").click(function () {
-            if(self.IsPlaying) {
-                $("#jquery_jplayer").jPlayer("pause");
+            if(Hanasu.prototype.IsPlaying) {
+                $("#jquery_jplayer").jPlayer("stop");
+                Hanasu.prototype.setPlayStatus(false);
             } else {
-                $("#jquery_jplayer").jPlayer("setMedia", {
-                    mp3: "http://174.127.103.99:443/;stream/1"
+                $(Hanasu.prototype.Player).jPlayer("setMedia", {
+                    mp3: "http://173.192.205.178:80/;stream/1"
                 });
-                $("#jquery_jplayer").jPlayer("play");
+                $(Hanasu.prototype.Player).jPlayer("play");
             }
         });
     };
     Hanasu.prototype.togglePlayStatus = function () {
-        setPlayStatus(!self.IsPlaying);
+        Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
     };
     Hanasu.prototype.setPlayStatus = function (value) {
-        self.IsPlaying = value;
-        $("#controlPlayPause").attr("class", (self.IsPlaying ? "icon-pause" : "icon-play"));
+        Hanasu.prototype.IsPlaying = value;
+        $("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
     };
     return Hanasu;
 })();
