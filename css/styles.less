@@ -10,13 +10,14 @@ html, body{
 header{
 	height: 60px;
 	width: 100%;
+	margin: 0 0 30px 0;
 	background-color: #3a3a3a;
 	border-bottom: 1px solid #292929;
 	box-shadow: 0px 0px 4px #232323;}
 
 header #songArea{
 	position: absolute;
-	left: 20px;
+	left: 30px;
 	float: left;}
 
 header #songArea img{
@@ -66,9 +67,10 @@ header #controls button{
 	color: #1b1b1b;
 	&:hover{
 		cursor: pointer;
-		color: #bcbcbc;}
+		background-color: #bcbcbc;}
 	&:active{
-		color: #444444;}}
+		color: #efefef;
+		background-color: #1b1b1b;}}
 
 header #controls button:nth-child(2){
 	margin: 11px 10px;
@@ -90,9 +92,19 @@ header #volumeControl{
 	float: right;
 	width: 100px;
 	height: 60px;
-	margin: 0 20px;}
+	margin: 0 30px 0 20px;}
 
-/**** Sidebar ****/
+/**** Stations ****/
+
+.station{
+	float: left;
+	width: 200px;
+	height: 200px;
+	margin: 30px 30px;
+	box-shadow: 0px 0px 4px #232323;
+	border-radius: 5px;}
+
+/**** Footer ****/
 
 #footer {
 	position: absolute;

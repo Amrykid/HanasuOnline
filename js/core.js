@@ -4,7 +4,9 @@ $(function () {
 
 function notify() {
 	var havePermission = window.webkitNotifications.checkPermission();
-	if (havePermission == 0) {
+	if (havePermission != 0) {
+		window.webkitNotifications.requestPermission();
+	} else {
 		var notification = window.webkitNotifications.createNotification(
 		'img/square.png',
 		'Song Title',
@@ -18,8 +20,6 @@ function notify() {
 		setTimeout(function(){
 			notification.close();
 		},5000);
-	} else {
-		window.webkitNotifications.requestPermission();
 	}
 }
  
