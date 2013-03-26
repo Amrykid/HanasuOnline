@@ -50,7 +50,8 @@ class Hanasu {
 			if (Hanasu.prototype.IsPlaying) {
 				$("#jquery_jplayer").jPlayer("stop");
 				Hanasu.prototype.setPlayStatus(false);
-			} else {
+			} else {				
+				$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
 				$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: "http://173.192.205.178:80/;stream/1" });
 				$(Hanasu.prototype.Player).jPlayer("play");
 			}
