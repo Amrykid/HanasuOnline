@@ -1,3 +1,8 @@
+$(document).ready(function () {
+    var hanasu = new Hanasu();
+    hanasu.initializeApplication();
+    hanasu.loadStations();
+});
 var Hanasu = (function () {
     function Hanasu() { }
     Hanasu.prototype.initializeApplication = function () {
@@ -39,6 +44,22 @@ var Hanasu = (function () {
             }
         });
     };
+    Hanasu.prototype.loadStations = function () {
+        $.get("data/Stations.xml", function (data) {
+            var $stations = $(data).find("Station");
+            Hanasu.prototype.Stations = new Array();
+            $stations.each(function () {
+                var stat = new Station();
+                stat.Name = $(this).find("Name").text();
+                stat.Stream = $(this).find("DataSource").text();
+                stat.Homepage = $(this).find("Homepage").text();
+                stat.PlaylistExt = $(this).find("ExplicitExtension").text();
+                stat.ServerType = $(this).find("ServerType").text();
+                stat.Logo = $(this).find("Logo").text();
+                Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
+            });
+        });
+    };
     Hanasu.prototype.togglePlayStatus = function () {
         Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
     };
@@ -48,7 +69,7 @@ var Hanasu = (function () {
     };
     return Hanasu;
 })();
-$(document).ready(function () {
-    var hanasu = new Hanasu();
-    hanasu.initializeApplication();
-});
+var Station = (function () {
+    function Station() { }
+    return Station;
+})();

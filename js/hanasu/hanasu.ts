@@ -1,8 +1,15 @@
 declare var $;
 
+$(document).ready(function () {
+	var hanasu = new Hanasu();
+	hanasu.initializeApplication();
+	hanasu.loadStations();
+});
+
 class Hanasu {
 	public IsPlaying: bool;
 	private Player: any;
+	public Stations: any;
 	public initializeApplication() {
 		//any important starting procedures, we can put here.
 		
@@ -45,6 +52,26 @@ class Hanasu {
 		});
 	}
 	
+	public loadStations() {
+		$.get("data/Stations.xml", function(data) {
+			var $stations = $(data).find("Station");
+			
+			Hanasu.prototype.Stations = new Station[];
+			
+			$stations.each(function() {
+				var stat = new Station();
+				stat.Name = $(this).find("Name").text();
+				stat.Stream = $(this).find("DataSource").text();
+				stat.Homepage = $(this).find("Homepage").text();
+				stat.PlaylistExt = $(this).find("ExplicitExtension").text();
+				stat.ServerType = $(this).find("ServerType").text();
+				stat.Logo = $(this).find("Logo").text();
+				
+				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
+			});
+		});
+	}
+	
 	public togglePlayStatus() {
 		Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
 	}
@@ -53,7 +80,14 @@ class Hanasu {
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
 	}
 }
-$(document).ready(function () {
-	var hanasu = new Hanasu();
-	hanasu.initializeApplication();
-});
+
+
+
+class Station {
+	public Name: string;
+	public Stream: string;
+	public Homepage: string;
+	public PlaylistExt: string; //maps to 'ExplicitExtension' in xml
+	public ServerType: string;
+	public Logo: string;
+}
