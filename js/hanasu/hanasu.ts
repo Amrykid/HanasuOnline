@@ -60,7 +60,7 @@ class Hanasu {
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
 	}
 	
-	public loadStations() {
+	private loadStations() {
 		$.get("data/Stations.xml", function(data) {
 			var $stations = $(data).find("Station");
 			
@@ -80,10 +80,10 @@ class Hanasu {
 		});
 	}
 	
-	public togglePlayStatus() {
+	private togglePlayStatus() {
 		Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
 	}
-	public setPlayStatus(value) {
+	private setPlayStatus(value) {
 		Hanasu.prototype.IsPlaying = value;
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
 		
@@ -106,7 +106,7 @@ class Hanasu {
 			Hanasu.prototype.mutedOriginalVolume = volumeValue;
 		}
 	}
-	toggleVolumeMuted() {
+	private toggleVolumeMuted() {
 		var volumeControl = $("#volumeControl")[0];
 		Hanasu.prototype.muted = !Hanasu.prototype.muted;
 	
