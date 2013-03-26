@@ -39,6 +39,7 @@ var Hanasu = (function () {
                 $(Hanasu.prototype.Player).jPlayer("play");
             }
         });
+        $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
     };
     Hanasu.prototype.togglePlayStatus = function () {
         Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
@@ -46,6 +47,7 @@ var Hanasu = (function () {
     Hanasu.prototype.setPlayStatus = function (value) {
         Hanasu.prototype.IsPlaying = value;
         $("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
+        Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
     };
     Hanasu.prototype.changeVolume = function (volumeValue) {
         if(volumeValue < 33) {

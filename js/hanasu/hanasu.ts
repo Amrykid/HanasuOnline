@@ -46,6 +46,8 @@ class Hanasu {
 				$(Hanasu.prototype.Player).jPlayer("play");
 			}
 		});
+		
+		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
 	}
 	
 	public togglePlayStatus() {
@@ -54,6 +56,8 @@ class Hanasu {
 	public setPlayStatus(value) {
 		Hanasu.prototype.IsPlaying = value;
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
+		
+		Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
 	}
 	
 	public changeVolume(volumeValue) {
