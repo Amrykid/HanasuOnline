@@ -1,0 +1,174 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
+
+html, body{
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background-color: #efefef;
+	font-family: 'Source Sans Pro', sans-serif;}
+
+header{
+	height: 60px;
+	width: 100%;
+	background-color: #3a3a3a;
+	border-bottom: 1px solid #292929;
+	box-shadow: 0px 0px 4px #232323;}
+
+header #songArea{
+	position: absolute;
+	left: 20px;
+	float: left;}
+
+header #songArea img{
+	float: left;
+	width: 90px;
+	height: 90px;
+	box-shadow: 0px 0px 4px #232323;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;}
+
+header #songArea h1{
+	display: block;
+	height: 30px;
+	margin: 0 0 0 110px;
+	line-height: 30px;
+	font-size: 20px;
+	color: #efefef;}
+
+header #songArea h2{
+	display: block;
+	height: 30px;
+	margin: 0 0 0 110px;
+	line-height: 30px;
+	color: #efefef;}
+
+header #controls{
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 128px;
+	height: 50px;
+	margin: 0 auto;}
+
+header #controls button{
+	float: left;
+	border: none;
+	display: block;
+	background: none;
+	width: 34px;
+	height: 34px;
+	margin: 14px 0;
+	padding: 0;
+	background-color: #efefef;
+	line-height: 34px;
+	text-align: center;
+	font-size: 18px;
+	color: #1b1b1b;
+	&:hover{
+		cursor: pointer;
+		color: #bcbcbc;}
+	&:active{
+		color: #444444;}}
+
+header #controls button:nth-child(2){
+	margin: 11px 10px;
+	width: 40px;
+	height: 40px;}
+
+header #volumeIcon{
+	float: right;}
+
+header #volumeIcon{
+	height: 60px;
+	width: 20px;
+	line-height: 60px;
+	text-align: center;
+	font-size: 32px;
+	color: #efefef;}
+
+header #volumeControl{
+	float: right;
+	width: 100px;
+	height: 60px;
+	margin: 0 20px;}
+
+/**** Sidebar ****/
+
+#footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	background-color: #3a3a3a;
+	border-bottom: 1px solid #292929;
+	box-shadow: 0px 0px 4px #232323;}
+
+#footer #informationPaneToggle{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: none;
+	display: block;
+	background: none;
+	width: 50px;
+	height: 50px;
+	padding: 0;
+	margin: 0 10px 0 0;
+	line-height: 50px;
+	text-align: center;
+	font-size: 26px;
+	color: #efefef;
+	&:hover{
+		cursor: pointer;
+		color: #bcbcbc;}
+	&:active{
+		color: #1b1b1b;}}
+
+#footer #searchContainer{
+	height: 30px;
+	width: 350px;
+	margin: 10px auto;
+	background-color: #efefef;}
+
+#footer #searchContainer input{
+	float: left;
+	width: 320px;
+	height: 30px;
+	background-color: #efefef;
+	border: none;
+	outline: none;
+	padding: 0 10px;
+	margin: 0;
+	-webkit-appearance:none}
+
+#footer #searchContainer button{
+	display: block;
+	float: right;
+	width: 30px;
+	height: 30px;
+	padding: 0;
+	border: none;
+	color: #1b1b1b;
+	line-height: 30px;
+	text-align: center;}
+
+#footer #settingsPaneToggle{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border: none;
+	display: block;
+	background: none;
+	width: 50px;
+	height: 50px;
+	padding: 0;
+	margin: 0 10px 0 0;
+	line-height: 50px;
+	text-align: center;
+	font-size: 26px;
+	color: #efefef;
+	&:hover{
+		cursor: pointer;
+		color: #bcbcbc;}
+	&:active{
+		color: #1b1b1b;}}
