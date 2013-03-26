@@ -189,10 +189,11 @@ header #controls button {
 }
 header #controls button:hover {
   cursor: pointer;
-  color: #bcbcbc;
+  background-color: #bcbcbc;
 }
 header #controls button:active {
-  color: #444444;
+  color: #efefef;
+  background-color: #1b1b1b;
 }
 header #controls button:nth-child(2) {
   margin: 11px 10px;
