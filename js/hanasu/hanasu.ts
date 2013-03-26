@@ -3,7 +3,6 @@ declare var $;
 $(document).ready(function () {
 	var hanasu = new Hanasu();
 	hanasu.initializeApplication();
-	hanasu.loadStations();
 
 	self.App = hanasu;
 });
@@ -14,11 +13,15 @@ class Hanasu {
 	public Stations: any;
 	private muted: bool;
 	private mutedOriginalVolume: any;
+	
+	public CurrentStation: Station;
+	
 	public initializeApplication() {
 		//any important starting procedures, we can put here.
 		
 		Hanasu.prototype.muted = false;
 		Hanasu.prototype.IsPlaying = false;
+		
 
 		//initalize station timer
 		var stationTimer = $.timer(function () {
@@ -48,16 +51,18 @@ class Hanasu {
 				
 		$("#controlPlayPause").click(function() {
 			if (Hanasu.prototype.IsPlaying) {
-				$("#jquery_jplayer").jPlayer("stop");
-				Hanasu.prototype.setPlayStatus(false);
-			} else {				
-				$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
-				$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: "http://173.192.205.178:80/;stream/1" });
-				$(Hanasu.prototype.Player).jPlayer("play");
+				Hanasu.prototype.stopStation();
+			} else {			
+				if (Hanasu.prototype.CurrentStation == null) {
+				} else {
+					Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
+				}
 			}
 		});
 		
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
+		
+		Hanasu.prototype.loadStations();
 	}
 	
 	private loadStations() {
@@ -77,8 +82,40 @@ class Hanasu {
 				
 				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
 			});
+			
+			//TODO: Remove this line below.
+			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[0];
 		});
 	}
+	
+	public stopStation() {
+		$("#jquery_jplayer").jPlayer("stop");
+		Hanasu.prototype.setPlayStatus(false);
+	}
+	
+	public playStation(station: Station) {
+		if (Hanasu.prototype.IsPlaying) {
+			Hanasu.prototype.stopStation();
+		}
+		
+		if (station.PlaylistExt == '') {
+			Hanasu.prototype._playStation(station);
+		} else {
+			$.get(station.Stream, function(data) {
+				alert(data);
+			});
+		}
+	}
+	private _playStation(station: Station) {
+		//callback function. use playStation instead.
+		
+		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: "http://173.192.205.178:80/;stream/1" });
+		$(Hanasu.prototype.Player).jPlayer("play");
+		
+		Hanasu.prototype.CurrentStation = station;
+	}
+	
 	
 	private togglePlayStatus() {
 		Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
