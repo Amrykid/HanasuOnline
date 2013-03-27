@@ -101,8 +101,8 @@ class Hanasu {
 		if (station.PlaylistExt == '') {
 			Hanasu.prototype._playStation(station);
 		} else {
-			$.get(station.Stream, function(data) {
-				alert(data);
+			$.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function(data){
+				alert(data.contents);
 			});
 		}
 	}
