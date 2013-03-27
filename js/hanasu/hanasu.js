@@ -108,6 +108,7 @@ var Hanasu = (function () {
         if(Hanasu.prototype.IsPlaying) {
             Hanasu.prototype.stopStation();
         }
+        Hanasu.prototype.obtainNotificationsPermission();
         if(station.PlaylistExt == '') {
             Hanasu.prototype._playStation(station, station.Stream);
         } else {
@@ -133,7 +134,11 @@ var Hanasu = (function () {
         Hanasu.prototype.currentStationStream = stream;
         Hanasu.prototype.retrieveCurrentStationData(false);
     };
-    Hanasu.prototype.updateSongInfo = function (song, artist, logo) {
+    Hanasu.prototype.updateSongInfo = function (song, artist, logo, notify) {
+        if (typeof notify === "undefined") { notify = true; }
+        if($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
+            Hanasu.prototype.sendSongChangeNotification(song, artist);
+        }
         $("#songTitle").html(song);
         $("#artistName").html(artist);
         $("#coverImg").attr('src', logo);
@@ -164,7 +169,7 @@ var Hanasu = (function () {
                             var titleSplt = title.split(" - ");
                             Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
                         } catch (e) {
-                            Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo);
+                            Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo, false);
                             Hanasu.prototype.stationTimer.stop();
                         }
                     });
@@ -231,6 +236,33 @@ var Hanasu = (function () {
                 return $(streams[0]).attr('href');
             }
         }
+    };
+    Hanasu.prototype.obtainNotificationsPermission = function () {
+        if(window.webkitNotifications) {
+            if(window.webkitNotifications.checkPermission() == 0) {
+                return true;
+            } else {
+                window.webkitNotifications.requestPermission();
+                return false;
+            }
+        }
+        return false;
+    };
+    Hanasu.prototype.sendNotification = function (img, title, body) {
+        if(window.webkitNotifications.checkPermission() == 0) {
+            var notification = window.webkitNotifications.createNotification(img, title, body);
+            notification.onclick = function () {
+                window.focus();
+                notification.close();
+            };
+            notification.show();
+            setTimeout(function () {
+                notification.close();
+            }, 5000);
+        }
+    };
+    Hanasu.prototype.sendSongChangeNotification = function (song, artist) {
+        Hanasu.prototype.sendNotification('img/square.png', "Song Change", "'" + song + "' by " + artist);
     };
     return Hanasu;
 })();

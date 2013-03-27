@@ -153,6 +153,8 @@ class Hanasu {
 			Hanasu.prototype.stopStation();
 		}
 		
+		Hanasu.prototype.obtainNotificationsPermission();
+		
 		// Checks if the station requires any pre-processing.
 		if (station.PlaylistExt == '') {
 			Hanasu.prototype._playStation(station, station.Stream); //Plays the station since it is not a playlist, but is a direct stream.
@@ -190,7 +192,11 @@ class Hanasu {
 		Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
 	}
 	
-	private updateSongInfo(song: string, artist: string, logo: string) {
+	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
+		if ($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
+			Hanasu.prototype.sendSongChangeNotification(song, artist);
+		}
+	
 		$("#songTitle").html(song);
 		$("#artistName").html(artist);
 		$("#coverImg").attr('src', logo);
@@ -226,7 +232,7 @@ class Hanasu {
 							
 							Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
 						} catch (e) {
-							Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo);
+							Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo, false);
 							Hanasu.prototype.stationTimer.stop();
 						}
 					});
@@ -275,7 +281,7 @@ class Hanasu {
 		Hanasu.prototype.changeVolume(volumeControl.value);
 	 }
 	 
-	 private getFirstStreamFromStationPlaylist(data: string, station: Station) {
+	private getFirstStreamFromStationPlaylist(data: string, station: Station) {
 		switch(station.PlaylistExt)
 		{
 			case '.m3u':
@@ -305,6 +311,41 @@ class Hanasu {
 			}
 		}
 	 }
+	
+	private obtainNotificationsPermission() {
+		if (window.webkitNotifications) {
+			if (window.webkitNotifications.checkPermission() == 0) {
+				return true;
+			} else {
+				window.webkitNotifications.requestPermission();
+				return false;
+			}
+		}
+		return false;
+	}
+	private sendNotification(img: string, title: string, body: string) {
+		if (window.webkitNotifications.checkPermission() == 0) {
+			var notification = window.webkitNotifications.createNotification(
+				img,
+				title,
+				body
+			);
+			notification.onclick = function () {
+				window.focus();
+				notification.close();
+			}
+			notification.show();
+			setTimeout(function(){
+				notification.close();
+			},5000);
+		}
+	}
+	private sendSongChangeNotification(song: string, artist: string) {
+		Hanasu.prototype.sendNotification(
+			'img/square.png',
+			"Song Change",
+			"'" + song + "' by " + artist);
+	}
 }
 
 class Station {
