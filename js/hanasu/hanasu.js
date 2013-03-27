@@ -33,7 +33,18 @@ var Hanasu = (function () {
                 Hanasu.prototype.setPlayStatus(false);
             },
             error: function (event) {
-                alert(event.jPlayer.error.type);
+                switch(event.jPlayer.error.type) {
+                    case 'e_url': {
+                        alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+                        break;
+                    }
+                    default: {
+                        alert(event.jPlayer.error.type);
+                        break;
+                    }
+                }
+                Hanasu.prototype.setPlayStatus(false);
+                Hanasu.prototype.clearSongInfo();
             }
         });
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
@@ -91,6 +102,7 @@ var Hanasu = (function () {
         $("#jquery_jplayer").jPlayer("stop");
         Hanasu.prototype.stationTimer.stop();
         Hanasu.prototype.setPlayStatus(false);
+        Hanasu.prototype.clearSongInfo();
     };
     Hanasu.prototype.playStation = function (station) {
         if(Hanasu.prototype.IsPlaying) {
@@ -119,14 +131,23 @@ var Hanasu = (function () {
         $(Hanasu.prototype.Player).jPlayer("play");
         Hanasu.prototype.CurrentStation = station;
         Hanasu.prototype.currentStationStream = stream;
-        Hanasu.prototype.retrieveCurrentStationData();
+        Hanasu.prototype.retrieveCurrentStationData(false);
     };
     Hanasu.prototype.updateSongInfo = function (song, artist, logo) {
         $("#songTitle").html(song);
         $("#artistName").html(artist);
         $("#coverImg").attr('src', logo);
     };
-    Hanasu.prototype.retrieveCurrentStationData = function () {
+    Hanasu.prototype.clearSongInfo = function () {
+        $("#songTitle").html("Ready");
+        $("#artistName").html("and waiting.");
+        $("#coverImg").attr('src', logo);
+    };
+    Hanasu.prototype.retrieveCurrentStationData = function (check) {
+        if (typeof check === "undefined") { check = true; }
+        if(!Hanasu.prototype.IsPlaying && check) {
+            return;
+        }
         if(Hanasu.prototype.CurrentStation != null) {
             switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase()) {
                 case 'shoutcast': {
@@ -138,9 +159,14 @@ var Hanasu = (function () {
                     statusSite += "7.html";
                     statusSite = statusSite.replace(" ", "");
                     $.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function (data) {
-                        var title = $(data).text().split(",")[6];
-                        var titleSplt = title.split(" - ");
-                        Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+                        try  {
+                            var title = $(data).text().split(",")[6];
+                            var titleSplt = title.split(" - ");
+                            Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+                        } catch (e) {
+                            Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo);
+                            Hanasu.prototype.stationTimer.stop();
+                        }
                     });
                     break;
                 }

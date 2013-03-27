@@ -64,6 +64,8 @@ class Hanasu {
 					}
 				}
 				
+				Hanasu.prototype.setPlayStatus(false);
+				Hanasu.prototype.clearSongInfo();
 			}
 		});
 		Hanasu.prototype.Player = $("#jquery_jplayer")[0];
@@ -143,6 +145,7 @@ class Hanasu {
 		$("#jquery_jplayer").jPlayer("stop");
 		Hanasu.prototype.stationTimer.stop();
 		Hanasu.prototype.setPlayStatus(false);
+		Hanasu.prototype.clearSongInfo();
 	}
 	
 	public playStation(station: Station) {
@@ -184,7 +187,7 @@ class Hanasu {
 		
 		Hanasu.prototype.currentStationStream = stream;
 		
-		Hanasu.prototype.retrieveCurrentStationData(); //Grabs the song title and artist name in depending on what the Station ServerType is.
+		Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
 	}
 	
 	private updateSongInfo(song: string, artist: string, logo: string) {
@@ -192,8 +195,15 @@ class Hanasu {
 		$("#artistName").html(artist);
 		$("#coverImg").attr('src', logo);
 	}
+	private clearSongInfo() {
+		$("#songTitle").html("Ready");
+		$("#artistName").html("and waiting.");
+		$("#coverImg").attr('src', logo);
+	}
 	
-	private retrieveCurrentStationData() {
+	private retrieveCurrentStationData(check: bool = true) {
+		if (!Hanasu.prototype.IsPlaying && check) return;
+	
 		if (Hanasu.prototype.CurrentStation != null) {
 			switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase())
 			{
@@ -210,10 +220,15 @@ class Hanasu {
 					statusSite = statusSite.replace(" ", "");
 					
 					$.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function(data){
-						var title = $(data).text().split(",")[6];
-						var titleSplt = title.split(" - ");
-						
-						Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+						try {
+							var title = $(data).text().split(",")[6];
+							var titleSplt = title.split(" - ");
+							
+							Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+						} catch (e) {
+							Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo);
+							Hanasu.prototype.stationTimer.stop();
+						}
 					});
 					break;
 				}
