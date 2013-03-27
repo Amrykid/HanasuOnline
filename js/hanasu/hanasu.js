@@ -1,7 +1,6 @@
 $(document).ready(function () {
     var hanasu = new Hanasu();
     hanasu.initializeApplication();
-    hanasu.loadStations();
     self.App = hanasu;
 });
 var Hanasu = (function () {
@@ -9,11 +8,12 @@ var Hanasu = (function () {
     Hanasu.prototype.initializeApplication = function () {
         Hanasu.prototype.muted = false;
         Hanasu.prototype.IsPlaying = false;
-        var stationTimer = $.timer(function () {
+        Hanasu.prototype.stationTimer = $.timer(function () {
+            Hanasu.prototype.retrieveCurrentStationData();
         });
-        stationTimer.set({
-            time: 5000,
-            autostart: true
+        Hanasu.prototype.stationTimer.set({
+            time: 10000,
+            autostart: false
         });
         $("#jquery_jplayer").jPlayer({
             swfPath: "js/jplayer",
@@ -22,6 +22,9 @@ var Hanasu = (function () {
             wmode: "window",
             playing: function (e) {
                 Hanasu.prototype.setPlayStatus(true);
+                if(!Hanasu.prototype.stationTimer.isActive) {
+                    Hanasu.prototype.stationTimer.play();
+                }
             },
             paused: function (e) {
                 Hanasu.prototype.setPlayStatus(false);
@@ -36,16 +39,16 @@ var Hanasu = (function () {
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
         $("#controlPlayPause").click(function () {
             if(Hanasu.prototype.IsPlaying) {
-                $("#jquery_jplayer").jPlayer("stop");
-                Hanasu.prototype.setPlayStatus(false);
+                Hanasu.prototype.stopStation();
             } else {
-                $(Hanasu.prototype.Player).jPlayer("setMedia", {
-                    mp3: "http://173.192.205.178:80/;stream/1"
-                });
-                $(Hanasu.prototype.Player).jPlayer("play");
+                if(Hanasu.prototype.CurrentStation == null) {
+                } else {
+                    Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
+                }
             }
         });
         $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
+        Hanasu.prototype.loadStations();
     };
     Hanasu.prototype.loadStations = function () {
         $.get("data/Stations.xml", function (data) {
@@ -61,7 +64,68 @@ var Hanasu = (function () {
                 stat.Logo = $(this).find("Logo").text();
                 Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
             });
+            Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
         });
+    };
+    Hanasu.prototype.stopStation = function () {
+        $("#jquery_jplayer").jPlayer("stop");
+        Hanasu.prototype.stationTimer.stop();
+        Hanasu.prototype.setPlayStatus(false);
+    };
+    Hanasu.prototype.playStation = function (station) {
+        if(Hanasu.prototype.IsPlaying) {
+            Hanasu.prototype.stopStation();
+        }
+        if(station.PlaylistExt == '') {
+            Hanasu.prototype._playStation(station, station.Stream);
+        } else {
+            $.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function (data) {
+                Hanasu.prototype._playStation(station, Hanasu.prototype.getFirstStreamFromStationPlaylist(data, station));
+            });
+        }
+    };
+    Hanasu.prototype._playStation = function (station, rawStream) {
+        var stream = rawStream;
+        if(station.ServerType.toLowerCase() == 'shoutcast') {
+            if(!stream.endsWith("/")) {
+                stream += "/";
+            }
+            stream += ";stream/1";
+        }
+        $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+        $(Hanasu.prototype.Player).jPlayer("setMedia", {
+            mp3: stream
+        });
+        $(Hanasu.prototype.Player).jPlayer("play");
+        Hanasu.prototype.CurrentStation = station;
+        Hanasu.prototype.currentStationStream = stream;
+        Hanasu.prototype.retrieveCurrentStationData();
+    };
+    Hanasu.prototype.updateSongInfo = function (song, artist, logo) {
+        $("#songTitle").html(song);
+        $("#artistName").html(artist);
+        $("#coverImg").attr('src', logo);
+    };
+    Hanasu.prototype.retrieveCurrentStationData = function () {
+        if(Hanasu.prototype.CurrentStation != null) {
+            switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase()) {
+                case 'shoutcast': {
+                    var statusSite = Hanasu.prototype.currentStationStream;
+                    statusSite = statusSite.replace(";stream/1", "");
+                    if(!statusSite.endsWith("/")) {
+                        statusSite += "/";
+                    }
+                    statusSite += "7.html";
+                    statusSite = statusSite.replace(" ", "");
+                    $.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function (data) {
+                        var title = $(data).text().split(",")[6];
+                        var titleSplt = title.split(" - ");
+                        Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+                    });
+                    break;
+                }
+            }
+        }
     };
     Hanasu.prototype.togglePlayStatus = function () {
         Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
@@ -96,9 +160,41 @@ var Hanasu = (function () {
         }
         Hanasu.prototype.changeVolume(volumeControl.value);
     };
+    Hanasu.prototype.getFirstStreamFromStationPlaylist = function (data, station) {
+        switch(station.PlaylistExt) {
+            case '.m3u': {
+                var lines = data.split('\n');
+                for(var i = 0; i < lines.length; i++) {
+                    if(lines[i].startsWith("http")) {
+                        return lines[i];
+                    }
+                }
+                return '';
+            }
+            case '.pls': {
+                var lines = data.split('\n');
+                for(var i = 0; i < lines.length; i++) {
+                    if(lines[i].toLowerCase().startsWith("file1=")) {
+                        return lines[i].substring('file1='.length);
+                    }
+                }
+                return '';
+            }
+        }
+    };
     return Hanasu;
 })();
 var Station = (function () {
     function Station() { }
     return Station;
 })();
+if(typeof String.prototype.startsWith != 'function') {
+    String.prototype.startsWith = function (str) {
+        return this.slice(0, str.length) == str;
+    };
+}
+if(typeof String.prototype.endsWith != 'function') {
+    String.prototype.endsWith = function (str) {
+        return this.slice(-str.length) == str;
+    };
+}
