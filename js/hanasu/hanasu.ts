@@ -84,7 +84,7 @@ class Hanasu {
 			});
 			
 			//TODO: Remove this line below.
-			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[0];
+			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
 		});
 	}
 	
@@ -99,18 +99,53 @@ class Hanasu {
 		}
 		
 		if (station.PlaylistExt == '') {
-			Hanasu.prototype._playStation(station);
+			Hanasu.prototype._playStation(station, station.Stream);
 		} else {
 			$.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function(data){
-				alert(data.contents);
+				//to lazy to implement parser atm.
+				
+				switch(station.PlaylistExt)
+				{
+					case '.m3u':
+					{
+						var lines = data.split('\n');
+						for(var i = 0; i < lines.length; i++) {
+							if (lines[i].startsWith("http")) {
+								Hanasu.prototype._playStation(station, lines[i]);
+								break;
+							}
+						}
+						break;
+					}
+					case '.pls':
+					{
+						var lines = data.split('\n');
+						for(var i = 0; i < lines.length; i++) {
+							if (lines[i].toLowerCase().startsWith("file1=")) {
+								Hanasu.prototype._playStation(station, lines[i].substring('file1='.length));
+								break;
+							}
+						}
+						break;
+					}
+				}
 			});
 		}
 	}
-	private _playStation(station: Station) {
+	private _playStation(station: Station, rawStream: string) {
 		//callback function. use playStation instead.
 		
+		var stream = rawStream;
+		
+		if (station.ServerType.toLowerCase() == 'shoutcast') {
+			if (!stream.endsWith("/")) {
+				stream += "/";
+			}
+			stream += ";stream/1";
+		}
+		
 		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
-		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: "http://173.192.205.178:80/;stream/1" });
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream });
 		$(Hanasu.prototype.Player).jPlayer("play");
 		
 		Hanasu.prototype.CurrentStation = station;
@@ -164,4 +199,16 @@ class Station {
 	public PlaylistExt: string; //maps to 'ExplicitExtension' in xml
 	public ServerType: string;
 	public Logo: string;
+}
+
+/* helper functions from http://stackoverflow.com/questions/646628/javascript-startswith */
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
+if (typeof String.prototype.endsWith != 'function') {
+  String.prototype.endsWith = function (str){
+    return this.slice(-str.length) == str;
+  };
 }
