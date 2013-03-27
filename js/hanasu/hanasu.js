@@ -226,6 +226,10 @@ var Hanasu = (function () {
                 }
                 return '';
             }
+            case '.asx': {
+                var streams = $(data).find("ref");
+                return $(streams[0]).attr('href');
+            }
         }
     };
     return Hanasu;
