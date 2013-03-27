@@ -25,6 +25,7 @@ var Hanasu = (function () {
                 if(!Hanasu.prototype.stationTimer.isActive) {
                     Hanasu.prototype.stationTimer.play();
                 }
+                Hanasu.prototype.retrieveCurrentStationData(false);
             },
             paused: function (e) {
                 Hanasu.prototype.setPlayStatus(false);
@@ -98,15 +99,19 @@ var Hanasu = (function () {
             Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
         });
     };
-    Hanasu.prototype.stopStation = function () {
+    Hanasu.prototype.stopStation = function (clearPlayer) {
+        if (typeof clearPlayer === "undefined") { clearPlayer = true; }
         $("#jquery_jplayer").jPlayer("stop");
         Hanasu.prototype.stationTimer.stop();
         Hanasu.prototype.setPlayStatus(false);
         Hanasu.prototype.clearSongInfo();
+        if(clearPlayer) {
+            $("#jquery_jplayer").jPlayer("clearMedia");
+        }
     };
     Hanasu.prototype.playStation = function (station) {
         if(Hanasu.prototype.IsPlaying) {
-            Hanasu.prototype.stopStation();
+            Hanasu.prototype.stopStation(true);
         }
         Hanasu.prototype.obtainNotificationsPermission();
         if(station.PlaylistExt == '') {
@@ -125,14 +130,13 @@ var Hanasu = (function () {
             }
             stream += ";stream/1";
         }
+        Hanasu.prototype.CurrentStation = station;
+        Hanasu.prototype.currentStationStream = stream;
         $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
         $(Hanasu.prototype.Player).jPlayer("setMedia", {
             mp3: stream
         });
         $(Hanasu.prototype.Player).jPlayer("play");
-        Hanasu.prototype.CurrentStation = station;
-        Hanasu.prototype.currentStationStream = stream;
-        Hanasu.prototype.retrieveCurrentStationData(false);
     };
     Hanasu.prototype.updateSongInfo = function (song, artist, logo, notify) {
         if (typeof notify === "undefined") { notify = true; }

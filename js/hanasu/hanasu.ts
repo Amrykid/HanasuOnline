@@ -42,6 +42,8 @@ class Hanasu {
 				if (!Hanasu.prototype.stationTimer.isActive) {
 					Hanasu.prototype.stationTimer.play();
 				}
+				
+				Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
 			},
 			paused: function(e) {
 				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
@@ -141,16 +143,20 @@ class Hanasu {
 		});
 	}
 	
-	public stopStation() {
+	public stopStation(clearPlayer: bool = true) {
 		$("#jquery_jplayer").jPlayer("stop");
 		Hanasu.prototype.stationTimer.stop();
 		Hanasu.prototype.setPlayStatus(false);
 		Hanasu.prototype.clearSongInfo();
+		
+		if (clearPlayer) {
+			$("#jquery_jplayer").jPlayer( "clearMedia" );
+		}
 	}
 	
 	public playStation(station: Station) {
 		if (Hanasu.prototype.IsPlaying) {
-			Hanasu.prototype.stopStation();
+			Hanasu.prototype.stopStation(true);
 		}
 		
 		Hanasu.prototype.obtainNotificationsPermission();
@@ -181,15 +187,13 @@ class Hanasu {
 			stream += ";stream/1";
 		}
 		
-		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
-		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }); //Loads the stream.
-		$(Hanasu.prototype.Player).jPlayer("play"); //Starts playing the stream.
-		
 		Hanasu.prototype.CurrentStation = station;
 		
 		Hanasu.prototype.currentStationStream = stream;
 		
-		Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
+		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }); //Loads the stream.
+		$(Hanasu.prototype.Player).jPlayer("play"); //Starts playing the stream.
 	}
 	
 	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
