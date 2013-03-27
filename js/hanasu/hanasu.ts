@@ -239,10 +239,10 @@ class Hanasu {
 					});
 					break;
 				}
-				case 'icecast':
+				default:
 				{
-					var statusSite = Hanasu.prototype.currentStationStream;
-                    statusSite = statusSite.replace("/autodj", "");
+					Hanasu.prototype.updateSongInfo("N/A", "N/A - Station: " + Hanasu.prototype.CurrentStation.Name, Hanasu.prototype.CurrentStation.Logo, false);
+					Hanasu.prototype.stationTimer.stop();
 					break;
 				}
 			}
