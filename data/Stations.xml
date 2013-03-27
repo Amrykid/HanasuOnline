@@ -61,6 +61,7 @@
     <Logo>https://si0.twimg.com/profile_images/1104224483/logo_transbkgr.png</Logo>
     <Timezone>Eastern Standard Time</Timezone>
     <ServerType>Shoutcast</ServerType>
+	<ExplicitExtension>.pls</ExplicitExtension>
   </Station>
   <Station>
     <Name>XAMFM2</Name>
@@ -74,6 +75,7 @@
     <Logo>https://si0.twimg.com/profile_images/1104224483/logo_transbkgr.png</Logo>
     <Timezone>Eastern Standard Time</Timezone>
     <ServerType>Shoutcast</ServerType>
+	<ExplicitExtension>.pls</ExplicitExtension>
   </Station>
   <Station>
     <Name>Vocaloid.FM</Name>
