@@ -7,6 +7,7 @@ $(document).ready(function () {
 	self.App = hanasu;
 });
 
+// main Application class.
 class Hanasu {
 	public IsPlaying: bool;
 	private Player: any;
@@ -46,7 +47,7 @@ class Hanasu {
 				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
 			},
 			ended: function(e) {
-				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome
+				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
 			},
 			error: function(event) {
 				alert(event.jPlayer.error.type);
@@ -54,28 +55,31 @@ class Hanasu {
 		});
 		Hanasu.prototype.Player = $("#jquery_jplayer")[0];
 				
+		//handles when the play/pause button is clicked.
 		$("#controlPlayPause").click(function() {
 			if (Hanasu.prototype.IsPlaying) {
-				Hanasu.prototype.stopStation();
+				Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
 			} else {			
 				if (Hanasu.prototype.CurrentStation == null) {
 				} else {
-					Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
+					Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation); // plays the last played station.
 				}
 			}
 		});
 		
-		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
+		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
 		
-		Hanasu.prototype.loadStations();
+		Hanasu.prototype.loadStations(); //loads stations from the local xml.
 	}
 	
 	private loadStations() {
-		$.get("data/Stations.xml", function(data) {
+		$.get("data/Stations.xml", function(data) { 
+			//fetches the xml that contains all of the stations.
 			var $stations = $(data).find("Station");
 			
-			Hanasu.prototype.Stations = new Station[];
+			Hanasu.prototype.Stations = new Station[]; //creates an array to store the stations for later use.
 			
+			//iterates all of the <Station> xml nodes, building a Station object for each.
 			$stations.each(function() {
 				var stat = new Station();
 				stat.Name = $(this).find("Name").text();
@@ -85,11 +89,11 @@ class Hanasu {
 				stat.ServerType = $(this).find("ServerType").text();
 				stat.Logo = $(this).find("Logo").text();
 				
-				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
+				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat; //Adds the Station object to the Stations array.
 			});
 			
 			//TODO: Remove this line below.
-			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
+			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4]; //Until we get stations display on the page, pick one for debugging use.
 		});
 	}
 	
@@ -104,21 +108,25 @@ class Hanasu {
 			Hanasu.prototype.stopStation();
 		}
 		
+		// Checks if the station requires any pre-processing.
 		if (station.PlaylistExt == '') {
-			Hanasu.prototype._playStation(station, station.Stream);
+			Hanasu.prototype._playStation(station, station.Stream); //Plays the station since it is not a playlist, but is a direct stream.
 		} else {
 			$.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function(data){
-				//to lazy to implement parser atm.
+				//Fetches the playlist data and gets ready to parse it.
+			
+				//Too lazy to implement parser atm. Finds first stream in the playlist and uses that.
 				Hanasu.prototype._playStation(station, Hanasu.prototype.getFirstStreamFromStationPlaylist(data, station));
 				
 			});
 		}
 	}
 	private _playStation(station: Station, rawStream: string) {
-		//callback function. use playStation instead.
+		//Callback function. Use playStation instead.
 		
 		var stream = rawStream;
 		
+		//If the station is a Shoutcast/Icecast station, construct the direct link to the audio stream.
 		if (station.ServerType.toLowerCase() == 'shoutcast') {
 			if (!stream.endsWith("/")) {
 				stream += "/";
@@ -126,15 +134,15 @@ class Hanasu {
 			stream += ";stream/1";
 		}
 		
-		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
-		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream });
-		$(Hanasu.prototype.Player).jPlayer("play");
+		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }); //Loads the stream.
+		$(Hanasu.prototype.Player).jPlayer("play"); //Starts playing the stream.
 		
 		Hanasu.prototype.CurrentStation = station;
 		
 		Hanasu.prototype.currentStationStream = stream;
 		
-		Hanasu.prototype.retrieveCurrentStationData();
+		Hanasu.prototype.retrieveCurrentStationData(); //Grabs the song title and artist name in depending on what the Station ServerType is.
 	}
 	
 	private updateSongInfo(song: string, artist: string, logo: string) {
