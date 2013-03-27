@@ -50,7 +50,20 @@ class Hanasu {
 				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
 			},
 			error: function(event) {
-				alert(event.jPlayer.error.type);
+				switch(event.jPlayer.error.type)
+				{
+					case 'e_url':
+					{
+						alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+						break;
+					}
+					default:
+					{
+						alert(event.jPlayer.error.type);
+						break;
+					}
+				}
+				
 			}
 		});
 		Hanasu.prototype.Player = $("#jquery_jplayer")[0];
