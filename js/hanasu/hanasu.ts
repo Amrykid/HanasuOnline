@@ -82,29 +82,37 @@ class Hanasu {
 			//iterates all of the <Station> xml nodes, building a Station object for each.
 			$stations.each(function() {
 				var stat = new Station();
-				stat.Name = $(this).find("Name").text();
-				stat.Stream = $(this).find("DataSource").text();
-				stat.Homepage = $(this).find("Homepage").text();
-				stat.PlaylistExt = $(this).find("ExplicitExtension").text();
-				stat.ServerType = $(this).find("ServerType").text();
-				stat.Logo = $(this).find("Logo").text();
 				
-				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat; //Adds the Station object to the Stations array.
+				if ($(this).has('StationType')) {
+					stat.StationType = $(this).find("StationType").text();
+				}
 				
-				var stationHtml = $("<div></div>");
-				$(stationHtml).attr('class', 'station');
-				$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
-				$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
-				
-				var titles = $("<div></div>");
-				$(titles).attr('id', 'stationTitles');
-				$(titles).append('<h1>' + stat.Name + '</h1>');
-				$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
-				
-				
-				$(stationHtml).append(titles);
-				$("#stations").append(stationHtml);
-				
+				if (stat.StationType != 'TV') {
+					stat.Name = $(this).find("Name").text();
+					stat.Stream = $(this).find("DataSource").text();
+					stat.Homepage = $(this).find("Homepage").text();
+					stat.PlaylistExt = $(this).find("ExplicitExtension").text();
+					stat.ServerType = $(this).find("ServerType").text();
+					stat.Logo = $(this).find("Logo").text();
+					stat.Format = $(this).find("Format").text();
+					stat.StationType = $(this).find("StationType").text();
+					
+					Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat; //Adds the Station object to the Stations array.
+					
+					var stationHtml = $("<div></div>");
+					$(stationHtml).attr('class', 'station');
+					$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+					$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+					
+					var titles = $("<div></div>");
+					$(titles).attr('id', 'stationTitles');
+					$(titles).append('<h1>' + stat.Name + '</h1>');
+					$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
+					
+					
+					$(stationHtml).append(titles);
+					$("#stations").append(stationHtml);
+				}
 				
 			});
 			
@@ -268,6 +276,8 @@ class Station {
 	public PlaylistExt: string; //maps to 'ExplicitExtension' in xml
 	public ServerType: string;
 	public Logo: string;
+	public Format: string;
+	public StationType: string;
 }
 
 /* helper functions from http://stackoverflow.com/questions/646628/javascript-startswith */

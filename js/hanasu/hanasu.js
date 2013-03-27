@@ -56,23 +56,30 @@ var Hanasu = (function () {
             Hanasu.prototype.Stations = new Array();
             $stations.each(function () {
                 var stat = new Station();
-                stat.Name = $(this).find("Name").text();
-                stat.Stream = $(this).find("DataSource").text();
-                stat.Homepage = $(this).find("Homepage").text();
-                stat.PlaylistExt = $(this).find("ExplicitExtension").text();
-                stat.ServerType = $(this).find("ServerType").text();
-                stat.Logo = $(this).find("Logo").text();
-                Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
-                var stationHtml = $("<div></div>");
-                $(stationHtml).attr('class', 'station');
-                $(stationHtml).append("<img src=\"" + stat.Logo + "\">");
-                $(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
-                var titles = $("<div></div>");
-                $(titles).attr('id', 'stationTitles');
-                $(titles).append('<h1>' + stat.Name + '</h1>');
-                $(titles).append('<h2>Play this station.</h2>');
-                $(stationHtml).append(titles);
-                $("#stations").append(stationHtml);
+                if($(this).has('StationType')) {
+                    stat.StationType = $(this).find("StationType").text();
+                }
+                if(stat.StationType != 'TV') {
+                    stat.Name = $(this).find("Name").text();
+                    stat.Stream = $(this).find("DataSource").text();
+                    stat.Homepage = $(this).find("Homepage").text();
+                    stat.PlaylistExt = $(this).find("ExplicitExtension").text();
+                    stat.ServerType = $(this).find("ServerType").text();
+                    stat.Logo = $(this).find("Logo").text();
+                    stat.Format = $(this).find("Format").text();
+                    stat.StationType = $(this).find("StationType").text();
+                    Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
+                    var stationHtml = $("<div></div>");
+                    $(stationHtml).attr('class', 'station');
+                    $(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+                    $(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+                    var titles = $("<div></div>");
+                    $(titles).attr('id', 'stationTitles');
+                    $(titles).append('<h1>' + stat.Name + '</h1>');
+                    $(titles).append('<h2>Play this station.</h2>');
+                    $(stationHtml).append(titles);
+                    $("#stations").append(stationHtml);
+                }
             });
             Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
         });
