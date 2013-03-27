@@ -3,7 +3,7 @@ if (isset($_SERVER['QUERY_STRING'])) {
 	$vars = null;
 	parse_str($_SERVER['QUERY_STRING'], $vars);
 	
-	if (endsWith($vars['url'], ".m3u") || endsWith($vars['url'], ".pls") || endsWith($vars['url'], ".html")) {
+	if (endsWith($vars['url'], ".m3u") || endsWith($vars['url'], ".pls") || endsWith($vars['url'], ".asx") || endsWith($vars['url'], ".html")) {
 		header('Access-Control-Allow-Origin: *');
 		
 		$opts = array(
