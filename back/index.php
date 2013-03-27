@@ -3,7 +3,20 @@ if (isset($_SERVER['QUERY_STRING'])) {
 	$vars = null;
 	parse_str($_SERVER['QUERY_STRING'], $vars);
 	
-	if (endsWith($vars['url'], ".m3u") || endsWith($vars['url'], ".pls") || endsWith($vars['url'], ".asx") || endsWith($vars['url'], ".html")) {
+	$stations = simplexml_load_file('..' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . 'Stations.xml');
+	$url = urldecode($vars['url']);
+	
+	$found = false;
+	
+	foreach($stations as $station) {
+		$dsURL = parse_url($station->DataSource);
+		if ($station->DataSource == $url || endsWith($url, '7.html')) {
+			$found = true;
+			break;
+		}
+	}
+	
+	if ($found) {
 		header('Access-Control-Allow-Origin: *');
 		
 		$opts = array(
