@@ -25,7 +25,7 @@
     <Logo>https://si0.twimg.com/profile_images/2428178695/zbowwrigexldj3lbw363.png</Logo>
 	<ServerType>Shoutcast</ServerType>
   </Station>
-  <Station>
+  <!--<Station>
     <Name>AnimeID</Name>
     <DataSource>http://95.211.115.197/tunein.php/animeid/playlist.asx</DataSource>
     <Homepage>http://www.animeidradio.jp/</Homepage>
@@ -37,7 +37,7 @@
     <Logo>https://sphotos-a.xx.fbcdn.net/hphotos-snc6/198519_183827418326561_7681770_n.jpg</Logo>
     <UseAlternateSongTitleFetching>True</UseAlternateSongTitleFetching>
     <ServerType>Shoutcast</ServerType>
-  </Station>
+  </Station>-->
   <Station>
     <Name>Armitage's Dimension</Name>
     <DataSource>http://www.armitunes.com/wmplaylist.php?server=http://149.255.33.76:8004</DataSource>
@@ -89,7 +89,7 @@
     <ExplicitExtension>.m3u</ExplicitExtension>
     <Logo>https://si0.twimg.com/profile_images/78003373/vocaloid_fm_20090214.png</Logo>
   </Station>
-  <Station>
+  <!--<Station>
     <Name>AnimeAMAZE</Name>
     <DataSource>http://apple.neostreams.info/auto/tunein.php/mcarrass/playlist.asx</DataSource>
     <Homepage>http://www.animeamaze.net/</Homepage>
@@ -101,7 +101,7 @@
     <UseAlternateSongTitleFetching>True</UseAlternateSongTitleFetching>
     <Logo>https://sphotos-b.xx.fbcdn.net/hphotos-ash4/396236_10150463408884463_307135821_n.jpg</Logo>
     <ServerType>Shoutcast</ServerType>
-  </Station>
+  </Station>-->
   <Station>
     <Name>JPHiP</Name>
     <DataSource>http://radio.jphip.com:8800/</DataSource>
@@ -114,7 +114,7 @@
     <Schedule type="ics">https://www.google.com/calendar/ical/jphip.net_h2ddkfp90b6e6bct9usubrvev8%40group.calendar.google.com/public/basic.ics</Schedule>
     <ServerType>Shoutcast</ServerType>
   </Station>
-  <Station>
+  <!--<Station>
     <Name>AnimeNexus</Name>
     <DataSource>http://85.25.223.5:8000/listen.pls</DataSource>
     <Homepage>http://www.animenexus.net/</Homepage>
@@ -125,7 +125,7 @@
     <Cacheable>False</Cacheable>
     <Schedule type="page">http://horarios.animenexus.net/</Schedule>
     <Logo>https://sphotos-b.xx.fbcdn.net/hphotos-ash4/418430_10150566924051780_176803057_n.jpg</Logo>
-  </Station>
+  </Station>-->
   <Station>
     <Name>JPopsuki</Name>
     <DataSource>http://play.internet-radio-guide.net/asx.php?id=220233</DataSource>
@@ -162,6 +162,7 @@
     <Schedule type="page">http://www.japanaradio.com/node/22</Schedule>
     <Logo>https://sphotos-b.xx.fbcdn.net/hphotos-ash3/31849_441941228312_5299978_n.jpg</Logo>
     <ServerType>Shoutcast</ServerType>
+	<ExplicitExtension>.pls</ExplicitExtension>
   </Station>
   <Station>
     <Name>LeekRadio</Name>
@@ -172,6 +173,7 @@
     <Language>Japanese</Language>
     <Cacheable>True</Cacheable>
     <Logo>https://sphotos-b.xx.fbcdn.net/hphotos-snc6/177619_412524978814166_1899587737_o.jpg</Logo>
+	<ExplicitExtension>.pls</ExplicitExtension>
   </Station>
   <Station>
     <Name>NHK World Radio Japan</Name>
@@ -241,9 +243,9 @@
     <Language>Japanese</Language>
     <Cacheable>False</Cacheable>
   </Station>
-  <Station>
+  <!--<Station>
     <Name>Touhou Radio</Name>
-    <DataSource><![CDATA[http://miku.fm/mikufm.m3u]]></DataSource><!--http://miku.fm/mikufm.m3u-->
+    <DataSource><![CDATA[http://miku.fm/mikufm.m3u]]></DataSource><!--http://miku.fm/mikufm.m3u
     <Homepage>http://www.touhouradio.com/</Homepage>
     <Format>Mix</Format>
     <City>N/A</City>
@@ -251,7 +253,7 @@
     <StationType>Radio</StationType>
     <Language>Japanese</Language>
     <Cacheable>True</Cacheable>
-  </Station>
+  </Station>-->
   <Station>
     <Name>Bakagami Radio</Name>
     <DataSource><![CDATA[http://yp.shoutcast.com/sbin/tunein-station.pls?id=70191]]></DataSource>
