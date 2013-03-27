@@ -3,7 +3,6 @@ declare var $;
 $(document).ready(function () {
 	var hanasu = new Hanasu();
 	hanasu.initializeApplication();
-	hanasu.loadStations();
 
 	self.App = hanasu;
 });
@@ -14,17 +13,22 @@ class Hanasu {
 	public Stations: any;
 	private muted: bool;
 	private mutedOriginalVolume: any;
+	private stationTimer: any;
+	
+	public CurrentStation: Station;	
+	
 	public initializeApplication() {
 		//any important starting procedures, we can put here.
 		
 		Hanasu.prototype.muted = false;
 		Hanasu.prototype.IsPlaying = false;
+		
 
 		//initalize station timer
-		var stationTimer = $.timer(function () {
-			
+		Hanasu.prototype.stationTimer = $.timer(function () {
+			Hanasu.prototype.retrieveCurrentStationData();
 		});
-		stationTimer.set({ time: 5000, autostart: true });
+		Hanasu.prototype.stationTimer.set({ time: 5000, autostart: false });
 		
 		$("#jquery_jplayer").jPlayer({
 			swfPath: "js/jplayer",
@@ -33,6 +37,9 @@ class Hanasu {
 			wmode: "window",
 			playing: function(e) {
 				Hanasu.prototype.setPlayStatus(true);
+				if (!Hanasu.prototype.stationTimer.isActive) {
+					Hanasu.prototype.stationTimer.play();
+				}
 			},
 			paused: function(e) {
 				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
@@ -48,19 +55,21 @@ class Hanasu {
 				
 		$("#controlPlayPause").click(function() {
 			if (Hanasu.prototype.IsPlaying) {
-				$("#jquery_jplayer").jPlayer("stop");
-				Hanasu.prototype.setPlayStatus(false);
-			} else {				
-				$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
-				$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: "http://173.192.205.178:80/;stream/1" });
-				$(Hanasu.prototype.Player).jPlayer("play");
+				Hanasu.prototype.stopStation();
+			} else {			
+				if (Hanasu.prototype.CurrentStation == null) {
+				} else {
+					Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
+				}
 			}
 		});
 		
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
+		
+		Hanasu.prototype.loadStations();
 	}
 	
-	public loadStations() {
+	private loadStations() {
 		$.get("data/Stations.xml", function(data) {
 			var $stations = $(data).find("Station");
 			
@@ -77,13 +86,92 @@ class Hanasu {
 				
 				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
 			});
+			
+			//TODO: Remove this line below.
+			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
 		});
 	}
 	
-	public togglePlayStatus() {
+	public stopStation() {
+		$("#jquery_jplayer").jPlayer("stop");
+		Hanasu.prototype.stationTimer.stop();
+		Hanasu.prototype.setPlayStatus(false);
+	}
+	
+	public playStation(station: Station) {
+		if (Hanasu.prototype.IsPlaying) {
+			Hanasu.prototype.stopStation();
+		}
+		
+		if (station.PlaylistExt == '') {
+			Hanasu.prototype._playStation(station, station.Stream);
+		} else {
+			$.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function(data){
+				//to lazy to implement parser atm.
+				Hanasu.prototype._playStation(station, Hanasu.prototype.getFirstStreamFromStationPlaylist(data, station));
+				
+			});
+		}
+	}
+	private _playStation(station: Station, rawStream: string) {
+		//callback function. use playStation instead.
+		
+		var stream = rawStream;
+		
+		if (station.ServerType.toLowerCase() == 'shoutcast') {
+			if (!stream.endsWith("/")) {
+				stream += "/";
+			}
+			stream += ";stream/1";
+		}
+		
+		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream });
+		$(Hanasu.prototype.Player).jPlayer("play");
+		
+		Hanasu.prototype.CurrentStation = station;
+		
+		Hanasu.prototype.retrieveCurrentStationData();
+	}
+	
+	private updateSongInfo(song: string, artist: string, logo: string) {
+		$("#songTitle").html(song);
+		$("#artistName").html(artist);
+		$("#coverImg").attr('src', logo);
+	}
+	
+	private retrieveCurrentStationData() {
+		if (Hanasu.prototype.CurrentStation != null) {
+			switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase())
+			{
+				case 'shoutcast':
+				{
+					$.get('back/?url=' + encodeURIComponent(Hanasu.prototype.CurrentStation.Stream) + '&callback=?', function(data){
+						var statusSite = Hanasu.prototype.getFirstStreamFromStationPlaylist(data, Hanasu.prototype.CurrentStation);
+						
+						if (!statusSite.endsWith("/")) {
+							statusSite += "/";
+						}
+						statusSite += "7.html";
+						statusSite = statusSite.replace(" ", "");
+						
+						$.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function(data){
+							var title = $(data).text().split(",")[6];
+							var titleSplt = title.split(" - ");
+							
+							Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+						});
+					});
+					break;
+				}
+			}
+		}
+	}
+	
+	private togglePlayStatus() {
 		Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
 	}
-	public setPlayStatus(value) {
+	private setPlayStatus(value) {
 		Hanasu.prototype.IsPlaying = value;
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
 		
@@ -106,7 +194,7 @@ class Hanasu {
 			Hanasu.prototype.mutedOriginalVolume = volumeValue;
 		}
 	}
-	toggleVolumeMuted() {
+	private toggleVolumeMuted() {
 		var volumeControl = $("#volumeControl")[0];
 		Hanasu.prototype.muted = !Hanasu.prototype.muted;
 	
@@ -118,6 +206,32 @@ class Hanasu {
 		}
 		Hanasu.prototype.changeVolume(volumeControl.value);
 	 }
+	 
+	 private getFirstStreamFromStationPlaylist(data: string, station: Station) {
+		switch(station.PlaylistExt)
+		{
+			case '.m3u':
+			{
+				var lines = data.split('\n');
+				for(var i = 0; i < lines.length; i++) {
+					if (lines[i].startsWith("http")) {
+						return lines[i];
+					}
+				}
+				return '';
+			}
+			case '.pls':
+			{
+				var lines = data.split('\n');
+				for(var i = 0; i < lines.length; i++) {
+					if (lines[i].toLowerCase().startsWith("file1=")) {
+						return lines[i].substring('file1='.length);
+					}
+				}
+				return '';
+			}
+		}
+	 }
 }
 
 class Station {
@@ -127,4 +241,16 @@ class Station {
 	public PlaylistExt: string; //maps to 'ExplicitExtension' in xml
 	public ServerType: string;
 	public Logo: string;
+}
+
+/* helper functions from http://stackoverflow.com/questions/646628/javascript-startswith */
+if (typeof String.prototype.startsWith != 'function') {
+  String.prototype.startsWith = function (str){
+    return this.slice(0, str.length) == str;
+  };
+}
+if (typeof String.prototype.endsWith != 'function') {
+  String.prototype.endsWith = function (str){
+    return this.slice(-str.length) == str;
+  };
 }
