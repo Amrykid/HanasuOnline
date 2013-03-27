@@ -176,6 +176,9 @@ var Hanasu = (function () {
                     });
                     break;
                 }
+                case 'icecast': {
+                    break;
+                }
             }
         }
     };

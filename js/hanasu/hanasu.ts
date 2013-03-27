@@ -239,6 +239,12 @@ class Hanasu {
 					});
 					break;
 				}
+				case 'icecast':
+				{
+					var statusSite = Hanasu.prototype.currentStationStream;
+                    statusSite = statusSite.replace("/autodj", "");
+					break;
+				}
 			}
 		}
 	}
