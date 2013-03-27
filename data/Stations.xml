@@ -15,7 +15,7 @@
   </Station>
   <Station>
     <Name>Gensokyo Radio</Name>
-    <DataSource>http://stream.gensokyoradio.net:8000/listen.pls?sid=1</DataSource>
+    <DataSource>http://stream.gensokyoradio.net:8000/listen.pls</DataSource>
     <Homepage>http://www.gensokyoradio.net/</Homepage>
     <Format>Mix</Format>
     <City>Tokyo, Japan</City>
@@ -23,6 +23,7 @@
     <Cacheable>True</Cacheable>
     <ExplicitExtension>.pls</ExplicitExtension>
     <Logo>https://si0.twimg.com/profile_images/2428178695/zbowwrigexldj3lbw363.png</Logo>
+	<ServerType>Shoutcast</ServerType>
   </Station>
   <Station>
     <Name>AnimeID</Name>
