@@ -204,7 +204,7 @@ class Hanasu {
 	private clearSongInfo() {
 		$("#songTitle").html("Ready");
 		$("#artistName").html("and waiting.");
-		$("#coverImg").attr('src', logo);
+		$("#coverImg").attr('src');
 	}
 	
 	private retrieveCurrentStationData(check: bool = true) {
@@ -227,7 +227,8 @@ class Hanasu {
 					
 					$.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function(data){
 						try {
-							var title = $(data).text().split(",")[6];
+							var title: string = $(data).text().split(",")[6];
+							title = title.trim();
 							var titleSplt = title.split(" - ");
 							
 							Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
@@ -368,5 +369,12 @@ if (typeof String.prototype.startsWith != 'function') {
 if (typeof String.prototype.endsWith != 'function') {
   String.prototype.endsWith = function (str){
     return this.slice(-str.length) == str;
+  };
+}
+/* ---------------------------------------- */
+
+if (typeof String.prototype.trim1 != 'function') {
+  String.prototype.trim1 = function(str: string) {
+    return str.replace(/^\s\s*/, '').replace(/\s\s*$/, ''); //http://stackoverflow.com/questions/3000649/trim-spaces-from-start-and-end-of-string
   };
 }

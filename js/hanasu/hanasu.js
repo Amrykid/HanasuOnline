@@ -146,7 +146,7 @@ var Hanasu = (function () {
     Hanasu.prototype.clearSongInfo = function () {
         $("#songTitle").html("Ready");
         $("#artistName").html("and waiting.");
-        $("#coverImg").attr('src', logo);
+        $("#coverImg").attr('src');
     };
     Hanasu.prototype.retrieveCurrentStationData = function (check) {
         if (typeof check === "undefined") { check = true; }
@@ -166,6 +166,7 @@ var Hanasu = (function () {
                     $.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function (data) {
                         try  {
                             var title = $(data).text().split(",")[6];
+                            title = title.trim();
                             var titleSplt = title.split(" - ");
                             Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
                         } catch (e) {
@@ -278,5 +279,10 @@ if(typeof String.prototype.startsWith != 'function') {
 if(typeof String.prototype.endsWith != 'function') {
     String.prototype.endsWith = function (str) {
         return this.slice(-str.length) == str;
+    };
+}
+if(typeof String.prototype.trim1 != 'function') {
+    String.prototype.trim1 = function (str) {
+        return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
     };
 }
