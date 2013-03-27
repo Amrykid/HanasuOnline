@@ -9,6 +9,7 @@ var Hanasu = (function () {
         Hanasu.prototype.muted = false;
         Hanasu.prototype.IsPlaying = false;
         var stationTimer = $.timer(function () {
+            Hanasu.prototype.retrieveCurrentStationData();
         });
         stationTimer.set({
             time: 5000,
@@ -75,28 +76,7 @@ var Hanasu = (function () {
             Hanasu.prototype._playStation(station, station.Stream);
         } else {
             $.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function (data) {
-                switch(station.PlaylistExt) {
-                    case '.m3u': {
-                        var lines = data.split('\n');
-                        for(var i = 0; i < lines.length; i++) {
-                            if(lines[i].startsWith("http")) {
-                                Hanasu.prototype._playStation(station, lines[i]);
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                    case '.pls': {
-                        var lines = data.split('\n');
-                        for(var i = 0; i < lines.length; i++) {
-                            if(lines[i].toLowerCase().startsWith("file1=")) {
-                                Hanasu.prototype._playStation(station, lines[i].substring('file1='.length));
-                                break;
-                            }
-                        }
-                        break;
-                    }
-                }
+                Hanasu.prototype._playStation(station, Hanasu.prototype.getFirstStreamFromStationPlaylist(data, station));
             });
         }
     };
@@ -114,6 +94,34 @@ var Hanasu = (function () {
         });
         $(Hanasu.prototype.Player).jPlayer("play");
         Hanasu.prototype.CurrentStation = station;
+        Hanasu.prototype.retrieveCurrentStationData();
+    };
+    Hanasu.prototype.updateSongInfo = function (song, artist, logo) {
+        $("#songTitle").html(song);
+        $("#artistName").html(artist);
+        $("#coverImg").attr('src', logo);
+    };
+    Hanasu.prototype.retrieveCurrentStationData = function () {
+        if(Hanasu.prototype.CurrentStation != null) {
+            switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase()) {
+                case 'shoutcast': {
+                    $.get('back/?url=' + encodeURIComponent(Hanasu.prototype.CurrentStation.Stream) + '&callback=?', function (data) {
+                        var statusSite = Hanasu.prototype.getFirstStreamFromStationPlaylist(data, Hanasu.prototype.CurrentStation);
+                        if(!statusSite.endsWith("/")) {
+                            statusSite += "/";
+                        }
+                        statusSite += "7.html";
+                        statusSite = statusSite.replace(" ", "");
+                        $.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function (data) {
+                            var title = $(data).text().split(",")[6];
+                            var titleSplt = title.split(" - ");
+                            Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
+                        });
+                    });
+                    break;
+                }
+            }
+        }
     };
     Hanasu.prototype.togglePlayStatus = function () {
         Hanasu.prototype.setPlayStatus(!Hanasu.prototype.IsPlaying);
@@ -147,6 +155,28 @@ var Hanasu = (function () {
             volumeControl.value = Hanasu.prototype.mutedOriginalVolume;
         }
         Hanasu.prototype.changeVolume(volumeControl.value);
+    };
+    Hanasu.prototype.getFirstStreamFromStationPlaylist = function (data, station) {
+        switch(station.PlaylistExt) {
+            case '.m3u': {
+                var lines = data.split('\n');
+                for(var i = 0; i < lines.length; i++) {
+                    if(lines[i].startsWith("http")) {
+                        return lines[i];
+                    }
+                }
+                return '';
+            }
+            case '.pls': {
+                var lines = data.split('\n');
+                for(var i = 0; i < lines.length; i++) {
+                    if(lines[i].toLowerCase().startsWith("file1=")) {
+                        return lines[i].substring('file1='.length);
+                    }
+                }
+                return '';
+            }
+        }
     };
     return Hanasu;
 })();
