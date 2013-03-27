@@ -90,6 +90,22 @@ class Hanasu {
 				stat.Logo = $(this).find("Logo").text();
 				
 				Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat; //Adds the Station object to the Stations array.
+				
+				var stationHtml = $("<div></div>");
+				$(stationHtml).attr('class', 'station');
+				$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+				$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+				
+				var titles = $("<div></div>");
+				$(titles).attr('id', 'stationTitles');
+				$(titles).append('<h1>' + stat.Name + '</h1>');
+				$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
+				
+				
+				$(stationHtml).append(titles);
+				$("#stations").append(stationHtml);
+				
+				
 			});
 			
 			//TODO: Remove this line below.
