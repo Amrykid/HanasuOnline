@@ -15,6 +15,7 @@ class Hanasu {
 	private mutedOriginalVolume: any;
 	private stationTimer: any;
 	
+	private currentStationStream: string;
 	public CurrentStation: Station;	
 	
 	public initializeApplication() {
@@ -131,6 +132,8 @@ class Hanasu {
 		
 		Hanasu.prototype.CurrentStation = station;
 		
+		Hanasu.prototype.currentStationStream = stream;
+		
 		Hanasu.prototype.retrieveCurrentStationData();
 	}
 	
@@ -146,21 +149,19 @@ class Hanasu {
 			{
 				case 'shoutcast':
 				{
-					$.get('back/?url=' + encodeURIComponent(Hanasu.prototype.CurrentStation.Stream) + '&callback=?', function(data){
-						var statusSite = Hanasu.prototype.getFirstStreamFromStationPlaylist(data, Hanasu.prototype.CurrentStation);
+					var statusSite = Hanasu.prototype.currentStationStream;
+					
+					if (!statusSite.endsWith("/")) {
+						statusSite += "/";
+					}
+					statusSite += "7.html";
+					statusSite = statusSite.replace(" ", "");
+					
+					$.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function(data){
+						var title = $(data).text().split(",")[6];
+						var titleSplt = title.split(" - ");
 						
-						if (!statusSite.endsWith("/")) {
-							statusSite += "/";
-						}
-						statusSite += "7.html";
-						statusSite = statusSite.replace(" ", "");
-						
-						$.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function(data){
-							var title = $(data).text().split(",")[6];
-							var titleSplt = title.split(" - ");
-							
-							Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
-						});
+						Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
 					});
 					break;
 				}
