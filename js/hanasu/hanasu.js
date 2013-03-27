@@ -8,12 +8,12 @@ var Hanasu = (function () {
     Hanasu.prototype.initializeApplication = function () {
         Hanasu.prototype.muted = false;
         Hanasu.prototype.IsPlaying = false;
-        var stationTimer = $.timer(function () {
+        Hanasu.prototype.stationTimer = $.timer(function () {
             Hanasu.prototype.retrieveCurrentStationData();
         });
-        stationTimer.set({
+        Hanasu.prototype.stationTimer.set({
             time: 5000,
-            autostart: true
+            autostart: false
         });
         $("#jquery_jplayer").jPlayer({
             swfPath: "js/jplayer",
@@ -22,6 +22,9 @@ var Hanasu = (function () {
             wmode: "window",
             playing: function (e) {
                 Hanasu.prototype.setPlayStatus(true);
+                if(!Hanasu.prototype.stationTimer.isActive) {
+                    Hanasu.prototype.stationTimer.play();
+                }
             },
             paused: function (e) {
                 Hanasu.prototype.setPlayStatus(false);
@@ -66,6 +69,7 @@ var Hanasu = (function () {
     };
     Hanasu.prototype.stopStation = function () {
         $("#jquery_jplayer").jPlayer("stop");
+        Hanasu.prototype.stationTimer.stop();
         Hanasu.prototype.setPlayStatus(false);
     };
     Hanasu.prototype.playStation = function (station) {

@@ -13,8 +13,9 @@ class Hanasu {
 	public Stations: any;
 	private muted: bool;
 	private mutedOriginalVolume: any;
+	private stationTimer: any;
 	
-	public CurrentStation: Station;
+	public CurrentStation: Station;	
 	
 	public initializeApplication() {
 		//any important starting procedures, we can put here.
@@ -24,10 +25,10 @@ class Hanasu {
 		
 
 		//initalize station timer
-		var stationTimer = $.timer(function () {
+		Hanasu.prototype.stationTimer = $.timer(function () {
 			Hanasu.prototype.retrieveCurrentStationData();
 		});
-		stationTimer.set({ time: 5000, autostart: true });
+		Hanasu.prototype.stationTimer.set({ time: 5000, autostart: false });
 		
 		$("#jquery_jplayer").jPlayer({
 			swfPath: "js/jplayer",
@@ -36,6 +37,10 @@ class Hanasu {
 			wmode: "window",
 			playing: function(e) {
 				Hanasu.prototype.setPlayStatus(true);
+				
+				if (!Hanasu.prototype.stationTimer.isActive) {
+					Hanasu.prototype.stationTimer.play();
+				}
 			},
 			paused: function(e) {
 				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
@@ -90,6 +95,7 @@ class Hanasu {
 	
 	public stopStation() {
 		$("#jquery_jplayer").jPlayer("stop");
+		Hanasu.prototype.stationTimer.stop();
 		Hanasu.prototype.setPlayStatus(false);
 	}
 	
