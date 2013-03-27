@@ -78,6 +78,9 @@ var Hanasu = (function () {
                     $(titles).append('<h1>' + stat.Name + '</h1>');
                     $(titles).append('<h2>Play this station.</h2>');
                     $(stationHtml).append(titles);
+                    $(stationHtml).click(function () {
+                        Hanasu.prototype.playStation(stat);
+                    });
                     $("#stations").append(stationHtml);
                 }
             });

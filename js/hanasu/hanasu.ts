@@ -111,6 +111,11 @@ class Hanasu {
 					
 					
 					$(stationHtml).append(titles);
+					
+					$(stationHtml).click(function() {
+						Hanasu.prototype.playStation(stat);
+					});
+					
 					$("#stations").append(stationHtml);
 				}
 				
