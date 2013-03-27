@@ -30,7 +30,7 @@ class Hanasu {
 		Hanasu.prototype.stationTimer = $.timer(function () {
 			Hanasu.prototype.retrieveCurrentStationData();
 		});
-		Hanasu.prototype.stationTimer.set({ time: 5000, autostart: false });
+		Hanasu.prototype.stationTimer.set({ time: 10000, autostart: false });
 		
 		$("#jquery_jplayer").jPlayer({
 			swfPath: "js/jplayer",

@@ -12,7 +12,7 @@ var Hanasu = (function () {
             Hanasu.prototype.retrieveCurrentStationData();
         });
         Hanasu.prototype.stationTimer.set({
-            time: 5000,
+            time: 10000,
             autostart: false
         });
         $("#jquery_jplayer").jPlayer({
