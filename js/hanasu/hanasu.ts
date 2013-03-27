@@ -37,7 +37,6 @@ class Hanasu {
 			wmode: "window",
 			playing: function(e) {
 				Hanasu.prototype.setPlayStatus(true);
-				
 				if (!Hanasu.prototype.stationTimer.isActive) {
 					Hanasu.prototype.stationTimer.play();
 				}
