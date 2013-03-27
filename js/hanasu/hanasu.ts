@@ -159,6 +159,8 @@ class Hanasu {
 				{
 					var statusSite = Hanasu.prototype.currentStationStream;
 					
+					statusSite = statusSite.replace(";stream/1", "");
+					
 					if (!statusSite.endsWith("/")) {
 						statusSite += "/";
 					}

@@ -111,6 +111,7 @@ var Hanasu = (function () {
             switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase()) {
                 case 'shoutcast': {
                     var statusSite = Hanasu.prototype.currentStationStream;
+                    statusSite = statusSite.replace(";stream/1", "");
                     if(!statusSite.endsWith("/")) {
                         statusSite += "/";
                     }
