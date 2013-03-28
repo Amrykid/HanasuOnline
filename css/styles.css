@@ -492,11 +492,24 @@ footer #settingsButton:active {
   float: right;
   width: 350px;
   height: 329px;
-  padding: 20px 10px 10px 10px;
+  padding: 10px;
 }
 #settingsPaneCover #settingsPane h2 {
+  float: left;
+  margin: 10px 10px 0 0;
   font-size: 18px;
   line-height: 18px;
+}
+#settingsPaneCover #settingsPane button {
+  float: left;
+  padding: 8px;
+  background-color: #393b42;
+  border: none;
+  border-radius: 2px;
+  color: #efefef;
+}
+#settingsPaneCover #settingsPane button:hover {
+  cursor: pointer;
 }
 #settingsPaneCover #settingsPane hr {
   border: 1px solid #393b42;
