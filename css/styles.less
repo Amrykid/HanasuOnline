@@ -3,6 +3,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 @white: #efefef;
 @colour1: #393B42;
 @colour2: #1E1F23;
+@red: #E13B39;
+@redDark: #B52F2F;
 
 .button{
 	display: block;
@@ -15,14 +17,13 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 	border-radius: 4px;
 	line-height: 40px;
 	text-align: center;
-	font-size: 18px;
+	font-size: 17px;
 	color: @colour2;
 	&:hover{
 		cursor: pointer;
 		background-color: #bcbcbc;}
 	&:active{
-		color: @white;
-		background-color: @colour2;}}
+		background-color: #878787;}}
 
 html, body{
 	position: absolute;
@@ -237,7 +238,7 @@ footer #settingsButton{
 
 /**** Settings ****/
 
-#settingsPaneCover{
+#paneCover{
 	display: none;
 	position: absolute;
 	z-index: 9001;
@@ -246,7 +247,8 @@ footer #settingsButton{
 	height: 100%;
 	background-color: rgba(0,0,0,0.8);}
 
-#settingsPaneCover #settingsPane{
+#paneCover #settingsPane{
+	display: none;
 	position: relative;
 	width: 500px;
 	height: 400px;
@@ -281,10 +283,10 @@ footer #settingsButton{
 			font-size: 16px;
 			color: @colour1;
 			border-radius: 2px;
-			background-color: #E13B39;
+			background-color: @red;
 			&:hover{
 				cursor: pointer;
-				background-color: #B52F2F;}}}
+				background-color: @redDark;}}}
 	ul{
 		float: left;
 		width: 130px;
@@ -321,4 +323,20 @@ footer #settingsButton{
 			&:hover{
 				cursor: pointer;}}
 		hr{
-			border: 1px solid @colour1;}}
+			border: 1px solid @colour1;}
+	#tab0{
+		h2{
+			font-size: 28px;}
+		p{
+			float: left;
+			font-size: 18px;
+			line-height: 48px;}
+		a{
+			float: left;
+			color: @red;
+			text-decoration: none;
+			&:visited{
+				color: @red;
+				text-decoration: none;
+			&:hover{
+				color: @redDark;}}}}}
