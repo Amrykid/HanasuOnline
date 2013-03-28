@@ -17,3 +17,15 @@ $('#settingsButton').click(function(){
 $('.closePane, #settingsButton').click(function(){
 	$('#settingsPaneCover').fadeToggle(200);
 });
+
+var notificationToggled = false;
+
+$('#notiToggle').click(function(){
+	if (notificationToggled) {
+		notificationToggled = false;
+		$(this).html("Enable Notifications");
+	} else {
+		notificationToggled = true;
+		$(this).html("Disable Notifications");
+	};
+});
