@@ -1,3 +1,13 @@
+/* 
+	HanasuOnline 0.1
+	
+	Authors:
+		Amrykid (https://github.com/Amrykid)
+		Madison Tres (https://github.com/Phalanxia or http://twitter.com/madisontries)
+		JStoker (https://github.com/jstoker)
+*/
+
+
 declare var $;
 
 $(document).ready(function () {
