@@ -252,16 +252,19 @@ var Hanasu = (function () {
     Hanasu.prototype.obtainNotificationsPermission = function () {
         if(window.webkitNotifications) {
             if(window.webkitNotifications.checkPermission() == 0) {
+                Hanasu.prototype.NotificationToggled = true;
                 return true;
             } else {
-                window.webkitNotifications.requestPermission();
+                window.webkitNotifications.requestPermission(function () {
+                    Hanasu.prototype.NotificationToggled = window.webkitNotifications.checkPermission() == 0;
+                });
                 return false;
             }
         }
         return false;
     };
     Hanasu.prototype.sendNotification = function (img, title, body) {
-        if(window.webkitNotifications.checkPermission() == 0) {
+        if(window.webkitNotifications.checkPermission() == 0 && Hanasu.prototype.NotificationToggled) {
             var notification = window.webkitNotifications.createNotification(img, title, body);
             notification.onclick = function () {
                 window.focus();

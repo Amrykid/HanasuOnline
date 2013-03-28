@@ -18,6 +18,7 @@ class Hanasu {
 	
 	private currentStationStream: string;
 	public CurrentStation: Station;	
+	public NotificationToggled: bool;
 	
 	public initializeApplication() {
 		//any important starting procedures, we can put here.
@@ -328,16 +329,19 @@ class Hanasu {
 	private obtainNotificationsPermission() {
 		if (window.webkitNotifications) {
 			if (window.webkitNotifications.checkPermission() == 0) {
+				Hanasu.prototype.NotificationToggled = true;
 				return true;
 			} else {
-				window.webkitNotifications.requestPermission();
+				window.webkitNotifications.requestPermission(function() {
+					Hanasu.prototype.NotificationToggled = window.webkitNotifications.checkPermission() == 0;
+				});
 				return false;
 			}
 		}
 		return false;
 	}
 	private sendNotification(img: string, title: string, body: string) {
-		if (window.webkitNotifications.checkPermission() == 0) {
+		if (window.webkitNotifications.checkPermission() == 0 && Hanasu.prototype.NotificationToggled) {
 			var notification = window.webkitNotifications.createNotification(
 				img,
 				title,
