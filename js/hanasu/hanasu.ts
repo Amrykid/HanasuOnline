@@ -260,7 +260,9 @@ class Hanasu {
 	}
 	
 	public changeVolume(volumeValue) {
-		if (volumeValue < 33){
+		if (volumeValue == 0) {
+			$('#volumeIcon').attr('class', 'icon-volume-off');
+		} else if (volumeValue < 33 && volumeValue > 0){
 			$('#volumeIcon').attr('class', 'icon-volume-off');
 		} else if (volumeValue < 66){
 			$('#volumeIcon').attr('class', 'icon-volume-down');

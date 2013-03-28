@@ -1,94 +1,97 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline;}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block;}body{line-height:1;}ol,ul{list-style:none;}blockquote,q{quotes:none;}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}table{border-collapse:collapse;border-spacing:0;}
 
+@white: #efefef;
+@colour1: #393B42;
+@colour2: #1E1F23;
+
+.button{
+	display: block;
+	background: none;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	background-color: @white;
+	border: none;
+	border-radius: 4px;
+	line-height: 40px;
+	text-align: center;
+	font-size: 18px;
+	color: @colour2;
+	&:hover{
+		cursor: pointer;
+		background-color: #bcbcbc;}
+	&:active{
+		color: @white;
+		background-color: @colour2;}}
+
 html, body{
 	position: absolute;
 	height: 100%;
 	width: 100%;
-	background-color: #efefef;
+	background-color: @colour1;
 	font-family: 'Source Sans Pro', sans-serif;}
 
-header{
+#header{
+	position: fixed;
+	top: 0;
 	height: 60px;
 	width: 100%;
+	z-index: 5;
 	margin: 0 0 30px 0;
-	background-color: #3a3a3a;
+	background-color: @colour2;
 	border-bottom: 1px solid #292929;
 	box-shadow: 0px 0px 4px #232323;}
 
-header #songArea{
+#header #songArea{
 	position: absolute;
 	left: 30px;
 	float: left;}
 
-header #songArea img{
+#header #songArea img{
 	float: left;
 	width: 90px;
 	height: 90px;
+	background-color: #ffffff;
 	box-shadow: 0px 0px 4px #232323;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;}
 
-header #songArea h1{
+#header #songArea h1{
 	display: block;
 	height: 30px;
 	margin: 0 0 0 110px;
 	line-height: 30px;
 	font-size: 20px;
-	color: #efefef;}
+	color: @white;}
 
-header #songArea h2{
+#header #songArea h2{
 	display: block;
 	height: 30px;
 	margin: 0 0 0 110px;
 	line-height: 30px;
-	color: #efefef;}
+	color: @white;}
 
-header #controls{
+#header #controls{
 	position: absolute;
 	left: 0;
 	right: 0;
-	width: 128px;
+	width: 38px;
 	height: 50px;
 	margin: 0 auto;}
 
-header #controls button{
+#header #controls button{
+	.button;
 	float: left;
-	border: none;
-	display: block;
-	background: none;
-	width: 34px;
-	height: 34px;
-	margin: 14px 0;
-	padding: 0;
-	background-color: #efefef;
-	line-height: 34px;
-	text-align: center;
-	font-size: 18px;
-	color: #1b1b1b;
-	&:hover{
-		cursor: pointer;
-		background-color: #bcbcbc;}
-	&:active{
-		color: #efefef;
-		background-color: #1b1b1b;}}
+	margin: 11px;}
 
-header #controls button:nth-child(2){
-	margin: 11px 10px;
-	width: 40px;
-	height: 40px;}
-
-header #volumeIcon{
+#header #volumeIcon{
 	float: right;}
 
-header #volumeIcon{
-	height: 60px;
-	width: 20px;
-	line-height: 60px;
-	text-align: center;
-	font-size: 32px;
-	color: #efefef;}
+#header #volumeIcon{
+	.button;
+	margin: 11px 0 0 0;}
 
-header #volumeControl{
+#header #volumeControl{
 	float: right;
 	width: 100px;
 	height: 60px;
@@ -96,21 +99,34 @@ header #volumeControl{
 
 /**** Stations ****/
 
+#stations{
+	overflow-y: scroll;
+	margin: 61px 0 30px 0;}
+
 .station{
 	position: relative;
 	float: left;
 	width: 200px;
 	height: 200px;
-	margin: 30px 30px;
-	box-shadow: 0px 0px 4px #232323;
-	border-radius: 5px;}
+	margin: 60px 30px 0 30px;
+	background-color: #ffffff;
+	box-shadow: 0px 0px 4px @colour2;
+	border-radius: 4px;
+	transition: all 2s linear;
+		-webkit-transition: all 0.1s linear;
+		-moz-transition: all 0.1s linear;
+		-o-transition: all 0.1s linear;}
+
+.station:hover{
+	cursor: pointer;
+	box-shadow: 0px 0px 4px @colour2, 0px 0px 0 4px @colour2;}
 
 .station img{
 	position: absolute;
 	z-index: 0;
 	width: 200px;
 	height: 200px;
-	border-radius: 5px;}
+	border-radius: 4px;}
 
 .station .favouriteButton{
 	display: block;
@@ -137,25 +153,26 @@ header #volumeControl{
 	padding: 0 10px;
 	background-color: rgba(0,0,0,0.5);
 	line-height: 25px;
-	color: #efefef;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;}
+	color: @white;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;}
 
 .station #stationTitles h1{
 	font-weight: bold;}
 
 /**** Footer ****/
 
-#footer {
-	position: absolute;
+footer {
+	position: fixed;
 	bottom: 0;
+	z-index: 5;
 	width: 100%;
-	height: 50px;
-	background-color: #3a3a3a;
+	height: 60px;
+	background-color: @colour2;
 	border-bottom: 1px solid #292929;
 	box-shadow: 0px 0px 4px #232323;}
 
-#footer #informationPaneToggle{
+footer #informationPaneToggle{
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -169,58 +186,128 @@ header #volumeControl{
 	line-height: 50px;
 	text-align: center;
 	font-size: 26px;
-	color: #efefef;
+	color: @white;
 	&:hover{
 		cursor: pointer;
 		color: #bcbcbc;}
 	&:active{
 		color: #1b1b1b;}}
 
-#footer #searchContainer{
-	height: 30px;
-	width: 350px;
-	margin: 10px auto;
-	background-color: #efefef;}
+footer #searchContainer{
+	position: absolute;
+	right: 0;
+	bottom: 10px;
+	left: 0;
+	height: 38px;
+	width: 358px;
+	margin: 0 auto;
+	background-color: @white;
+	border-radius: 4px;}
 
-#footer #searchContainer input{
+footer #searchContainer input{
 	float: left;
 	width: 320px;
-	height: 30px;
-	background-color: #efefef;
+	height: 38px;
+	background-color: @white;
 	border: none;
 	outline: none;
 	padding: 0 10px;
 	margin: 0;
-	-webkit-appearance:none}
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-webkit-appearance: none;}
 
-#footer #searchContainer button{
+footer #searchContainer button{
 	display: block;
 	float: right;
-	width: 30px;
-	height: 30px;
+	width: 38px;
+	height: 38px;
 	padding: 0;
 	border: none;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
 	color: #1b1b1b;
 	line-height: 30px;
 	text-align: center;}
 
-#footer #settingsPaneToggle{
+footer #settingsButton{
+	.button;
+	float: right;
+	margin: 12px 20px 0 0;}
+
+/**** Settings ****/
+
+#settingsPaneCover{
+	display: none;
 	position: absolute;
-	bottom: 0;
-	right: 0;
-	border: none;
-	display: block;
-	background: none;
-	width: 50px;
-	height: 50px;
-	padding: 0;
-	margin: 0 10px 0 0;
-	line-height: 50px;
-	text-align: center;
-	font-size: 26px;
-	color: #efefef;
-	&:hover{
-		cursor: pointer;
-		color: #bcbcbc;}
-	&:active{
-		color: #1b1b1b;}}
+	z-index: 9001;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8);}
+
+#settingsPaneCover #settingsPane{
+	position: relative;
+	width: 500px;
+	height: 400px;
+	top: 50%;
+	left: 50%;
+	margin: -200px 0 0 -250px;
+	background-color: @white;
+	border-radius: 5px;
+	box-shadow: 0px 0px 4px #232323;
+	header{
+		height: 40px;
+		width: 500px;
+		background-color: @colour1;
+		border-bottom: 1px solid @colour2;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+		h1{
+			float: left;
+			margin: 0 0 0 10px;
+			line-height: 40px;
+			font-size: 20px;
+			color: @white;}
+		button{
+			float: right;
+			width: 21px;
+			height: 21px;
+			margin: 10px 10px 0 0;
+			padding: 0;
+			border: none;
+			background: none;
+			text-align: center;
+			font-size: 16px;
+			color: @colour1;
+			border-radius: 2px;
+			background-color: #E13B39;
+			&:hover{
+				cursor: pointer;
+				background-color: #B52F2F;}}}
+	ul{
+		float: left;
+		width: 130px;
+		height: 349px;
+		padding: 10px 0 0 0;
+		background-color: #ffffff;
+		border-bottom-left-radius: 5px;
+		li a{
+			display: block;
+			width: 100px;
+			height: 30px;
+			margin: 10px 0;
+			padding: 0 15px;
+			color: @colour2;
+			font-size: 18px;
+			text-decoration: none;}}
+	.tab{
+		float: right;
+		width: 350px;
+		height: 329px;
+		padding: 20px 10px 10px 10px;}
+		h2{
+			font-size: 18px;
+			line-height: 18px;}
+		hr{
+			border: 1px solid @colour1;}}
