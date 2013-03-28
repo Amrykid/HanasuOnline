@@ -265,10 +265,12 @@ var Hanasu = (function () {
                 window.focus();
                 notification.close();
             };
+            notification.ondisplay = function (event) {
+                setTimeout(function () {
+                    event.currentTarget.cancel();
+                }, 5000);
+            };
             notification.show();
-            setTimeout(function () {
-                notification.close();
-            }, 5000);
         }
     };
     Hanasu.prototype.sendSongChangeNotification = function (song, artist) {

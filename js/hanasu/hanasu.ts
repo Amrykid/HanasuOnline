@@ -347,10 +347,12 @@ class Hanasu {
 				window.focus();
 				notification.close();
 			}
+			notification.ondisplay = function (event) {
+				setTimeout(function() {
+					event.currentTarget.cancel();
+				}, 5000);
+			}
 			notification.show();
-			setTimeout(function(){
-				notification.close();
-			},5000);
 		}
 	}
 	private sendSongChangeNotification(song: string, artist: string) {
