@@ -511,3 +511,23 @@ footer #settingsButton:active {
 #paneCover #settingsPane hr {
   border: 1px solid #393b42;
 }
+#paneCover #settingsPane #tab0 h2 {
+  font-size: 28px;
+}
+#paneCover #settingsPane #tab0 p {
+  float: left;
+  font-size: 18px;
+  line-height: 48px;
+}
+#paneCover #settingsPane #tab0 a {
+  float: left;
+  color: #e13b39;
+  text-decoration: none;
+}
+#paneCover #settingsPane #tab0 a:visited {
+  color: #e13b39;
+  text-decoration: none;
+}
+#paneCover #settingsPane #tab0 a:visited:hover {
+  color: #b52f2f;
+}

@@ -3,7 +3,7 @@
 	
 	Authors:
 		Amrykid (https://github.com/Amrykid)
-		Madison Tres (https://github.com/Phalanxia or http://twitter.com/madisontries)
+		Madison Tries (https://github.com/Phalanxia or http://twitter.com/madisontries)
 		JStoker (https://github.com/jstoker)
 */
 

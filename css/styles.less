@@ -3,6 +3,8 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 @white: #efefef;
 @colour1: #393B42;
 @colour2: #1E1F23;
+@red: #E13B39;
+@redDark: #B52F2F;
 
 .button{
 	display: block;
@@ -281,10 +283,10 @@ footer #settingsButton{
 			font-size: 16px;
 			color: @colour1;
 			border-radius: 2px;
-			background-color: #E13B39;
+			background-color: @red;
 			&:hover{
 				cursor: pointer;
-				background-color: #B52F2F;}}}
+				background-color: @redDark;}}}
 	ul{
 		float: left;
 		width: 130px;
@@ -321,4 +323,20 @@ footer #settingsButton{
 			&:hover{
 				cursor: pointer;}}
 		hr{
-			border: 1px solid @colour1;}}
+			border: 1px solid @colour1;}
+	#tab0{
+		h2{
+			font-size: 28px;}
+		p{
+			float: left;
+			font-size: 18px;
+			line-height: 48px;}
+		a{
+			float: left;
+			color: @red;
+			text-decoration: none;
+			&:visited{
+				color: @red;
+				text-decoration: none;
+			&:hover{
+				color: @redDark;}}}}}
