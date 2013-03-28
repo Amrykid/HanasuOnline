@@ -132,7 +132,7 @@ table {
   border-radius: 4px;
   line-height: 40px;
   text-align: center;
-  font-size: 18px;
+  font-size: 17px;
   color: #1e1f23;
 }
 .button:hover {
@@ -140,8 +140,7 @@ table {
   background-color: #bcbcbc;
 }
 .button:active {
-  color: #efefef;
-  background-color: #1e1f23;
+  background-color: #878787;
 }
 html,
 body {
@@ -210,7 +209,7 @@ body {
   border-radius: 4px;
   line-height: 40px;
   text-align: center;
-  font-size: 18px;
+  font-size: 17px;
   color: #1e1f23;
   float: left;
   margin: 11px;
@@ -220,8 +219,7 @@ body {
   background-color: #bcbcbc;
 }
 #header #controls button:active {
-  color: #efefef;
-  background-color: #1e1f23;
+  background-color: #878787;
 }
 #header #volumeIcon {
   float: right;
@@ -237,7 +235,7 @@ body {
   border-radius: 4px;
   line-height: 40px;
   text-align: center;
-  font-size: 18px;
+  font-size: 17px;
   color: #1e1f23;
   margin: 11px 0 0 0;
 }
@@ -246,8 +244,7 @@ body {
   background-color: #bcbcbc;
 }
 #header #volumeIcon:active {
-  color: #efefef;
-  background-color: #1e1f23;
+  background-color: #878787;
 }
 #header #volumeControl {
   float: right;
@@ -402,7 +399,7 @@ footer #settingsButton {
   border-radius: 4px;
   line-height: 40px;
   text-align: center;
-  font-size: 18px;
+  font-size: 17px;
   color: #1e1f23;
   float: right;
   margin: 12px 20px 0 0;
@@ -412,12 +409,11 @@ footer #settingsButton:hover {
   background-color: #bcbcbc;
 }
 footer #settingsButton:active {
-  color: #efefef;
-  background-color: #1e1f23;
+  background-color: #878787;
 }
 /**** Settings ****/
 
-#settingsPaneCover {
+#paneCover {
   display: none;
   position: absolute;
   z-index: 9001;
@@ -426,7 +422,8 @@ footer #settingsButton:active {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
 }
-#settingsPaneCover #settingsPane {
+#paneCover #settingsPane {
+  display: none;
   position: relative;
   width: 500px;
   height: 400px;
@@ -437,7 +434,7 @@ footer #settingsButton:active {
   border-radius: 5px;
   box-shadow: 0px 0px 4px #232323;
 }
-#settingsPaneCover #settingsPane header {
+#paneCover #settingsPane header {
   height: 40px;
   width: 500px;
   background-color: #393b42;
@@ -445,14 +442,14 @@ footer #settingsButton:active {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-#settingsPaneCover #settingsPane header h1 {
+#paneCover #settingsPane header h1 {
   float: left;
   margin: 0 0 0 10px;
   line-height: 40px;
   font-size: 20px;
   color: #efefef;
 }
-#settingsPaneCover #settingsPane header button {
+#paneCover #settingsPane header button {
   float: right;
   width: 21px;
   height: 21px;
@@ -466,11 +463,11 @@ footer #settingsButton:active {
   border-radius: 2px;
   background-color: #e13b39;
 }
-#settingsPaneCover #settingsPane header button:hover {
+#paneCover #settingsPane header button:hover {
   cursor: pointer;
   background-color: #b52f2f;
 }
-#settingsPaneCover #settingsPane ul {
+#paneCover #settingsPane ul {
   float: left;
   width: 130px;
   height: 349px;
@@ -478,7 +475,7 @@ footer #settingsButton:active {
   background-color: white;
   border-bottom-left-radius: 5px;
 }
-#settingsPaneCover #settingsPane ul li a {
+#paneCover #settingsPane ul li a {
   display: block;
   width: 100px;
   height: 30px;
@@ -488,19 +485,19 @@ footer #settingsButton:active {
   font-size: 18px;
   text-decoration: none;
 }
-#settingsPaneCover #settingsPane .tab {
+#paneCover #settingsPane .tab {
   float: right;
   width: 350px;
   height: 329px;
   padding: 10px;
 }
-#settingsPaneCover #settingsPane h2 {
+#paneCover #settingsPane h2 {
   float: left;
   margin: 10px 10px 0 0;
   font-size: 18px;
   line-height: 18px;
 }
-#settingsPaneCover #settingsPane button {
+#paneCover #settingsPane button {
   float: left;
   padding: 8px;
   background-color: #393b42;
@@ -508,9 +505,9 @@ footer #settingsButton:active {
   border-radius: 2px;
   color: #efefef;
 }
-#settingsPaneCover #settingsPane button:hover {
+#paneCover #settingsPane button:hover {
   cursor: pointer;
 }
-#settingsPaneCover #settingsPane hr {
+#paneCover #settingsPane hr {
   border: 1px solid #393b42;
 }
