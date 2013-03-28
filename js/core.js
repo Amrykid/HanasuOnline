@@ -27,7 +27,7 @@ $('#settingsButton').click(function(){
 });
 
 $('.closePane, #settingsButton').click(function(){
-	$('#settingsPaneCover').fadeToggle(200);
+	$('#paneCover, #settingsPane').fadeToggle(200);
 });
 
 $('#notiToggle').click(function(){

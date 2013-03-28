@@ -193,13 +193,13 @@ var Hanasu = (function () {
     };
     Hanasu.prototype.setPlayStatus = function (value) {
         Hanasu.prototype.IsPlaying = value;
-        $("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-pause" : "icon-play"));
+        $("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-stop" : "icon-play"));
         Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
     };
     Hanasu.prototype.changeVolume = function (volumeValue) {
         if(volumeValue == 0) {
-            $('#volumeIcon').attr('class', 'icon-volume-off');
-        } else if(volumeValue < 33 && volumeValue > 0) {
+            $('#volumeIcon').attr('class', 'icon-remove-sign');
+        } else if(volumeValue < 33 && volumeValue >= 1) {
             $('#volumeIcon').attr('class', 'icon-volume-off');
         } else if(volumeValue < 66) {
             $('#volumeIcon').attr('class', 'icon-volume-down');
