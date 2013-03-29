@@ -1,0 +1,1 @@
+This folder goes in your webserver's public folder for users to be able to access the site.
