@@ -1,4 +1,4 @@
-console.log("HanasuOnline Backend v0.1.2");
+console.log("HanasuOnline Backend v0.1.3");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');
@@ -40,6 +40,9 @@ server.start(function(path, query, response, callback) {
 										case '.m3u': {
 											break;
 										}
+										case '.asx': {
+											parser_func = playlist.get_stream_asx;
+										}
 									}
 									
 									parser_func(serverurl, function(stream) {
@@ -48,7 +51,7 @@ server.start(function(path, query, response, callback) {
 										try {
 											nowplay.get_shoutcast(serverurl, function(title) {
 												console.log(title);
-												memcached.set(requestedStation, title, 10, function( err, result ){
+												memcached.set(requestedStation, title, 12, function( err, result ){
 													if( err ) console.error( err );
 												});
 												
@@ -113,6 +116,7 @@ server.start(function(path, query, response, callback) {
 								break;
 							}
 							case '.m3u': {
+								parser_func = playlist.get_stream_m3u;
 								break;
 							}
 						}
