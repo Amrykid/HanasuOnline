@@ -25,6 +25,7 @@ class Hanasu {
 	private muted: bool;
 	private mutedOriginalVolume: any;
 	private stationTimer: any;
+	private PlayerIsReady: bool;
 	
 	private currentStationStream: string;
 	public CurrentStation: Station;	
@@ -35,7 +36,7 @@ class Hanasu {
 		
 		Hanasu.prototype.muted = false;
 		Hanasu.prototype.IsPlaying = false;
-		
+		Hanasu.prototype.PlayerIsReady = false;
 
 		//initalize station timer
 		Hanasu.prototype.stationTimer = $.timer(function () {
@@ -48,6 +49,9 @@ class Hanasu {
 			solution:"html, flash",
 			supplied: "mp3",
 			wmode: "window",
+			ready: function() {
+				Hanasu.prototype.PlayerIsReady = true;
+			},
 			playing: function(e) {
 				Hanasu.prototype.setPlayStatus(true);
 				if (!Hanasu.prototype.stationTimer.isActive) {
@@ -166,6 +170,11 @@ class Hanasu {
 	}
 	
 	public playStation(station: Station) {
+		if (!Hanasu.prototype.PlayerIsReady) {
+			alert("Hold on a sec! We're not done loading yet!");
+			return;
+		}
+	
 		if (Hanasu.prototype.IsPlaying) {
 			Hanasu.prototype.stopStation(true);
 		}

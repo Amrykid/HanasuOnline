@@ -8,6 +8,7 @@ var Hanasu = (function () {
     Hanasu.prototype.initializeApplication = function () {
         Hanasu.prototype.muted = false;
         Hanasu.prototype.IsPlaying = false;
+        Hanasu.prototype.PlayerIsReady = false;
         Hanasu.prototype.stationTimer = $.timer(function () {
             Hanasu.prototype.retrieveCurrentStationData();
         });
@@ -20,6 +21,9 @@ var Hanasu = (function () {
             solution: "html, flash",
             supplied: "mp3",
             wmode: "window",
+            ready: function () {
+                Hanasu.prototype.PlayerIsReady = true;
+            },
             playing: function (e) {
                 Hanasu.prototype.setPlayStatus(true);
                 if(!Hanasu.prototype.stationTimer.isActive) {
@@ -110,6 +114,10 @@ var Hanasu = (function () {
         }
     };
     Hanasu.prototype.playStation = function (station) {
+        if(!Hanasu.prototype.PlayerIsReady) {
+            alert("Hold on a sec! We're not done loading yet!");
+            return;
+        }
         if(Hanasu.prototype.IsPlaying) {
             Hanasu.prototype.stopStation(true);
         }
