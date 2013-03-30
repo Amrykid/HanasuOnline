@@ -2,6 +2,8 @@ var http = require("http");
 var url = require("url");
 
 function get_shoutcast(server, callback) {
+	console.log('Sending request to server: ' + server);
+
 	var path = url.parse(server);
 	var options = {
 		host: path.hostname,
@@ -12,11 +14,11 @@ function get_shoutcast(server, callback) {
 	};
 
 	var req = http.request(options, function(res) {
-		//console.log('STATUS: ' + res.statusCode);
-		//console.log('HEADERS: ' + JSON.stringify(res.headers));
+		console.log('STATUS: ' + res.statusCode);
+		console.log('HEADERS: ' + JSON.stringify(res.headers));
 		res.setEncoding('utf8');
 		res.on('data', function (data) {
-			//console.log("BODY: " + data);
+			console.log("BODY: " + data);
 
 			var title = data.replace(/<.+?>/g,"").split(',')[6];
 			callback(title)

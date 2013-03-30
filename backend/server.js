@@ -7,10 +7,14 @@ function start(handleRequest) {
 		var path = requestedUrl.pathname;
 		var query = requestedUrl.query;		
 	
-		response.writeHead(200, {"Content-Type": "text/plain"});
-	
-		handleRequest(path, query, response, function(res) {
-			response.write(res);
+		handleRequest(path, query, response, function(res, ok) {
+			console.log(ok);
+			if (ok) {
+				response.writeHead(200, {"Content-Type": "text/plain", "Access-Control-Allow-Origin": "*"});
+				response.write(res);
+			} else {
+				response.writeHead(404);
+			}
 			response.end();
 		});
 		//response.end();
