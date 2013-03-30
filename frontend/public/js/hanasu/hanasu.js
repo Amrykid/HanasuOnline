@@ -149,7 +149,7 @@ var Hanasu = (function () {
     Hanasu.prototype.updateSongInfo = function (song, artist, logo, notify) {
         if (typeof notify === "undefined") { notify = true; }
         if($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-            Hanasu.prototype.sendSongChangeNotification(song, artist);
+            Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
         }
         $("#songTitle").html(song);
         $("#artistName").html(artist);
@@ -278,8 +278,9 @@ var Hanasu = (function () {
             notification.show();
         }
     };
-    Hanasu.prototype.sendSongChangeNotification = function (song, artist) {
-        Hanasu.prototype.sendNotification('img/square.png', "Song Change", "'" + song + "' by " + artist);
+    Hanasu.prototype.sendSongChangeNotification = function (song, artist, logo) {
+        if (typeof logo === "undefined") { logo = 'img/square.png'; }
+        Hanasu.prototype.sendNotification(logo, "Song Update", "'" + song + "' by " + artist);
     };
     return Hanasu;
 })();

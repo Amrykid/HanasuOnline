@@ -218,7 +218,7 @@ class Hanasu {
 	
 	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
 		if ($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-			Hanasu.prototype.sendSongChangeNotification(song, artist);
+			Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
 		}
 	
 		$("#songTitle").html(song);
@@ -367,10 +367,10 @@ class Hanasu {
 			notification.show();
 		}
 	}
-	private sendSongChangeNotification(song: string, artist: string) {
+	private sendSongChangeNotification(song: string, artist: string, logo: string = 'img/square.png') {
 		Hanasu.prototype.sendNotification(
-			'img/square.png',
-			"Song Change",
+			logo,
+			"Song Update",
 			"'" + song + "' by " + artist);
 	}
 }
