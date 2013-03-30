@@ -59,14 +59,18 @@ server.start(function(path, query, response, callback) {
 									parser_func(serverurl, function(stream) {
 										serverurl = stream;
 										
-										nowplay.get_shoutcast(serverurl, function(title) {
-											console.log(title);
-											memcached.set(query.station, title, 10, function( err, result ){
-												if( err ) console.error( err );
+										try {
+											nowplay.get_shoutcast(serverurl, function(title) {
+												console.log(title);
+												memcached.set(query.station, title, 10, function( err, result ){
+													if( err ) console.error( err );
+												});
+												
+												callback(title);
 											});
-											
-											callback(title);
-										});
+										} catch (ex) {
+											console.log(ex);
+										}
 									});
 								} else {
 									callback('Unknown - Unknown');
