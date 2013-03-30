@@ -63,7 +63,7 @@ var Hanasu = (function () {
         Hanasu.prototype.loadStations();
     };
     Hanasu.prototype.loadStations = function () {
-        $.get("data/Stations.xml", function (data) {
+        $.get("http://" + window.location.hostname + ":8888/stations", function (data) {
             var $stations = $(data).find("Station");
             Hanasu.prototype.Stations = new Array();
             $stations.each(function () {
@@ -117,8 +117,8 @@ var Hanasu = (function () {
         if(station.PlaylistExt == '') {
             Hanasu.prototype._playStation(station, station.Stream);
         } else {
-            $.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function (data) {
-                Hanasu.prototype._playStation(station, Hanasu.prototype.getFirstStreamFromStationPlaylist(data, station));
+            $.get("http://" + window.location.hostname + ":8888/firststream?station=" + Hanasu.prototype.CurrentStation.Name + '&callback=?', function (data) {
+                Hanasu.prototype._playStation(station, data);
             });
         }
     };
@@ -160,17 +160,9 @@ var Hanasu = (function () {
         if(Hanasu.prototype.CurrentStation != null) {
             switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase()) {
                 case 'shoutcast': {
-                    var statusSite = Hanasu.prototype.currentStationStream;
-                    statusSite = statusSite.replace(";stream/1", "");
-                    if(!statusSite.endsWith("/")) {
-                        statusSite += "/";
-                    }
-                    statusSite += "7.html";
-                    statusSite = statusSite.replace(" ", "");
-                    $.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function (data) {
+                    $.get("http://" + window.location.hostname + ":8888/song?station=" + Hanasu.prototype.CurrentStation.Name + "&callback=?", function (data) {
                         try  {
-                            var title = $(data).text().split(",")[6];
-                            title = title.trim();
+                            var title = data.trim();
                             var titleSplt = title.split(" - ");
                             Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
                         } catch (e) {
