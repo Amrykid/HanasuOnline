@@ -101,7 +101,7 @@ class Hanasu {
 	}
 	
 	private loadStations() {
-		$.get("data/Stations.xml", function(data) { 
+		$.get("http://" + window.location.hostname + ":8888/stations", function(data) { 
 			//fetches the xml that contains all of the stations.
 			var $stations = $(data).find("Station");
 			
@@ -176,11 +176,11 @@ class Hanasu {
 		if (station.PlaylistExt == '') {
 			Hanasu.prototype._playStation(station, station.Stream); //Plays the station since it is not a playlist, but is a direct stream.
 		} else {
-			$.get('back/?url=' + encodeURIComponent(station.Stream) + '&callback=?', function(data){
+			$.get("http://" + window.location.hostname + ":8888/firststream?station=" + Hanasu.prototype.CurrentStation.Name + '&callback=?', function(data){
 				//Fetches the playlist data and gets ready to parse it.
 			
 				//Too lazy to implement parser atm. Finds first stream in the playlist and uses that.
-				Hanasu.prototype._playStation(station, Hanasu.prototype.getFirstStreamFromStationPlaylist(data, station));
+				Hanasu.prototype._playStation(station, data);
 				
 			});
 		}
@@ -229,21 +229,10 @@ class Hanasu {
 			switch(Hanasu.prototype.CurrentStation.ServerType.toLowerCase())
 			{
 				case 'shoutcast':
-				{
-					var statusSite = Hanasu.prototype.currentStationStream;
-					
-					statusSite = statusSite.replace(";stream/1", "");
-					
-					if (!statusSite.endsWith("/")) {
-						statusSite += "/";
-					}
-					statusSite += "7.html";
-					statusSite = statusSite.replace(" ", "");
-					
-					$.get('back/?url=' + encodeURIComponent(statusSite) + '&callback=?', function(data){
+				{	
+					$.get("http://" + window.location.hostname + ":8888/song?station=" + Hanasu.prototype.CurrentStation.Name + "&callback=?", function(data){
 						try {
-							var title: string = $(data).text().split(",")[6];
-							title = title.trim();
+							var title: string = data.trim();
 							var titleSplt = title.split(" - ");
 							
 							Hanasu.prototype.updateSongInfo(titleSplt[1], titleSplt[0], Hanasu.prototype.CurrentStation.Logo);
