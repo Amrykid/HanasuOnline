@@ -17,7 +17,7 @@
 		<div id="controls">
 			<button id="controlPlayPause" class="icon-play"></button>
 		</div>
-		<input id="volumeControl" type="range" min="0" max="100" value="50" onchange="self.App.changeVolume(this.value)">
+		<input id="volumeControl" type="range" min="0" max="100" value="50">
 		<span id="volumeIcon" class="icon-volume-down"></span>
 	</header>
 	<div>

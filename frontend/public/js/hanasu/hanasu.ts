@@ -101,7 +101,7 @@ class Hanasu {
 				}
 			}
 		});
-		
+
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
 		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
@@ -284,16 +284,6 @@ class Hanasu {
 	}
 	
 	public changeVolume(volumeValue) {
-		if (volumeValue == 0) {
-			$('#volumeIcon').attr('class', 'icon-remove-sign');
-		} else if (volumeValue < 33){
-			$('#volumeIcon').attr('class', 'icon-volume-off');
-		} else if (volumeValue < 66){
-			$('#volumeIcon').attr('class', 'icon-volume-down');
-		} else if (volumeValue >= 66){
-			$('#volumeIcon').attr('class', 'icon-volume-up');
-		}
-		
 		$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
 	}
 	private toggleVolumeMuted() {
