@@ -22,7 +22,7 @@ var Hanasu = (function () {
             supplied: "mp3",
             wmode: "window",
             ready: function () {
-                Hanasu.prototype.PlayerIsReady = true;
+                handleJPlayerReady();
             },
             playing: function (e) {
                 Hanasu.prototype.setPlayStatus(true);
@@ -53,6 +53,9 @@ var Hanasu = (function () {
             }
         });
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
+        $("#jquery_jplayer").bind($.jPlayer.event.ready, function (event) {
+            handleJPlayerReady();
+        });
         $("#controlPlayPause").click(function () {
             if(Hanasu.prototype.IsPlaying) {
                 Hanasu.prototype.stopStation();
@@ -65,6 +68,9 @@ var Hanasu = (function () {
         });
         $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
         Hanasu.prototype.loadStations();
+    };
+    Hanasu.prototype.handleJPlayerReady = function () {
+        Hanasu.prototype.PlayerIsReady = true;
     };
     Hanasu.prototype.loadStations = function () {
         $.get("http://" + window.location.hostname + ":8888/stations", function (data) {

@@ -50,7 +50,7 @@ class Hanasu {
 			supplied: "mp3",
 			wmode: "window",
 			ready: function() {
-				Hanasu.prototype.PlayerIsReady = true;
+				handleJPlayerReady();
 			},
 			playing: function(e) {
 				Hanasu.prototype.setPlayStatus(true);
@@ -86,6 +86,10 @@ class Hanasu {
 			}
 		});
 		Hanasu.prototype.Player = $("#jquery_jplayer")[0];
+		
+		$("#jquery_jplayer").bind($.jPlayer.event.ready, function(event) {
+			handleJPlayerReady();
+		});
 				
 		//handles when the play/pause button is clicked.
 		$("#controlPlayPause").click(function() {
@@ -102,6 +106,10 @@ class Hanasu {
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
 		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
+	}
+	
+	private handleJPlayerReady() {
+		Hanasu.prototype.PlayerIsReady = true;
 	}
 	
 	private loadStations() {
