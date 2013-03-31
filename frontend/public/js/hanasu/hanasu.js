@@ -203,15 +203,6 @@ var Hanasu = (function () {
         Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
     };
     Hanasu.prototype.changeVolume = function (volumeValue) {
-        if(volumeValue == 0) {
-            $('#volumeIcon').attr('class', 'icon-remove-sign');
-        } else if(volumeValue < 33) {
-            $('#volumeIcon').attr('class', 'icon-volume-off');
-        } else if(volumeValue < 66) {
-            $('#volumeIcon').attr('class', 'icon-volume-down');
-        } else if(volumeValue >= 66) {
-            $('#volumeIcon').attr('class', 'icon-volume-up');
-        }
         $("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
