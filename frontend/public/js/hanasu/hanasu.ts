@@ -46,7 +46,7 @@ class Hanasu {
 		
 		$("#jquery_jplayer").jPlayer({
 			swfPath: "js/jplayer",
-			solution:"html, flash",
+			solution:"flash, html",
 			supplied: "mp3",
 			wmode: "window",
 			ready: function() {
