@@ -18,7 +18,7 @@ var Hanasu = (function () {
         });
         $("#jquery_jplayer").jPlayer({
             ready: function () {
-                handleJPlayerReady();
+                Hanasu.prototype.handleJPlayerReady();
             },
             swfPath: "js/jplayer",
             solution: "flash, html",
