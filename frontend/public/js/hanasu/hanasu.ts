@@ -23,7 +23,6 @@ class Hanasu {
 	private Player: any;
 	public Stations: any;
 	private muted: bool;
-	private mutedOriginalVolume: any;
 	private stationTimer: any;
 	private PlayerIsReady: bool;
 	
@@ -218,6 +217,9 @@ class Hanasu {
 		$(Hanasu.prototype.Player).jPlayer("clearMedia");
 		
 		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
+		if (Hanasu.prototype.muted) {
+			$(Hanasu.prototype.Player).jPlayer("mute")
+		}
 		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }) //Loads the stream.
 			.jPlayer("play"); //Starts playing the stream.
 	}
@@ -284,32 +286,24 @@ class Hanasu {
 	public changeVolume(volumeValue) {
 		if (volumeValue == 0) {
 			$('#volumeIcon').attr('class', 'icon-remove-sign');
-		} else if (volumeValue < 33 && volumeValue >= 1){
+		} else if (volumeValue < 33){
 			$('#volumeIcon').attr('class', 'icon-volume-off');
 		} else if (volumeValue < 66){
 			$('#volumeIcon').attr('class', 'icon-volume-down');
-		} else if (volumeValue > 66){
+		} else if (volumeValue >= 66){
 			$('#volumeIcon').attr('class', 'icon-volume-up');
 		}
 		
 		$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
-		
-		Hanasu.prototype.muted = volumeValue == 0;
-		if (!Hanasu.prototype.muted) {
-			Hanasu.prototype.mutedOriginalVolume = volumeValue;
-		}
 	}
 	private toggleVolumeMuted() {
-		var volumeControl = $("#volumeControl")[0];
 		Hanasu.prototype.muted = !Hanasu.prototype.muted;
 	
 		if (Hanasu.prototype.muted) {
-			Hanasu.prototype.mutedOriginalVolume = volumeControl.value;
-			volumeControl.value = 0;
+			$(Hanasu.prototype.Player).jPlayer("mute")
 		} else {
-			volumeControl.value = Hanasu.prototype.mutedOriginalVolume;
+			$(Hanasu.prototype.Player).jPlayer("unmute")
 		}
-		Hanasu.prototype.changeVolume(volumeControl.value);
 	 }
 	 
 	private getFirstStreamFromStationPlaylist(data: string, station: Station) {

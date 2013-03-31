@@ -142,6 +142,9 @@ var Hanasu = (function () {
         Hanasu.prototype.currentStationStream = stream;
         $(Hanasu.prototype.Player).jPlayer("clearMedia");
         $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+        if(Hanasu.prototype.muted) {
+            $(Hanasu.prototype.Player).jPlayer("mute");
+        }
         $(Hanasu.prototype.Player).jPlayer("setMedia", {
             mp3: stream
         }).jPlayer("play");
@@ -202,29 +205,22 @@ var Hanasu = (function () {
     Hanasu.prototype.changeVolume = function (volumeValue) {
         if(volumeValue == 0) {
             $('#volumeIcon').attr('class', 'icon-remove-sign');
-        } else if(volumeValue < 33 && volumeValue >= 1) {
+        } else if(volumeValue < 33) {
             $('#volumeIcon').attr('class', 'icon-volume-off');
         } else if(volumeValue < 66) {
             $('#volumeIcon').attr('class', 'icon-volume-down');
-        } else if(volumeValue > 66) {
+        } else if(volumeValue >= 66) {
             $('#volumeIcon').attr('class', 'icon-volume-up');
         }
         $("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
-        Hanasu.prototype.muted = volumeValue == 0;
-        if(!Hanasu.prototype.muted) {
-            Hanasu.prototype.mutedOriginalVolume = volumeValue;
-        }
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
-        var volumeControl = $("#volumeControl")[0];
         Hanasu.prototype.muted = !Hanasu.prototype.muted;
         if(Hanasu.prototype.muted) {
-            Hanasu.prototype.mutedOriginalVolume = volumeControl.value;
-            volumeControl.value = 0;
+            $(Hanasu.prototype.Player).jPlayer("mute");
         } else {
-            volumeControl.value = Hanasu.prototype.mutedOriginalVolume;
+            $(Hanasu.prototype.Player).jPlayer("unmute");
         }
-        Hanasu.prototype.changeVolume(volumeControl.value);
     };
     Hanasu.prototype.getFirstStreamFromStationPlaylist = function (data, station) {
         switch(station.PlaylistExt) {
