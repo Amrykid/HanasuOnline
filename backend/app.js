@@ -1,4 +1,4 @@
-console.log("HanasuOnline Backend v0.1.5");
+console.log("HanasuOnline Backend v0.1.6");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');
@@ -29,40 +29,44 @@ server.start(function(path, query, response, callback) {
 						try {
 							getStation(query.station, function(station, serverurl) {
 								console.log("Got station: " + station.Name);
-								if (station.ExplicitExtension != 'undefined' && station.ServerType == 'Shoutcast') {
-									
-									var parser_func = null;
-									switch(station.ExplicitExtension) {
-										case '.pls': {
-											parser_func = playlist.get_stream_pls;
-											break;
+								try {
+									if (station.ExplicitExtension != 'undefined' && station.ServerType == 'Shoutcast') {
+										
+										var parser_func = null;
+										switch(station.ExplicitExtension) {
+											case '.pls': {
+												parser_func = playlist.get_stream_pls;
+												break;
+											}
+											case '.m3u': {
+												parser_func = playlist.get_stream_m3u;
+												break;
+											}
+											case '.asx': {
+												parser_func = playlist.get_stream_asx;
+											}
 										}
-										case '.m3u': {
-											parser_func = playlist.get_stream_m3u;
-											break;
-										}
-										case '.asx': {
-											parser_func = playlist.get_stream_asx;
-										}
-									}
-									
-									parser_func(serverurl, function(stream) {
-										serverurl = stream;
-										console.log('Resolved stream url: ' + stream);
-										try {
-											nowplay.get_shoutcast(serverurl, function(title) {
-												console.log(title);
-												memcached.set(requestedStation, title, 12, function( err, result ){
-													if( err ) console.error( err );
+										
+										parser_func(serverurl, function(stream) {
+											serverurl = stream;
+											console.log('Resolved stream url: ' + stream);
+											try {
+												nowplay.get_shoutcast(serverurl, function(title) {
+													console.log(title);
+													memcached.set(requestedStation, title, 12, function( err, result ){
+														if( err ) console.error( err );
+													});
+													
+													callback(title, true);
 												});
-												
-												callback(title, true);
-											});
-										} catch (ex) {
-											console.log(ex);
-										}
-									});
-								} else {
+											} catch (ex) {
+												console.log(ex);
+											}
+										});
+									} else {
+										callback('Unknown - Unknown', true);
+									}
+								} catch (e) {
 									callback('Unknown - Unknown', true);
 								}
 							});
@@ -109,22 +113,26 @@ server.start(function(path, query, response, callback) {
 			
 			if (query.station != null) {
 				getStation(query.station, function(station, serverurl) {
-					if (station.ExplicitExtension != 'undefined' && station.ServerType == 'Shoutcast') {			
-						var parser_func = null;
-						switch(station.ExplicitExtension) {
-							case '.pls': {
-								parser_func = playlist.get_stream_pls;
-								break;
+					try {
+						if (station.ExplicitExtension != 'undefined' && station.ServerType == 'Shoutcast') {			
+							var parser_func = null;
+							switch(station.ExplicitExtension) {
+								case '.pls': {
+									parser_func = playlist.get_stream_pls;
+									break;
+								}
+								case '.m3u': {
+									parser_func = playlist.get_stream_m3u;
+									break;
+								}
 							}
-							case '.m3u': {
-								parser_func = playlist.get_stream_m3u;
-								break;
-							}
+							
+							parser_func(serverurl, function(stream) {
+								callback(stream, true);
+							});
 						}
-						
-						parser_func(serverurl, function(stream) {
-							callback(stream, true);
-						});
+					} catch (e) {
+						callback('', false);
 					}
 				});
 			} else {
