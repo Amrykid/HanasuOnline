@@ -247,6 +247,37 @@ footer #settingsButton{
 	height: 100%;
 	background-color: rgba(0,0,0,0.8);}
 
+#paneCover .pane{
+	header{
+	height: 40px;
+	width: 500px;
+	background-color: @colour1;
+	border-bottom: 1px solid @colour2;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	h1{
+		float: left;
+		margin: 0 0 0 10px;
+		line-height: 40px;
+		font-size: 20px;
+		color: @white;}
+	button{
+		float: right;
+		width: 21px;
+		height: 21px;
+		margin: 10px 10px 0 0;
+		padding: 0;
+		border: none;
+		background: none;
+		text-align: center;
+		font-size: 16px;
+		color: @colour1;
+		border-radius: 2px;
+		background-color: @red;
+		&:hover{
+			cursor: pointer;
+			background-color: @redDark;}}}}
+
 #paneCover #settingsPane{
 	display: none;
 	position: relative;
@@ -258,35 +289,6 @@ footer #settingsButton{
 	background-color: @white;
 	border-radius: 5px;
 	box-shadow: 0px 0px 4px #232323;
-	header{
-		height: 40px;
-		width: 500px;
-		background-color: @colour1;
-		border-bottom: 1px solid @colour2;
-		border-top-left-radius: 5px;
-		border-top-right-radius: 5px;
-		h1{
-			float: left;
-			margin: 0 0 0 10px;
-			line-height: 40px;
-			font-size: 20px;
-			color: @white;}
-		button{
-			float: right;
-			width: 21px;
-			height: 21px;
-			margin: 10px 10px 0 0;
-			padding: 0;
-			border: none;
-			background: none;
-			text-align: center;
-			font-size: 16px;
-			color: @colour1;
-			border-radius: 2px;
-			background-color: @red;
-			&:hover{
-				cursor: pointer;
-				background-color: @redDark;}}}
 	ul{
 		float: left;
 		width: 130px;

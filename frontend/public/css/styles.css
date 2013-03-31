@@ -422,19 +422,7 @@ footer #settingsButton:active {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
 }
-#paneCover #settingsPane {
-  display: none;
-  position: relative;
-  width: 500px;
-  height: 400px;
-  top: 50%;
-  left: 50%;
-  margin: -200px 0 0 -250px;
-  background-color: #efefef;
-  border-radius: 5px;
-  box-shadow: 0px 0px 4px #232323;
-}
-#paneCover #settingsPane header {
+#paneCover .pane header {
   height: 40px;
   width: 500px;
   background-color: #393b42;
@@ -442,14 +430,14 @@ footer #settingsButton:active {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
-#paneCover #settingsPane header h1 {
+#paneCover .pane header h1 {
   float: left;
   margin: 0 0 0 10px;
   line-height: 40px;
   font-size: 20px;
   color: #efefef;
 }
-#paneCover #settingsPane header button {
+#paneCover .pane header button {
   float: right;
   width: 21px;
   height: 21px;
@@ -463,9 +451,21 @@ footer #settingsButton:active {
   border-radius: 2px;
   background-color: #e13b39;
 }
-#paneCover #settingsPane header button:hover {
+#paneCover .pane header button:hover {
   cursor: pointer;
   background-color: #b52f2f;
+}
+#paneCover #settingsPane {
+  display: none;
+  position: relative;
+  width: 500px;
+  height: 400px;
+  top: 50%;
+  left: 50%;
+  margin: -200px 0 0 -250px;
+  background-color: #efefef;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px #232323;
 }
 #paneCover #settingsPane ul {
   float: left;

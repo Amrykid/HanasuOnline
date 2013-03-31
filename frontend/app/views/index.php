@@ -34,7 +34,13 @@
 		<button id="settingsButton" class="icon-cog"></button>
 	</footer>
 	<div id="paneCover" class="pane">
-		<div id="settingsPane">
+		<div class="pane" id="dialog">
+			<header>
+				<h1>Settings</h1>
+				<button class="closePane icon-remove"></button>
+			</header>
+		</div>
+		<div class="pane" id="settingsPane">
 			<header>
 				<h1>Settings</h1>
 				<button class="closePane icon-remove"></button>
