@@ -151,7 +151,7 @@
     <Cacheable>True</Cacheable>
     <Logo>https://lh3.googleusercontent.com/-CDiKJbosSZE/T9TB_t6SjJI/AAAAAAAAAGM/tD7xVLfg9lk/s251/Big-B-Radio-logo_400x250px.jpg</Logo>
     <ServerType>Shoutcast</ServerType>
-	<ExplicitExtension>.pls</ExplicitExtension>
+    <ExplicitExtension>.pls</ExplicitExtension>
   </Station>
   <Station>
     <Name>Japan-A-Radio</Name>
