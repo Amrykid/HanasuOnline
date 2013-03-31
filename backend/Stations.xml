@@ -2,13 +2,14 @@
 <Stations>
   <Station>
     <Name>AnimeNfo</Name>
-    <DataSource>http://www.animenfo.com/radio/listen.m3u</DataSource>
+    <DataSource>http://itori.animenfo.com:443/listen.pls</DataSource>
+	<MultiDataSource ext=".m3u">http://www.animenfo.com/radio/listen.m3u</MultiDataSource>
     <Homepage>http://www.animenfo.com/</Homepage>
     <Format>Anime</Format>
     <City>Tokyo, Japan</City>
     <Language>English</Language>
     <Cacheable>True</Cacheable>
-    <ExplicitExtension>.m3u</ExplicitExtension>
+    <ExplicitExtension>.pls</ExplicitExtension>
     <Schedule type="page">http://www.animenfo.com/radio/schedule.php</Schedule>
     <Logo>http://d1i6vahw24eb07.cloudfront.net/s54119q.png</Logo>
     <ServerType>Shoutcast</ServerType>
@@ -143,7 +144,7 @@
   </Station>-->
   <Station>
     <Name>Big B Radio</Name>
-    <DataSource>http://www.fileden.com/files/2008/4/27/1886400/Big.B.Radio-All.Channels.PL.pls</DataSource> <!--http://178.33.227.116:8104-->
+    <DataSource>http://yp.shoutcast.com/sbin/tunein-station.pls?id=127576</DataSource> <!--http://www.fileden.com/files/2008/4/27/1886400/Big.B.Radio-All.Channels.PL.pls http://178.33.227.116:8104-->
     <Homepage>http://bigbradio.com/</Homepage>
     <Format>Mix</Format>
     <City>N/A</City>
