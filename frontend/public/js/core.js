@@ -5,8 +5,17 @@ $(function () {
 	$('#settingsPane').tabs();
 	
 	setTimeout(function() {
-		if(window.webkitNotifications){
+		if(window.webkitNotifications) {
 			if (window.webkitNotifications.checkPermission() == 0) {
+				$('#notiToggle').html("Disable Notifications");
+				Hanasu.prototype.NotificationToggled = true;
+			} else {
+				$('#notiToggle').html("Enable Notifications");
+				Hanasu.prototype.NotificationToggled = false;
+			}
+		} else if (window.Notification) {
+			// Firefox Nightly as of time of writing.
+			if (window.Notification.permission == 'granted') {
 				$('#notiToggle').html("Disable Notifications");
 				Hanasu.prototype.NotificationToggled = true;
 			} else {

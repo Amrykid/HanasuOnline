@@ -263,22 +263,45 @@ var Hanasu = (function () {
                 });
                 return false;
             }
+        } else if(window.Notification) {
+            if(window.Notification.permission == 'granted') {
+                Hanasu.prototype.NotificationToggled = true;
+                return true;
+            } else {
+                window.Notification.requestPermission(function (perm) {
+                    Hanasu.prototype.NotificationToggled = perm == 'granted';
+                });
+                return false;
+            }
         }
         return false;
     };
     Hanasu.prototype.sendNotification = function (img, title, body) {
-        if(window.webkitNotifications.checkPermission() == 0 && Hanasu.prototype.NotificationToggled) {
-            var notification = window.webkitNotifications.createNotification(img, title, body);
-            notification.onclick = function () {
-                window.focus();
-                notification.close();
-            };
-            notification.ondisplay = function (event) {
-                setTimeout(function () {
-                    event.currentTarget.cancel();
-                }, 5000);
-            };
-            notification.show();
+        if(Hanasu.prototype.NotificationToggled) {
+            if(window.webNotifications) {
+                if(window.webkitNotifications.checkPermission() == 0) {
+                    var notification = window.webkitNotifications.createNotification(img, title, body);
+                    notification.onclick = function () {
+                        window.focus();
+                        notification.close();
+                    };
+                    notification.ondisplay = function (event) {
+                        setTimeout(function () {
+                            event.currentTarget.cancel();
+                        }, 5000);
+                    };
+                    notification.show();
+                }
+            } else if(window.Notification) {
+                if(window.Notification.permission == 'granted') {
+                    var notification = new Notification(title, {
+                        dir: "auto",
+                        lang: "",
+                        body: body,
+                        tag: "sometag"
+                    });
+                }
+            }
         }
     };
     Hanasu.prototype.sendSongChangeNotification = function (song, artist, logo) {

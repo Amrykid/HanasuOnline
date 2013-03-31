@@ -354,26 +354,51 @@ class Hanasu {
 				});
 				return false;
 			}
+		} else if (window.Notification) {
+			// Firefox Nightly as of time of writing.
+			if (window.Notification.permission == 'granted') {
+				Hanasu.prototype.NotificationToggled = true;
+				return true;
+			} else {
+				window.Notification.requestPermission(function(perm) {
+					Hanasu.prototype.NotificationToggled = perm == 'granted';
+				});
+				return false;
+			}
 		}
 		return false;
 	}
 	private sendNotification(img: string, title: string, body: string) {
-		if (window.webkitNotifications.checkPermission() == 0 && Hanasu.prototype.NotificationToggled) {
-			var notification = window.webkitNotifications.createNotification(
-				img,
-				title,
-				body
-			);
-			notification.onclick = function () {
-				window.focus();
-				notification.close();
+		if (Hanasu.prototype.NotificationToggled) {
+			if (window.webNotifications) {
+				if (window.webkitNotifications.checkPermission() == 0) {
+					var notification = window.webkitNotifications.createNotification(
+						img,
+						title,
+						body
+					);
+					notification.onclick = function () {
+						window.focus();
+						notification.close();
+					}
+					notification.ondisplay = function (event) {
+						setTimeout(function() {
+							event.currentTarget.cancel();
+						}, 5000);
+					}
+					notification.show();
+				}
+			} else if (window.Notification) {
+				//FF Nightly at the time of writing. May change.
+				if (window.Notification.permission == 'granted') {
+					var notification = new Notification(title, {
+						dir: "auto",
+						lang: "",
+						body: body,
+						tag: "sometag",
+				  });
+				}
 			}
-			notification.ondisplay = function (event) {
-				setTimeout(function() {
-					event.currentTarget.cancel();
-				}, 5000);
-			}
-			notification.show();
 		}
 	}
 	private sendSongChangeNotification(song: string, artist: string, logo: string = 'img/square.png') {
