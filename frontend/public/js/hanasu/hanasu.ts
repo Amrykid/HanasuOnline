@@ -45,27 +45,10 @@ class Hanasu {
 		Hanasu.prototype.stationTimer.set({ time: 10000, autostart: false });
 		
 		$("#jquery_jplayer").jPlayer({
-			ready: function() {
-				Hanasu.prototype.handleJPlayerReady();
-			},
 			swfPath: "js/jplayer",
 			solution:"flash, html",
 			supplied: "mp3",
 			wmode: "window",
-			playing: function(e) {
-				Hanasu.prototype.setPlayStatus(true);
-				if (!Hanasu.prototype.stationTimer.isActive) {
-					Hanasu.prototype.stationTimer.play();
-				}
-				
-				Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
-			},
-			paused: function(e) {
-				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
-			},
-			ended: function(e) {
-				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
-			},
 			error: function(event) {
 				switch(event.jPlayer.error.type)
 				{
@@ -90,6 +73,23 @@ class Hanasu {
 		$("#jquery_jplayer").bind($.jPlayer.event.ready, function(event) {
 			handleJPlayerReady();
 		});
+		
+		$("#jquery_jplayer").bind($.jPlayer.event.play, function(event) {
+			Hanasu.prototype.setPlayStatus(true);
+			if (!Hanasu.prototype.stationTimer.isActive) {
+				Hanasu.prototype.stationTimer.play();
+			}
+			
+			Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
+		});
+		
+		$("#jquery_jplayer").bind($.jPlayer.event.ended, function(event) {
+			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+		});
+		$("#jquery_jplayer").bind($.jPlayer.event.pause, function(event) {
+			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+		});
+						
 				
 		//handles when the play/pause button is clicked.
 		$("#controlPlayPause").click(function() {

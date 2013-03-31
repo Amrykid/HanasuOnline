@@ -17,26 +17,10 @@ var Hanasu = (function () {
             autostart: false
         });
         $("#jquery_jplayer").jPlayer({
-            ready: function () {
-                Hanasu.prototype.handleJPlayerReady();
-            },
             swfPath: "js/jplayer",
             solution: "flash, html",
             supplied: "mp3",
             wmode: "window",
-            playing: function (e) {
-                Hanasu.prototype.setPlayStatus(true);
-                if(!Hanasu.prototype.stationTimer.isActive) {
-                    Hanasu.prototype.stationTimer.play();
-                }
-                Hanasu.prototype.retrieveCurrentStationData(false);
-            },
-            paused: function (e) {
-                Hanasu.prototype.setPlayStatus(false);
-            },
-            ended: function (e) {
-                Hanasu.prototype.setPlayStatus(false);
-            },
             error: function (event) {
                 switch(event.jPlayer.error.type) {
                     case 'e_url': {
@@ -55,6 +39,19 @@ var Hanasu = (function () {
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
         $("#jquery_jplayer").bind($.jPlayer.event.ready, function (event) {
             handleJPlayerReady();
+        });
+        $("#jquery_jplayer").bind($.jPlayer.event.play, function (event) {
+            Hanasu.prototype.setPlayStatus(true);
+            if(!Hanasu.prototype.stationTimer.isActive) {
+                Hanasu.prototype.stationTimer.play();
+            }
+            Hanasu.prototype.retrieveCurrentStationData(false);
+        });
+        $("#jquery_jplayer").bind($.jPlayer.event.ended, function (event) {
+            Hanasu.prototype.setPlayStatus(false);
+        });
+        $("#jquery_jplayer").bind($.jPlayer.event.pause, function (event) {
+            Hanasu.prototype.setPlayStatus(false);
         });
         $("#controlPlayPause").click(function () {
             if(Hanasu.prototype.IsPlaying) {
