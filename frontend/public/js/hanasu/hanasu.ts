@@ -23,7 +23,6 @@ class Hanasu {
 	private Player: any;
 	public Stations: any;
 	private muted: bool;
-	private mutedOriginalVolume: any;
 	private stationTimer: any;
 	private PlayerIsReady: bool;
 	
@@ -46,26 +45,9 @@ class Hanasu {
 		
 		$("#jquery_jplayer").jPlayer({
 			swfPath: "js/jplayer",
-			solution:"html, flash",
+			solution:"flash, html",
 			supplied: "mp3",
 			wmode: "window",
-			ready: function() {
-				Hanasu.prototype.PlayerIsReady = true;
-			},
-			playing: function(e) {
-				Hanasu.prototype.setPlayStatus(true);
-				if (!Hanasu.prototype.stationTimer.isActive) {
-					Hanasu.prototype.stationTimer.play();
-				}
-				
-				Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
-			},
-			paused: function(e) {
-				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
-			},
-			ended: function(e) {
-				Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
-			},
 			error: function(event) {
 				switch(event.jPlayer.error.type)
 				{
@@ -86,6 +68,27 @@ class Hanasu {
 			}
 		});
 		Hanasu.prototype.Player = $("#jquery_jplayer")[0];
+		
+		$("#jquery_jplayer").bind($.jPlayer.event.ready, function(event) {
+			Hanasu.prototype.handleJPlayerReady();
+		});
+		
+		$("#jquery_jplayer").bind($.jPlayer.event.play, function(event) {
+			Hanasu.prototype.setPlayStatus(true);
+			if (!Hanasu.prototype.stationTimer.isActive) {
+				Hanasu.prototype.stationTimer.play();
+			}
+			
+			Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
+		});
+		
+		$("#jquery_jplayer").bind($.jPlayer.event.ended, function(event) {
+			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+		});
+		$("#jquery_jplayer").bind($.jPlayer.event.pause, function(event) {
+			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+		});
+						
 				
 		//handles when the play/pause button is clicked.
 		$("#controlPlayPause").click(function() {
@@ -102,6 +105,10 @@ class Hanasu {
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
 		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
+	}
+	
+	private handleJPlayerReady() {
+		Hanasu.prototype.PlayerIsReady = true;
 	}
 	
 	private loadStations() {
@@ -153,8 +160,6 @@ class Hanasu {
 				
 			});
 			
-			//TODO: Remove this line below.
-			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4]; //Until we get stations display on the page, pick one for debugging use.
 		});
 	}
 	
@@ -164,9 +169,7 @@ class Hanasu {
 		Hanasu.prototype.setPlayStatus(false);
 		Hanasu.prototype.clearSongInfo();
 		
-		if (clearPlayer) {
-			$("#jquery_jplayer").jPlayer( "clearMedia" );
-		}
+		Hanasu.prototype.IsPlaying = false;
 	}
 	
 	public playStation(station: Station) {
@@ -185,7 +188,7 @@ class Hanasu {
 		if (station.PlaylistExt == '') {
 			Hanasu.prototype._playStation(station, station.Stream); //Plays the station since it is not a playlist, but is a direct stream.
 		} else {
-			$.get("http://" + window.location.hostname + ":8888/firststream?station=" + Hanasu.prototype.CurrentStation.Name + '&callback=?', function(data){
+			$.get("http://" + window.location.hostname + ":8888/firststream?station=" + station.Name + '&callback=?', function(data){
 				//Fetches the playlist data and gets ready to parse it.
 			
 				//Too lazy to implement parser atm. Finds first stream in the playlist and uses that.
@@ -211,14 +214,22 @@ class Hanasu {
 		
 		Hanasu.prototype.currentStationStream = stream;
 		
+		$(Hanasu.prototype.Player).jPlayer("clearMedia");
+		
 		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
-		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }); //Loads the stream.
-		$(Hanasu.prototype.Player).jPlayer("play"); //Starts playing the stream.
+		if (Hanasu.prototype.muted) {
+			$(Hanasu.prototype.Player).jPlayer("mute")
+		}
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }) //Loads the stream.
+			.jPlayer("play"); //Starts playing the stream.
 	}
 	
 	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
 		if ($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-			Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+			try {
+				Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+			} catch (e) {
+			}
 		}
 	
 		$("#songTitle").html(song);
@@ -275,32 +286,24 @@ class Hanasu {
 	public changeVolume(volumeValue) {
 		if (volumeValue == 0) {
 			$('#volumeIcon').attr('class', 'icon-remove-sign');
-		} else if (volumeValue < 33 && volumeValue >= 1){
+		} else if (volumeValue < 33){
 			$('#volumeIcon').attr('class', 'icon-volume-off');
 		} else if (volumeValue < 66){
 			$('#volumeIcon').attr('class', 'icon-volume-down');
-		} else if (volumeValue > 66){
+		} else if (volumeValue >= 66){
 			$('#volumeIcon').attr('class', 'icon-volume-up');
 		}
 		
 		$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
-		
-		Hanasu.prototype.muted = volumeValue == 0;
-		if (!Hanasu.prototype.muted) {
-			Hanasu.prototype.mutedOriginalVolume = volumeValue;
-		}
 	}
 	private toggleVolumeMuted() {
-		var volumeControl = $("#volumeControl")[0];
 		Hanasu.prototype.muted = !Hanasu.prototype.muted;
 	
 		if (Hanasu.prototype.muted) {
-			Hanasu.prototype.mutedOriginalVolume = volumeControl.value;
-			volumeControl.value = 0;
+			$(Hanasu.prototype.Player).jPlayer("mute")
 		} else {
-			volumeControl.value = Hanasu.prototype.mutedOriginalVolume;
+			$(Hanasu.prototype.Player).jPlayer("unmute")
 		}
-		Hanasu.prototype.changeVolume(volumeControl.value);
 	 }
 	 
 	private getFirstStreamFromStationPlaylist(data: string, station: Station) {
@@ -334,7 +337,7 @@ class Hanasu {
 		}
 	 }
 	
-	private obtainNotificationsPermission() {
+	public obtainNotificationsPermission() {
 		if (window.webkitNotifications) {
 			if (window.webkitNotifications.checkPermission() == 0) {
 				Hanasu.prototype.NotificationToggled = true;
@@ -345,26 +348,66 @@ class Hanasu {
 				});
 				return false;
 			}
+		} else if (window.Notification) {
+			// Firefox Nightly as of time of writing.
+			if (window.Notification.permission == 'granted') {
+				Hanasu.prototype.NotificationToggled = true;
+				return true;
+			} else {
+				window.Notification.requestPermission(function(perm) {
+					Hanasu.prototype.NotificationToggled = perm == 'granted';
+				});
+				return false;
+			}
+		} else if (navigator.mozNotification) {
+			// Firefox Mobile
+			return true;
 		}
 		return false;
 	}
 	private sendNotification(img: string, title: string, body: string) {
-		if (window.webkitNotifications.checkPermission() == 0 && Hanasu.prototype.NotificationToggled) {
-			var notification = window.webkitNotifications.createNotification(
-				img,
-				title,
-				body
-			);
-			notification.onclick = function () {
-				window.focus();
-				notification.close();
+		if (Hanasu.prototype.NotificationToggled) {
+			if (window.webNotifications) {
+				if (window.webkitNotifications.checkPermission() == 0) {
+					var notification = window.webkitNotifications.createNotification(
+						img,
+						title,
+						body
+					);
+					notification.onclick = function () {
+						window.focus();
+						notification.close();
+					}
+					notification.ondisplay = function (event) {
+						setTimeout(function() {
+							event.currentTarget.cancel();
+						}, 5000);
+					}
+					notification.show();
+				}
+			} else if (window.Notification) {
+				//FF Nightly at the time of writing. May change.
+				if (window.Notification.permission == 'granted') {
+					var notification = new Notification(title, {
+						dir: "auto",
+						lang: "",
+						body: body,
+						tag: "sometag",
+				  });
+				}
+			} else if (navigator.mozNotification) {
+				// Firefox Mobile
+				var notification = navigator.mozNotification.createNotification(
+					title +
+					body);
+				notification.onclick = function () {
+					window.focus();
+					// notification.close(); Auto closed.
+				};
+				
+				notification.show();
 			}
-			notification.ondisplay = function (event) {
-				setTimeout(function() {
-					event.currentTarget.cancel();
-				}, 5000);
-			}
-			notification.show();
+			
 		}
 	}
 	private sendSongChangeNotification(song: string, artist: string, logo: string = 'img/square.png') {

@@ -20,7 +20,7 @@
 		<input id="volumeControl" type="range" min="0" max="100" value="50" onchange="self.App.changeVolume(this.value)">
 		<span id="volumeIcon" class="icon-volume-down"></span>
 	</header>
-	<div style="display: none">
+	<div>
 		<div id="jquery_jplayer" class="jp-jplayer"></div>
 		</div>
 	</div>

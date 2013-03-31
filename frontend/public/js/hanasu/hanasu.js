@@ -18,25 +18,9 @@ var Hanasu = (function () {
         });
         $("#jquery_jplayer").jPlayer({
             swfPath: "js/jplayer",
-            solution: "html, flash",
+            solution: "flash, html",
             supplied: "mp3",
             wmode: "window",
-            ready: function () {
-                Hanasu.prototype.PlayerIsReady = true;
-            },
-            playing: function (e) {
-                Hanasu.prototype.setPlayStatus(true);
-                if(!Hanasu.prototype.stationTimer.isActive) {
-                    Hanasu.prototype.stationTimer.play();
-                }
-                Hanasu.prototype.retrieveCurrentStationData(false);
-            },
-            paused: function (e) {
-                Hanasu.prototype.setPlayStatus(false);
-            },
-            ended: function (e) {
-                Hanasu.prototype.setPlayStatus(false);
-            },
             error: function (event) {
                 switch(event.jPlayer.error.type) {
                     case 'e_url': {
@@ -53,6 +37,22 @@ var Hanasu = (function () {
             }
         });
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
+        $("#jquery_jplayer").bind($.jPlayer.event.ready, function (event) {
+            Hanasu.prototype.handleJPlayerReady();
+        });
+        $("#jquery_jplayer").bind($.jPlayer.event.play, function (event) {
+            Hanasu.prototype.setPlayStatus(true);
+            if(!Hanasu.prototype.stationTimer.isActive) {
+                Hanasu.prototype.stationTimer.play();
+            }
+            Hanasu.prototype.retrieveCurrentStationData(false);
+        });
+        $("#jquery_jplayer").bind($.jPlayer.event.ended, function (event) {
+            Hanasu.prototype.setPlayStatus(false);
+        });
+        $("#jquery_jplayer").bind($.jPlayer.event.pause, function (event) {
+            Hanasu.prototype.setPlayStatus(false);
+        });
         $("#controlPlayPause").click(function () {
             if(Hanasu.prototype.IsPlaying) {
                 Hanasu.prototype.stopStation();
@@ -65,6 +65,9 @@ var Hanasu = (function () {
         });
         $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
         Hanasu.prototype.loadStations();
+    };
+    Hanasu.prototype.handleJPlayerReady = function () {
+        Hanasu.prototype.PlayerIsReady = true;
     };
     Hanasu.prototype.loadStations = function () {
         $.get("http://" + window.location.hostname + ":8888/stations", function (data) {
@@ -100,7 +103,6 @@ var Hanasu = (function () {
                     $("#stations").append(stationHtml);
                 }
             });
-            Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
         });
     };
     Hanasu.prototype.stopStation = function (clearPlayer) {
@@ -109,9 +111,7 @@ var Hanasu = (function () {
         Hanasu.prototype.stationTimer.stop();
         Hanasu.prototype.setPlayStatus(false);
         Hanasu.prototype.clearSongInfo();
-        if(clearPlayer) {
-            $("#jquery_jplayer").jPlayer("clearMedia");
-        }
+        Hanasu.prototype.IsPlaying = false;
     };
     Hanasu.prototype.playStation = function (station) {
         if(!Hanasu.prototype.PlayerIsReady) {
@@ -125,7 +125,7 @@ var Hanasu = (function () {
         if(station.PlaylistExt == '') {
             Hanasu.prototype._playStation(station, station.Stream);
         } else {
-            $.get("http://" + window.location.hostname + ":8888/firststream?station=" + Hanasu.prototype.CurrentStation.Name + '&callback=?', function (data) {
+            $.get("http://" + window.location.hostname + ":8888/firststream?station=" + station.Name + '&callback=?', function (data) {
                 Hanasu.prototype._playStation(station, data);
             });
         }
@@ -140,16 +140,22 @@ var Hanasu = (function () {
         }
         Hanasu.prototype.CurrentStation = station;
         Hanasu.prototype.currentStationStream = stream;
+        $(Hanasu.prototype.Player).jPlayer("clearMedia");
         $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+        if(Hanasu.prototype.muted) {
+            $(Hanasu.prototype.Player).jPlayer("mute");
+        }
         $(Hanasu.prototype.Player).jPlayer("setMedia", {
             mp3: stream
-        });
-        $(Hanasu.prototype.Player).jPlayer("play");
+        }).jPlayer("play");
     };
     Hanasu.prototype.updateSongInfo = function (song, artist, logo, notify) {
         if (typeof notify === "undefined") { notify = true; }
         if($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-            Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+            try  {
+                Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+            } catch (e) {
+            }
         }
         $("#songTitle").html(song);
         $("#artistName").html(artist);
@@ -199,29 +205,22 @@ var Hanasu = (function () {
     Hanasu.prototype.changeVolume = function (volumeValue) {
         if(volumeValue == 0) {
             $('#volumeIcon').attr('class', 'icon-remove-sign');
-        } else if(volumeValue < 33 && volumeValue >= 1) {
+        } else if(volumeValue < 33) {
             $('#volumeIcon').attr('class', 'icon-volume-off');
         } else if(volumeValue < 66) {
             $('#volumeIcon').attr('class', 'icon-volume-down');
-        } else if(volumeValue > 66) {
+        } else if(volumeValue >= 66) {
             $('#volumeIcon').attr('class', 'icon-volume-up');
         }
         $("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
-        Hanasu.prototype.muted = volumeValue == 0;
-        if(!Hanasu.prototype.muted) {
-            Hanasu.prototype.mutedOriginalVolume = volumeValue;
-        }
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
-        var volumeControl = $("#volumeControl")[0];
         Hanasu.prototype.muted = !Hanasu.prototype.muted;
         if(Hanasu.prototype.muted) {
-            Hanasu.prototype.mutedOriginalVolume = volumeControl.value;
-            volumeControl.value = 0;
+            $(Hanasu.prototype.Player).jPlayer("mute");
         } else {
-            volumeControl.value = Hanasu.prototype.mutedOriginalVolume;
+            $(Hanasu.prototype.Player).jPlayer("unmute");
         }
-        Hanasu.prototype.changeVolume(volumeControl.value);
     };
     Hanasu.prototype.getFirstStreamFromStationPlaylist = function (data, station) {
         switch(station.PlaylistExt) {
@@ -260,22 +259,53 @@ var Hanasu = (function () {
                 });
                 return false;
             }
+        } else if(window.Notification) {
+            if(window.Notification.permission == 'granted') {
+                Hanasu.prototype.NotificationToggled = true;
+                return true;
+            } else {
+                window.Notification.requestPermission(function (perm) {
+                    Hanasu.prototype.NotificationToggled = perm == 'granted';
+                });
+                return false;
+            }
+        } else if(navigator.mozNotification) {
+            return true;
         }
         return false;
     };
     Hanasu.prototype.sendNotification = function (img, title, body) {
-        if(window.webkitNotifications.checkPermission() == 0 && Hanasu.prototype.NotificationToggled) {
-            var notification = window.webkitNotifications.createNotification(img, title, body);
-            notification.onclick = function () {
-                window.focus();
-                notification.close();
-            };
-            notification.ondisplay = function (event) {
-                setTimeout(function () {
-                    event.currentTarget.cancel();
-                }, 5000);
-            };
-            notification.show();
+        if(Hanasu.prototype.NotificationToggled) {
+            if(window.webNotifications) {
+                if(window.webkitNotifications.checkPermission() == 0) {
+                    var notification = window.webkitNotifications.createNotification(img, title, body);
+                    notification.onclick = function () {
+                        window.focus();
+                        notification.close();
+                    };
+                    notification.ondisplay = function (event) {
+                        setTimeout(function () {
+                            event.currentTarget.cancel();
+                        }, 5000);
+                    };
+                    notification.show();
+                }
+            } else if(window.Notification) {
+                if(window.Notification.permission == 'granted') {
+                    var notification = new Notification(title, {
+                        dir: "auto",
+                        lang: "",
+                        body: body,
+                        tag: "sometag"
+                    });
+                }
+            } else if(navigator.mozNotification) {
+                var notification = navigator.mozNotification.createNotification(title + body);
+                notification.onclick = function () {
+                    window.focus();
+                };
+                notification.show();
+            }
         }
     };
     Hanasu.prototype.sendSongChangeNotification = function (song, artist, logo) {
