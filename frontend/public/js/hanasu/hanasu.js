@@ -17,6 +17,9 @@ var Hanasu = (function () {
             autostart: false
         });
         $("#jquery_jplayer").jPlayer({
+            ready: function () {
+                handleJPlayerReady();
+            },
             swfPath: "js/jplayer",
             solution: "flash, html",
             supplied: "mp3",
