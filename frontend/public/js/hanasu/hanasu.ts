@@ -45,13 +45,13 @@ class Hanasu {
 		Hanasu.prototype.stationTimer.set({ time: 10000, autostart: false });
 		
 		$("#jquery_jplayer").jPlayer({
+			ready: function() {
+				handleJPlayerReady();
+			},
 			swfPath: "js/jplayer",
 			solution:"flash, html",
 			supplied: "mp3",
 			wmode: "window",
-			ready: function() {
-				handleJPlayerReady();
-			},
 			playing: function(e) {
 				Hanasu.prototype.setPlayStatus(true);
 				if (!Hanasu.prototype.stationTimer.isActive) {
