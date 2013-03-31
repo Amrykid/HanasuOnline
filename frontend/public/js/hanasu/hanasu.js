@@ -124,7 +124,7 @@ var Hanasu = (function () {
         if(station.PlaylistExt == '') {
             Hanasu.prototype._playStation(station, station.Stream);
         } else {
-            $.get("http://" + window.location.hostname + ":8888/firststream?station=" + Hanasu.prototype.CurrentStation.Name + '&callback=?', function (data) {
+            $.get("http://" + window.location.hostname + ":8888/firststream?station=" + station.Name + '&callback=?', function (data) {
                 Hanasu.prototype._playStation(station, data);
             });
         }

@@ -183,7 +183,7 @@ class Hanasu {
 		if (station.PlaylistExt == '') {
 			Hanasu.prototype._playStation(station, station.Stream); //Plays the station since it is not a playlist, but is a direct stream.
 		} else {
-			$.get("http://" + window.location.hostname + ":8888/firststream?station=" + Hanasu.prototype.CurrentStation.Name + '&callback=?', function(data){
+			$.get("http://" + window.location.hostname + ":8888/firststream?station=" + station.Name + '&callback=?', function(data){
 				//Fetches the playlist data and gets ready to parse it.
 			
 				//Too lazy to implement parser atm. Finds first stream in the playlist and uses that.
