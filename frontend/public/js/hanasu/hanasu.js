@@ -149,7 +149,10 @@ var Hanasu = (function () {
     Hanasu.prototype.updateSongInfo = function (song, artist, logo, notify) {
         if (typeof notify === "undefined") { notify = true; }
         if($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-            Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+            try  {
+                Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+            } catch (e) {
+            }
         }
         $("#songTitle").html(song);
         $("#artistName").html(artist);

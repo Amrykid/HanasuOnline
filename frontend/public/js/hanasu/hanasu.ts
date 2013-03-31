@@ -224,7 +224,10 @@ class Hanasu {
 	
 	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
 		if ($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-			Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+			try {
+				Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+			} catch (e) {
+			}
 		}
 	
 		$("#songTitle").html(song);
