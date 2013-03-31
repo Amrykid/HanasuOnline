@@ -103,6 +103,9 @@ class Hanasu {
 		});
 
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
+		$("#volumeControl").change(function() {
+			Hanasu.prototype.changeVolume($(this).val());
+		});
 		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
 	}
@@ -280,7 +283,7 @@ class Hanasu {
 		Hanasu.prototype.IsPlaying = value;
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-stop" : "icon-play"));
 		
-		Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
+		Hanasu.prototype.changeVolume($("#volumeControl").val());
 	}
 	
 	public changeVolume(volumeValue) {

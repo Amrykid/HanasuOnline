@@ -64,6 +64,9 @@ var Hanasu = (function () {
             }
         });
         $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
+        $("#volumeControl").change(function () {
+            Hanasu.prototype.changeVolume($(this).val());
+        });
         Hanasu.prototype.loadStations();
     };
     Hanasu.prototype.handleJPlayerReady = function () {
@@ -200,7 +203,7 @@ var Hanasu = (function () {
     Hanasu.prototype.setPlayStatus = function (value) {
         Hanasu.prototype.IsPlaying = value;
         $("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-stop" : "icon-play"));
-        Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
+        Hanasu.prototype.changeVolume($("#volumeControl").val());
     };
     Hanasu.prototype.changeVolume = function (volumeValue) {
         if(Hanasu.prototype.PlayerIsReady) {

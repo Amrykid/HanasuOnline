@@ -72,6 +72,6 @@ function toggleMuteCallback() {
 	if (Hanasu.prototype.muted) {
 		$('#volumeIcon').attr('class', 'icon-remove-sign');
 	} else {
-		updateVolumeIcon($('#volumeControl').attr('value'));
+		updateVolumeIcon($("#volumeControl").val());
 	}
 }
