@@ -108,9 +108,7 @@ var Hanasu = (function () {
         Hanasu.prototype.stationTimer.stop();
         Hanasu.prototype.setPlayStatus(false);
         Hanasu.prototype.clearSongInfo();
-        if(clearPlayer) {
-            $("#jquery_jplayer").jPlayer("clearMedia");
-        }
+        Hanasu.prototype.IsPlaying = false;
     };
     Hanasu.prototype.playStation = function (station) {
         if(!Hanasu.prototype.PlayerIsReady) {
