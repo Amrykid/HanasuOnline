@@ -283,7 +283,9 @@ class Hanasu {
 		Hanasu.prototype.IsPlaying = value;
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-stop" : "icon-play"));
 		
-		Hanasu.prototype.changeVolume($("#volumeControl").val());
+		if (!Hanasu.prototype.muted) {
+			Hanasu.prototype.changeVolume($("#volumeControl").val());
+		}
 	}
 	
 	public changeVolume(volumeValue) {
