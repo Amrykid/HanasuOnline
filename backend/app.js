@@ -1,4 +1,4 @@
-console.log("HanasuOnline Backend v0.1.6");
+console.log("HanasuOnline Backend v0.1.7");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');
@@ -18,7 +18,7 @@ server.start(function(path, query, response, callback) {
 			// Returns cached song/artist information for the specified station.
 			
 			if (query.station != null) { // Guessing.
-				var requestedStation = query.station.replace(' ','_');
+				var requestedStation = query.station.replace(' ','_').replace('\'', '');
 				console.log('Checking memcached...');
 				memcached.get(requestedStation, function(err, result) {
 					if (err) console.error(err); //if theres an error, report it.
