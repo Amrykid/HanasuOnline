@@ -217,7 +217,9 @@ var Hanasu = (function () {
                 }
             });
         }
-        window.updateVolumeIcon(volumeValue);
+        if(!Hanasu.prototype.muted) {
+            window.updateVolumeIcon(volumeValue);
+        }
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
         Hanasu.prototype.muted = !Hanasu.prototype.muted;

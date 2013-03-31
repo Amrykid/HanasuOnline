@@ -296,7 +296,9 @@ class Hanasu {
 				$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
 			}});
 		}
-		window.updateVolumeIcon(volumeValue);
+		if (!Hanasu.prototype.muted) {
+			window.updateVolumeIcon(volumeValue);
+		}
 	}
 	private toggleVolumeMuted() {
 		Hanasu.prototype.muted = !Hanasu.prototype.muted;
