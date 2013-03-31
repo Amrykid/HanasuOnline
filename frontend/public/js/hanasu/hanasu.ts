@@ -343,7 +343,7 @@ class Hanasu {
 		}
 	 }
 	
-	private obtainNotificationsPermission() {
+	public obtainNotificationsPermission() {
 		if (window.webkitNotifications) {
 			if (window.webkitNotifications.checkPermission() == 0) {
 				Hanasu.prototype.NotificationToggled = true;
@@ -365,6 +365,9 @@ class Hanasu {
 				});
 				return false;
 			}
+		} else if (navigator.mozNotification) {
+			// Firefox Mobile
+			return true;
 		}
 		return false;
 	}
@@ -398,7 +401,19 @@ class Hanasu {
 						tag: "sometag",
 				  });
 				}
+			} else if (navigator.mozNotification) {
+				// Firefox Mobile
+				var notification = navigator.mozNotification.createNotification(
+					title +
+					body);
+				notification.onclick = function () {
+					window.focus();
+					// notification.close(); Auto closed.
+				};
+				
+				notification.show();
 			}
+			
 		}
 	}
 	private sendSongChangeNotification(song: string, artist: string, logo: string = 'img/square.png') {

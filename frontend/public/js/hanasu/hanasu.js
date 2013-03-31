@@ -273,6 +273,8 @@ var Hanasu = (function () {
                 });
                 return false;
             }
+        } else if(navigator.mozNotification) {
+            return true;
         }
         return false;
     };
@@ -301,6 +303,12 @@ var Hanasu = (function () {
                         tag: "sometag"
                     });
                 }
+            } else if(navigator.mozNotification) {
+                var notification = navigator.mozNotification.createNotification(title + body);
+                notification.onclick = function () {
+                    window.focus();
+                };
+                notification.show();
             }
         }
     };

@@ -22,6 +22,10 @@ $(function () {
 				$('#notiToggle').html("Enable Notifications");
 				Hanasu.prototype.NotificationToggled = false;
 			}
+		} else if (navigator.mozNotification) {
+			// Firefox Mobile
+			$('#notiToggle').html("Disable Notifications");
+			Hanasu.prototype.NotificationToggled = true;
 		}
 	}, 1); //wait for the dom to load.
 });
@@ -44,7 +48,7 @@ $('#notiToggle').click(function(){
 		Hanasu.prototype.NotificationToggled = false;
 		$(this).html("Enable Notifications");
 	} else {
-		window.webkitNotifications.requestPermission();
+		Hanasu.prototype.obtainNotificationsPermission();
 		Hanasu.prototype.NotificationToggled = true;
 		$(this).html("Disable Notifications");
 	};
