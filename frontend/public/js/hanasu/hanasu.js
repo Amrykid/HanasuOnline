@@ -296,7 +296,7 @@ var Hanasu = (function () {
     };
     Hanasu.prototype.sendNotification = function (img, title, body) {
         if(Hanasu.prototype.NotificationToggled) {
-            if(window.webNotifications) {
+            if(window.webkitNotifications) {
                 if(window.webkitNotifications.checkPermission() == 0) {
                     var notification = window.webkitNotifications.createNotification(img, title, body);
                     notification.onclick = function () {
