@@ -100,7 +100,6 @@ var Hanasu = (function () {
                     $("#stations").append(stationHtml);
                 }
             });
-            Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4];
         });
     };
     Hanasu.prototype.stopStation = function (clearPlayer) {

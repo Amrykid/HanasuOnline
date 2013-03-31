@@ -153,8 +153,6 @@ class Hanasu {
 				
 			});
 			
-			//TODO: Remove this line below.
-			Hanasu.prototype.CurrentStation = Hanasu.prototype.Stations[4]; //Until we get stations display on the page, pick one for debugging use.
 		});
 	}
 	
