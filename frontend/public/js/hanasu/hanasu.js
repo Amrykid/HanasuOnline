@@ -137,11 +137,11 @@ var Hanasu = (function () {
         }
         Hanasu.prototype.CurrentStation = station;
         Hanasu.prototype.currentStationStream = stream;
+        $(Hanasu.prototype.Player).jPlayer("clearMedia");
         $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
         $(Hanasu.prototype.Player).jPlayer("setMedia", {
             mp3: stream
-        });
-        $(Hanasu.prototype.Player).jPlayer("play");
+        }).jPlayer("play");
     };
     Hanasu.prototype.updateSongInfo = function (song, artist, logo, notify) {
         if (typeof notify === "undefined") { notify = true; }

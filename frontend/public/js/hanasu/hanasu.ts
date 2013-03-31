@@ -207,9 +207,11 @@ class Hanasu {
 		
 		Hanasu.prototype.currentStationStream = stream;
 		
+		$(Hanasu.prototype.Player).jPlayer("clearMedia");
+		
 		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
-		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }); //Loads the stream.
-		$(Hanasu.prototype.Player).jPlayer("play"); //Starts playing the stream.
+		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }) //Loads the stream.
+			.jPlayer("play"); //Starts playing the stream.
 	}
 	
 	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
