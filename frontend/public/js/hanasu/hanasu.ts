@@ -294,6 +294,7 @@ class Hanasu {
 		} else {
 			$(Hanasu.prototype.Player).jPlayer("unmute")
 		}
+		window.toggleMuteCallback();
 	 }
 	 
 	private getFirstStreamFromStationPlaylist(data: string, station: Station) {

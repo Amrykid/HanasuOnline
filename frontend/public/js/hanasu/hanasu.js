@@ -212,6 +212,7 @@ var Hanasu = (function () {
         } else {
             $(Hanasu.prototype.Player).jPlayer("unmute");
         }
+        window.toggleMuteCallback();
     };
     Hanasu.prototype.getFirstStreamFromStationPlaylist = function (data, station) {
         switch(station.PlaylistExt) {
