@@ -203,14 +203,35 @@ var Hanasu = (function () {
         Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
     };
     Hanasu.prototype.changeVolume = function (volumeValue) {
-        $("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
+        if(Hanasu.prototype.PlayerIsReady) {
+            $("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
+        } else {
+            $("#jquery_jplayer").jPlayer({
+                ready: function () {
+                    $("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
+                }
+            });
+        }
+        window.updateVolumeIcon(volumeValue);
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
         Hanasu.prototype.muted = !Hanasu.prototype.muted;
-        if(Hanasu.prototype.muted) {
-            $(Hanasu.prototype.Player).jPlayer("mute");
+        if(Hanasu.prototype.PlayerIsReady) {
+            if(Hanasu.prototype.muted) {
+                $(Hanasu.prototype.Player).jPlayer("mute");
+            } else {
+                $(Hanasu.prototype.Player).jPlayer("unmute");
+            }
         } else {
-            $(Hanasu.prototype.Player).jPlayer("unmute");
+            $("#jquery_jplayer").jPlayer({
+                ready: function () {
+                    if(Hanasu.prototype.muted) {
+                        $(Hanasu.prototype.Player).jPlayer("mute");
+                    } else {
+                        $(Hanasu.prototype.Player).jPlayer("unmute");
+                    }
+                }
+            });
         }
         window.toggleMuteCallback();
     };
