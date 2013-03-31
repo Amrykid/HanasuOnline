@@ -1,4 +1,4 @@
-console.log("HanasuOnline Backend v0.1.3");
+console.log("HanasuOnline Backend v0.1.4");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');
@@ -38,6 +38,7 @@ server.start(function(path, query, response, callback) {
 											break;
 										}
 										case '.m3u': {
+											parser_func = playlist.get_stream_m3u;
 											break;
 										}
 										case '.asx': {
