@@ -66,11 +66,12 @@ function updateVolumeIcon(volumeValue) {
 		$('#volumeIcon').attr('class', 'icon-volume-up');
 	}
 }
-$('#volumeControl').change(function() {
+window.toggleMuteCallback = toggleMuteCallback;
+function toggleMuteCallback() {
 	if (!Hanasu.prototype.muted) {
-		updateVolumeIcon($(this).attr("value"));
+		updateVolumeIcon($(this).val());
 	}
-});
+}
 
 $("#volumeIcon").click(function() {
 	if (Hanasu.prototype.muted) {
