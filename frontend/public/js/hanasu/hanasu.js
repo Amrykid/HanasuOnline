@@ -17,9 +17,6 @@ var Hanasu = (function () {
             autostart: false
         });
         $("#jquery_jplayer").jPlayer({
-            ready: function () {
-                handleJPlayerReady();
-            },
             swfPath: "js/jplayer",
             solution: "flash, html",
             supplied: "mp3",
@@ -41,7 +38,7 @@ var Hanasu = (function () {
         });
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
         $("#jquery_jplayer").bind($.jPlayer.event.ready, function (event) {
-            handleJPlayerReady();
+            Hanasu.prototype.handleJPlayerReady();
         });
         $("#jquery_jplayer").bind($.jPlayer.event.play, function (event) {
             Hanasu.prototype.setPlayStatus(true);
