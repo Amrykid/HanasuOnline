@@ -68,7 +68,7 @@ function updateVolumeIcon(volumeValue) {
 }
 $('#volumeControl').change(function() {
 	if (!Hanasu.prototype.muted) {
-		updateVolumeIcon($('#volumeControl').attr('value'));
+		updateVolumeIcon($(this).attr("value"));
 	}
 });
 
