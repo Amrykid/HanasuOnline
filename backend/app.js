@@ -1,4 +1,4 @@
-console.log("HanasuOnline Backend v0.1.8");
+console.log("HanasuOnline Backend v0.1.9");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');
@@ -142,6 +142,8 @@ server.start(function(path, query, response, callback) {
 								callback('', false);
 							}
 						});
+					} else {
+						callback(result, true);
 					}
 				});
 			} else {
