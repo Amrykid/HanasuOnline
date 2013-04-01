@@ -116,38 +116,40 @@ server.start(function(path, query, response, callback) {
 					if (err) console.error(err); //if theres an error, report it.
 					
 					if (result == 'undefined' || result == false) {
-					getStation(query.station, function(station, serverurl) {
-						try {
-							if (station.ExplicitExtension != 'undefined' && station.ServerType == 'Shoutcast') {			
-								var parser_func = null;
-								switch(station.ExplicitExtension) {
-									case '.pls': {
-										parser_func = playlist.get_stream_pls;
-										break;
+						getStation(query.station, function(station, serverurl) {
+							try {
+								if (station.ExplicitExtension != 'undefined' && station.ServerType == 'Shoutcast') {			
+									var parser_func = null;
+									switch(station.ExplicitExtension) {
+										case '.pls': {
+											parser_func = playlist.get_stream_pls;
+											break;
+										}
+										case '.m3u': {
+											parser_func = playlist.get_stream_m3u;
+											break;
+										}
 									}
-									case '.m3u': {
-										parser_func = playlist.get_stream_m3u;
-										break;
-									}
-								}
-								
-								parser_func(serverurl, function(stream) {
-									memcached.set('firststation_' + query.station, stream, 86400, function( err, result ){
+									
+									parser_func(serverurl, function(stream) {
+										memcached.set('firststation_' + query.station, stream, 86400, function( err, result ){
+										});
+									
+										callback(stream, true);
 									});
-								
-									callback(stream, true);
-								});
+								}
+							} catch (e) {
+								callback('', false);
 							}
-						} catch (e) {
-							callback('', false);
-						}
-					});
+						});
+					}
+				});
 			} else {
 				callback('', false);
 			}
 			break;
 		}
-		case '/favicon.ico': {
+		default: { //case '/favicon.ico': {
 			callback('', false);
 			break;
 		}
