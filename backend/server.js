@@ -9,7 +9,7 @@ function start(handleRequest) {
 	
 		handleRequest(path, query, response, function(res, ok) {
 			console.log(ok);
-			if (ok) {
+			if (ok || res != '') {
 				response.writeHead(200, {"Content-Type": "text/plain", "Access-Control-Allow-Origin": "*"});
 				response.write(res);
 			} else {
