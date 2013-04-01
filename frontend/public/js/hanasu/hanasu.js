@@ -24,7 +24,9 @@ var Hanasu = (function () {
             error: function (event) {
                 switch(event.jPlayer.error.type) {
                     case 'e_url': {
-                        alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+                        if(!event.jPlayer.paused) {
+                            alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+                        }
                         break;
                     }
                     default: {
