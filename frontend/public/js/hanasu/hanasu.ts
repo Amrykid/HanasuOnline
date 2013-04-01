@@ -53,7 +53,7 @@ class Hanasu {
 				{
 					case 'e_url':
 					{
-						if (!event.jPlayer.paused) {
+						if (!event.jPlayer.status.paused) {
 							alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
 						}
 						break;
