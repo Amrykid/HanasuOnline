@@ -18,7 +18,7 @@ server.start(function(path, query, response, callback) {
 			// Returns cached song/artist information for the specified station.
 			
 			if (query.station != null) { // Guessing.
-				var requestedStation = query.station.replace(' ','_').replace('\'', '');
+				var requestedStation = filterStationName(query.station);
 				console.log('Checking memcached...');
 				memcached.get(requestedStation, function(err, result) {
 					if (err) console.error(err); //if theres an error, report it.
@@ -112,7 +112,8 @@ server.start(function(path, query, response, callback) {
 			// Example: /firststream?station=XAMFM
 			
 			if (query.station != null) {
-				memcached.get('firststation_' + query.station, function(err, result) {
+				var requestedStation = filterStationName(query.station);
+				memcached.get('firststation_' + requestedStation, function(err, result) {
 					if (err) console.error(err); //if theres an error, report it.
 					
 					if (result == 'undefined' || result == false) {
@@ -132,7 +133,7 @@ server.start(function(path, query, response, callback) {
 									}
 									
 									parser_func(serverurl, function(stream) {
-										memcached.set('firststation_' + query.station, stream, 86400, function( err, result ){
+										memcached.set('firststation_' + requestedStation, stream, 86400, function( err, result ){
 										});
 									
 										callback(stream, true);
@@ -177,4 +178,7 @@ function getStation(name, callback) {
 			callback(station, serverurl);
 		});
 	});
+}
+function filterStationName(name) {
+	return name.replace(' ','_').replace('\'', '').replace('"', '');
 }
