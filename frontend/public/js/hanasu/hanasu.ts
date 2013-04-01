@@ -7,35 +7,30 @@
 		JStoker (https://github.com/jstoker)
 */
 
-
 declare var $;
 
-$(document).ready(function () {
-	var hanasu = new Hanasu();
-	hanasu.initializeApplication();
-
-	self.App = hanasu;
-});
-
 // main Application class.
-class Hanasu {
+class Hanasu {	
+	
 	public IsPlaying: bool;
 	private Player: any;
 	public Stations: any;
 	private muted: bool;
 	private stationTimer: any;
 	private PlayerIsReady: bool;
+	private IsMobile: bool;
 	
 	private currentStationStream: string;
 	public CurrentStation: Station;	
 	public NotificationToggled: bool;
 	
-	public initializeApplication() {
+	public initializeApplication(isMobile: bool = false) {
 		//any important starting procedures, we can put here.
 		
 		Hanasu.prototype.muted = false;
 		Hanasu.prototype.IsPlaying = false;
 		Hanasu.prototype.PlayerIsReady = false;
+		Hanasu.prototype.IsMobile = isMobile;
 
 		//initalize station timer
 		Hanasu.prototype.stationTimer = $.timer(function () {
@@ -43,30 +38,43 @@ class Hanasu {
 		});
 		Hanasu.prototype.stationTimer.set({ time: 10000, autostart: false });
 		
-		$("#jquery_jplayer").jPlayer({
-			swfPath: "js/jplayer",
-			solution:"flash, html",
-			supplied: "mp3",
-			wmode: "window",
-			error: function(event) {
-				switch(event.jPlayer.error.type)
-				{
-					case 'e_url':
+		if (!Hanasu.prototype.IsMobile) {
+			$("#jquery_jplayer").jPlayer({
+				swfPath: "js/jplayer",
+				solution:"flash, html",
+				supplied: "mp3",
+				wmode: "window",
+				error: function(event) {
+					switch(event.jPlayer.error.type)
 					{
-						alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
-						break;
+						case 'e_url':
+						{
+							alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+							break;
+						}
+						default:
+						{
+							alert(event.jPlayer.error.type);
+							break;
+						}
 					}
-					default:
-					{
-						alert(event.jPlayer.error.type);
-						break;
-					}
+					
+					Hanasu.prototype.setPlayStatus(false);
+					Hanasu.prototype.clearSongInfo();
 				}
-				
-				Hanasu.prototype.setPlayStatus(false);
-				Hanasu.prototype.clearSongInfo();
-			}
-		});
+			});
+		} else {
+			$("#jquery_jplayer").jPlayer({
+				swfPath: "js/jplayer",
+				solution:"html, flash",
+				supplied: "mp3",
+				wmode: "window",
+				error: function(event) {
+					Hanasu.prototype.setPlayStatus(false);
+					Hanasu.prototype.clearSongInfo();
+				}
+			});
+		}
 		Hanasu.prototype.Player = $("#jquery_jplayer")[0];
 		
 		$("#jquery_jplayer").bind($.jPlayer.event.ready, function(event) {
@@ -89,23 +97,26 @@ class Hanasu {
 			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
 		});
 						
-				
-		//handles when the play/pause button is clicked.
-		$("#controlPlayPause").click(function() {
-			if (Hanasu.prototype.IsPlaying) {
-				Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
-			} else {			
-				if (Hanasu.prototype.CurrentStation == null) {
-				} else {
-					Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation); // plays the last played station.
+		if (!Hanasu.prototype.IsMobile) {	
+			//handles when the play/pause button is clicked.
+			$("#controlPlayPause").click(function() {
+				if (Hanasu.prototype.IsPlaying) {
+					Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
+				} else {			
+					if (Hanasu.prototype.CurrentStation == null) {
+					} else {
+						Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation); // plays the last played station.
+					}
 				}
-			}
-		});
+			});
 
-		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
-		$("#volumeControl").change(function() {
-			Hanasu.prototype.changeVolume($(this).val());
-		});
+			$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
+			$("#volumeControl").change(function() {
+				Hanasu.prototype.changeVolume($(this).val());
+			});
+		} else {
+		
+		}
 		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
 	}
@@ -141,22 +152,44 @@ class Hanasu {
 					
 					Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat; //Adds the Station object to the Stations array.
 					
-					var stationHtml = $("<div></div>");
-					$(stationHtml).attr('class', 'station');
-					$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
-					$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
-					
-					var titles = $("<div></div>");
-					$(titles).attr('id', 'stationTitles');
-					$(titles).append('<h1>' + stat.Name + '</h1>');
-					$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
-					
-					
-					$(stationHtml).append(titles);
-					
-					$(stationHtml).click(function() {
-						Hanasu.prototype.playStation(stat);
-					});
+					var stationHtml = '';
+					if (!Hanasu.prototype.IsMobile) {
+						stationHtml = $("<div></div>");
+						$(stationHtml).attr('class', 'station');
+						$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+						$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+						
+						var titles = $("<div></div>");
+						$(titles).attr('id', 'stationTitles');
+						$(titles).append('<h1>' + stat.Name + '</h1>');
+						$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
+						
+						
+						$(stationHtml).append(titles);
+						
+						$(stationHtml).click(function() {
+							Hanasu.prototype.playStation(stat);
+						});
+					} else {
+						//<!--<li data-form="ui-btn-up-a" data-swatch="a" 
+						//	data-theme="a" class="ui-li ui-li-static ui-btn-up-a">Read-only list item</li>-->
+						stationHtml = $("<li></li>");
+						$(stationHtml).attr('data-form','ui-btn-up-a');
+						$(stationHtml).attr('data-switch','a');
+						$(stationHtml).attr('data-theme','a');
+						$(stationHtml).attr('class', 'ui-li ui-li-static ui-btn-up-a');
+						
+						//<div class="ui-btn-inner ui-li">
+						//<div class="ui-btn-text"><a href="#" class="ui-link-inherit">Linked list item
+						//</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div>
+						//$(stationHtml).append('<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="play" data-theme="a" data-disabled="false" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">' + stat.Name + '</span><span class="ui-icon ui-icon-star ui-icon-shadow">&nbsp;</span></span><button data-icon="star" data-theme="a" data-form="ui-btn-up-a" class="ui-btn-hidden" data-disabled="false">Button</button></div>');
+						//$(stationHtml).append('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div></div>');
+						$(stationHtml).append('<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+						
+						$(stationHtml).click(function() {
+							Hanasu.prototype.playStation(stat);
+						});
+					}
 					
 					$("#stations").append(stationHtml);
 				}
@@ -219,10 +252,14 @@ class Hanasu {
 		
 		$(Hanasu.prototype.Player).jPlayer("clearMedia");
 		
-		$(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
+		try {
+		 $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100); //Sets the volume to what was set by the user before hand.
+		} catch (ex) {
+		}
 		if (Hanasu.prototype.muted) {
 			$(Hanasu.prototype.Player).jPlayer("mute")
 		}
+		
 		$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }) //Loads the stream.
 			.jPlayer("play"); //Starts playing the stream.
 	}
@@ -297,7 +334,9 @@ class Hanasu {
 			}});
 		}
 		if (!Hanasu.prototype.muted) {
-			window.updateVolumeIcon(volumeValue);
+			if (window.updateVolumeIcon != 'undefined') {
+				window.updateVolumeIcon(volumeValue);
+			}
 		}
 	}
 	private toggleVolumeMuted() {
