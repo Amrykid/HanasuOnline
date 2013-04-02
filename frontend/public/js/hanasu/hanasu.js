@@ -119,12 +119,8 @@ var Hanasu = (function () {
                             Hanasu.prototype.playStation(stat);
                         });
                     } else {
-                        stationHtml = $("<li></li>");
-                        $(stationHtml).attr('data-form', 'ui-btn-up-a');
-                        $(stationHtml).attr('data-switch', 'a');
-                        $(stationHtml).attr('data-theme', 'a');
-                        $(stationHtml).attr('class', 'ui-li ui-li-static ui-btn-up-a');
-                        $(stationHtml).append('<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+                        stationHtml = $('');
+                        stationHtml = '<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
                         $(stationHtml).click(function () {
                             Hanasu.prototype.playStation(stat);
                         });

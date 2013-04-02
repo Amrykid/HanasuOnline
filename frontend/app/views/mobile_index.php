@@ -9,12 +9,12 @@
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
 	</head>
-	<body>
+	<body class="ui-mobile-viewport ui-overlay-a">
 		<div data-role="page" data-theme="a">
 			<div data-role="header" data-position="inline">
 				<h1>Hanasu</h1>
 			</div>
-			<div data-role="content" data-theme="a">
+			<div data-role="content" data-theme="a" role="main">
 				<ul id="stations" data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
 					<li data-role="list-divider" data-swatch="a" data-theme="a" data-form="ui-bar-a" role="heading" class="ui-li ui-li-divider ui-bar-a ui-first-child">Stations</li>
 				</ul>
