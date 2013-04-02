@@ -24,9 +24,7 @@ var Hanasu = (function () {
             error: function (event) {
                 switch(event.jPlayer.error.type) {
                     case 'e_url': {
-                        if(!event.jPlayer.status.paused) {
-                            alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
-                        }
+                        alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
                         break;
                     }
                     default: {
@@ -54,6 +52,9 @@ var Hanasu = (function () {
         });
         $("#jquery_jplayer").bind($.jPlayer.event.pause, function (event) {
             Hanasu.prototype.setPlayStatus(false);
+        });
+        $(window).on('beforeunload', function () {
+            $("#jquery_jplayer").jPlayer("destroy");
         });
         $("#controlPlayPause").click(function () {
             if(Hanasu.prototype.IsPlaying) {
