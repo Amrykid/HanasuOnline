@@ -53,3 +53,25 @@ $('#notiToggle').click(function(){
 		$(this).html("Disable Notifications");
 	};
 });
+
+window.updateVolumeIcon = updateVolumeIcon;
+function updateVolumeIcon(volumeValue) {
+	if (volumeValue == 0) {
+		$('#volumeIcon').attr('class', 'icon-remove-sign');
+	} else if (volumeValue < 33){
+		$('#volumeIcon').attr('class', 'icon-volume-off');
+	} else if (volumeValue < 66){
+		$('#volumeIcon').attr('class', 'icon-volume-down');
+	} else if (volumeValue >= 66){
+		$('#volumeIcon').attr('class', 'icon-volume-up');
+	}
+}
+
+window.toggleMuteCallback = toggleMuteCallback;
+function toggleMuteCallback() {
+	if (Hanasu.prototype.muted) {
+		$('#volumeIcon').attr('class', 'icon-remove-sign');
+	} else {
+		updateVolumeIcon($("#volumeControl").val());
+	}
+}

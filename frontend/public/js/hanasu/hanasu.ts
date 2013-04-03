@@ -83,12 +83,13 @@ class Hanasu {
 		});
 		
 		$("#jquery_jplayer").bind($.jPlayer.event.ended, function(event) {
-			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+			Hanasu.prototype.setPlayStatus(false);
 		});
 		$("#jquery_jplayer").bind($.jPlayer.event.pause, function(event) {
-			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+			Hanasu.prototype.setPlayStatus(false);
 		});
-						
+		
+		$(window).on('beforeunload', function(){ $("#jquery_jplayer").jPlayer("destroy"); });
 				
 		//handles when the play/pause button is clicked.
 		$("#controlPlayPause").click(function() {
@@ -101,8 +102,11 @@ class Hanasu {
 				}
 			}
 		});
-		
+
 		$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
+		$("#volumeControl").change(function() {
+			Hanasu.prototype.changeVolume($(this).val());
+		});
 		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
 	}
@@ -280,30 +284,42 @@ class Hanasu {
 		Hanasu.prototype.IsPlaying = value;
 		$("#controlPlayPause").attr("class", (Hanasu.prototype.IsPlaying ? "icon-stop" : "icon-play"));
 		
-		Hanasu.prototype.changeVolume($("#volumeControl")[0].value);
+		if (!Hanasu.prototype.muted) {
+			Hanasu.prototype.changeVolume($("#volumeControl").val());
+		}
 	}
 	
 	public changeVolume(volumeValue) {
-		if (volumeValue == 0) {
-			$('#volumeIcon').attr('class', 'icon-remove-sign');
-		} else if (volumeValue < 33){
-			$('#volumeIcon').attr('class', 'icon-volume-off');
-		} else if (volumeValue < 66){
-			$('#volumeIcon').attr('class', 'icon-volume-down');
-		} else if (volumeValue >= 66){
-			$('#volumeIcon').attr('class', 'icon-volume-up');
+		if (Hanasu.prototype.PlayerIsReady) {
+			$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
+		} else {
+			$("#jquery_jplayer").jPlayer({ ready: function() {
+				$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
+			}});
 		}
-		
-		$("#jquery_jplayer").jPlayer("volume", volumeValue / 100);
+		if (!Hanasu.prototype.muted) {
+			window.updateVolumeIcon(volumeValue);
+		}
 	}
 	private toggleVolumeMuted() {
 		Hanasu.prototype.muted = !Hanasu.prototype.muted;
-	
-		if (Hanasu.prototype.muted) {
-			$(Hanasu.prototype.Player).jPlayer("mute")
+		
+		if (Hanasu.prototype.PlayerIsReady) {
+			if (Hanasu.prototype.muted) {
+				$(Hanasu.prototype.Player).jPlayer("mute")
+			} else {
+				$(Hanasu.prototype.Player).jPlayer("unmute")
+			}
 		} else {
-			$(Hanasu.prototype.Player).jPlayer("unmute")
+			$("#jquery_jplayer").jPlayer({ ready: function() {
+				if (Hanasu.prototype.muted) {
+					$(Hanasu.prototype.Player).jPlayer("mute")
+				} else {
+					$(Hanasu.prototype.Player).jPlayer("unmute")
+				}
+			}});
 		}
+		window.toggleMuteCallback();
 	 }
 	 
 	private getFirstStreamFromStationPlaylist(data: string, station: Station) {
@@ -367,7 +383,7 @@ class Hanasu {
 	}
 	private sendNotification(img: string, title: string, body: string) {
 		if (Hanasu.prototype.NotificationToggled) {
-			if (window.webNotifications) {
+			if (window.webkitNotifications) {
 				if (window.webkitNotifications.checkPermission() == 0) {
 					var notification = window.webkitNotifications.createNotification(
 						img,
