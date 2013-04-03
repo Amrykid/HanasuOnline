@@ -9,6 +9,13 @@
 
 declare var $;
 
+$(document).ready(function () {
+	var hanasu = new Hanasu();
+	hanasu.initializeApplication();
+
+	self.App = hanasu;
+});
+
 // main Application class.
 class Hanasu {	
 	
@@ -91,22 +98,24 @@ class Hanasu {
 		});
 		
 		$("#jquery_jplayer").bind($.jPlayer.event.ended, function(event) {
-			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+			Hanasu.prototype.setPlayStatus(false);
 		});
 		$("#jquery_jplayer").bind($.jPlayer.event.pause, function(event) {
-			Hanasu.prototype.setPlayStatus(false); // doesn't work in chrome.
+			Hanasu.prototype.setPlayStatus(false);
 		});
 						
-		if (!Hanasu.prototype.IsMobile) {	
+		if (!Hanasu.prototype.IsMobile) {
+		
+			$(window).on('beforeunload', function(){ $("#jquery_jplayer").jPlayer("destroy"); });
+				
 			//handles when the play/pause button is clicked.
 			$("#controlPlayPause").click(function() {
 				if (Hanasu.prototype.IsPlaying) {
-					Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
+				Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
 				} else {			
 					if (Hanasu.prototype.CurrentStation == null) {
 					} else {
-						Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation); // plays the last played station.
-					}
+
 				}
 			});
 
