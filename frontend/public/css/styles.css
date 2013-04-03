@@ -474,7 +474,7 @@ footer #settingsButton:active {
   font-size: 16px;
   color: #393b42;
   border-radius: 2px;
-  background-color: #313b39;
+  background-color: #e13b39;
 }
 #paneCover .pane header .closePane:hover {
   cursor: pointer;
@@ -539,11 +539,11 @@ footer #settingsButton:active {
 }
 #paneCover #settingsPane #tab0 a {
   float: left;
-  color: #313b39;
+  color: #e13b39;
   text-decoration: none;
 }
 #paneCover #settingsPane #tab0 a:visited {
-  color: #313b39;
+  color: #e13b39;
   text-decoration: none;
 }
 #paneCover #settingsPane #tab0 a:visited:hover {
