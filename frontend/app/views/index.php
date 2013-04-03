@@ -33,13 +33,13 @@
 		</div>
 		<button id="settingsButton" class="icon-cog"></button>
 	</footer>
-	<div id="paneCover" class="pane">
-		<div class="pane" id="dialog">
+	<div id="paneCover" class="">
+		<!--<div class="pane" id="dialog">
 			<header>
 				<h1>Settings</h1>
 				<button class="closePane icon-remove"></button>
 			</header>
-		</div>
+		</div>-->
 		<div class="pane" id="settingsPane">
 			<header>
 				<h1>Settings</h1>
@@ -51,7 +51,7 @@
 				<li><a href="#tab0">About</a></li>
 			</ul>
 			<div class="tab" id="tab2">
-				<h2>Notifications:</h2><button id="notiToggle">Enable Notifications</button>
+				<h2>Notifications:</h2><button class="btn" id="notiToggle">Enable Notifications</button>
 			</div>
 			<div class="tab" id="tab1">Empty</div>
 			<div class="tab" id="tab0">

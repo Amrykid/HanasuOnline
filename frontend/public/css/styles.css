@@ -437,7 +437,7 @@ footer #settingsButton:active {
   font-size: 20px;
   color: #efefef;
 }
-#paneCover .pane header button {
+#paneCover .pane header .closePane {
   float: right;
   width: 21px;
   height: 21px;
@@ -451,9 +451,28 @@ footer #settingsButton:active {
   border-radius: 2px;
   background-color: #e13b39;
 }
-#paneCover .pane header button:hover {
+#paneCover .pane header .closePane:hover {
   cursor: pointer;
   background-color: #b52f2f;
+}
+#paneCover .pane header hr {
+  border: 1px solid #393b42;
+}
+#paneCover .pane h2 {
+  float: left;
+  margin: 10px 10px 0 0;
+  font-size: 18px;
+  line-height: 18px;
+}
+#paneCover .pane .btn {
+  padding: 8px;
+  background-color: #393b42;
+  border: none;
+  border-radius: 2px;
+  color: #efefef;
+}
+#paneCover .pane .btn:hover {
+  cursor: pointer;
 }
 #paneCover #settingsPane {
   display: none;
@@ -485,32 +504,6 @@ footer #settingsButton:active {
   font-size: 18px;
   text-decoration: none;
 }
-#paneCover #settingsPane .tab {
-  float: right;
-  width: 350px;
-  height: 329px;
-  padding: 10px;
-}
-#paneCover #settingsPane h2 {
-  float: left;
-  margin: 10px 10px 0 0;
-  font-size: 18px;
-  line-height: 18px;
-}
-#paneCover #settingsPane button {
-  float: left;
-  padding: 8px;
-  background-color: #393b42;
-  border: none;
-  border-radius: 2px;
-  color: #efefef;
-}
-#paneCover #settingsPane button:hover {
-  cursor: pointer;
-}
-#paneCover #settingsPane hr {
-  border: 1px solid #393b42;
-}
 #paneCover #settingsPane #tab0 h2 {
   font-size: 28px;
 }
@@ -530,4 +523,16 @@ footer #settingsButton:active {
 }
 #paneCover #settingsPane #tab0 a:visited:hover {
   color: #b52f2f;
+}
+#settingsPane .tab {
+  float: right;
+  width: 350px;
+  height: 329px;
+  padding: 10px;
+}
+#settingsPane h2 {
+  margin: 10px 10px 0 0;
+}
+#settingsPane .btn {
+  float: left;
 }

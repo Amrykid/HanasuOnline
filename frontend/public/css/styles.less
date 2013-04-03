@@ -249,34 +249,49 @@ footer #settingsButton{
 
 #paneCover .pane{
 	header{
-	height: 40px;
-	width: 500px;
-	background-color: @colour1;
-	border-bottom: 1px solid @colour2;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	h1{
-		float: left;
-		margin: 0 0 0 10px;
-		line-height: 40px;
-		font-size: 20px;
-		color: @white;}
-	button{
-		float: right;
-		width: 21px;
-		height: 21px;
-		margin: 10px 10px 0 0;
-		padding: 0;
-		border: none;
-		background: none;
-		text-align: center;
-		font-size: 16px;
-		color: @colour1;
-		border-radius: 2px;
-		background-color: @red;
-		&:hover{
-			cursor: pointer;
-			background-color: @redDark;}}}}
+		height: 40px;
+		width: 500px;
+		background-color: @colour1;
+		border-bottom: 1px solid @colour2;
+		border-top-left-radius: 5px;
+		border-top-right-radius: 5px;
+			h1{
+				float: left;
+				margin: 0 0 0 10px;
+				line-height: 40px;
+				font-size: 20px;
+				color: @white;}
+			.closePane{
+				float: right;
+				width: 21px;
+				height: 21px;
+				margin: 10px 10px 0 0;
+				padding: 0;
+				border: none;
+				background: none;
+				text-align: center;
+				font-size: 16px;
+				color: @colour1;
+				border-radius: 2px;
+				background-color: @red;
+				&:hover{
+					cursor: pointer;
+					background-color: @redDark;}}
+			hr{
+				border: 1px solid @colour1;}}
+		h2{
+			float: left;
+			margin: 10px 10px 0 0;
+			font-size: 18px;
+			line-height: 18px;}
+		.btn{
+			padding: 8px;
+			background-color: @colour1;
+			border: none;
+			border-radius: 2px;
+			color: @white;
+			&:hover{
+				cursor: pointer;}}}
 
 #paneCover #settingsPane{
 	display: none;
@@ -305,27 +320,6 @@ footer #settingsButton{
 			color: @colour2;
 			font-size: 18px;
 			text-decoration: none;}}
-	.tab{
-		float: right;
-		width: 350px;
-		height: 329px;
-		padding: 10px;}
-		h2{
-			float: left;
-			margin: 10px 10px 0 0;
-			font-size: 18px;
-			line-height: 18px;}
-		button{
-			float: left;
-			padding: 8px;
-			background-color: @colour1;
-			border: none;
-			border-radius: 2px;
-			color: @white;
-			&:hover{
-				cursor: pointer;}}
-		hr{
-			border: 1px solid @colour1;}
 	#tab0{
 		h2{
 			font-size: 28px;}
@@ -342,3 +336,14 @@ footer #settingsButton{
 				text-decoration: none;
 			&:hover{
 				color: @redDark;}}}}}
+
+#settingsPane{
+	.tab{
+		float: right;
+		width: 350px;
+		height: 329px;
+		padding: 10px;}
+		h2{
+			margin: 10px 10px 0 0;}
+		.btn{
+			float: left;}}
