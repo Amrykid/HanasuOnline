@@ -1,3 +1,8 @@
+$(document).ready(function () {
+    var hanasu = new Hanasu();
+    hanasu.initializeApplication();
+    self.App = hanasu;
+});
 var Hanasu = (function () {
     function Hanasu() { }
     Hanasu.prototype.initializeApplication = function (isMobile) {
@@ -64,13 +69,15 @@ var Hanasu = (function () {
             Hanasu.prototype.setPlayStatus(false);
         });
         if(!Hanasu.prototype.IsMobile) {
+            $(window).on('beforeunload', function () {
+                $("#jquery_jplayer").jPlayer("destroy");
+            });
             $("#controlPlayPause").click(function () {
                 if(Hanasu.prototype.IsPlaying) {
                     Hanasu.prototype.stopStation();
                 } else {
                     if(Hanasu.prototype.CurrentStation == null) {
                     } else {
-                        Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
                     }
                 }
             });
@@ -120,7 +127,7 @@ var Hanasu = (function () {
                         });
                     } else {
                         stationHtml = $('');
-                        stationHtml = '<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+                        stationHtml = '<li><a href="javascript:self.App.playStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
                         $(stationHtml).click(function () {
                             Hanasu.prototype.playStation(stat);
                         });
@@ -128,7 +135,18 @@ var Hanasu = (function () {
                     $("#stations").append(stationHtml);
                 }
             });
+            if(Hanasu.prototype.IsMobile) {
+                $("#stations").listview('refresh');
+            }
         });
+    };
+    Hanasu.prototype.getStationByName = function (name) {
+        for(var i = 0; i < Hanasu.prototype.Stations.length; i++) {
+            if(Hanasu.prototype.Stations[i].Name == name) {
+                return Hanasu.prototype.Stations[i];
+            }
+        }
+        return null;
     };
     Hanasu.prototype.stopStation = function (clearPlayer) {
         if (typeof clearPlayer === "undefined") { clearPlayer = true; }
