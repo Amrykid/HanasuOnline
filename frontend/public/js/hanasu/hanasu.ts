@@ -115,7 +115,7 @@ class Hanasu {
 				} else {			
 					if (Hanasu.prototype.CurrentStation == null) {
 					} else {
-
+					}
 				}
 			});
 
