@@ -68,7 +68,7 @@
 <script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script>
 <script type="text/javascript" src="js/jplayer/jquery.jplayer.min.js"></script>
 <script type="text/javascript" src="js/jquery.timer.js"></script>
-<script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/hanasu/hanasu.js"></script>
+<script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/html5slider.js"></script>
 </html>
