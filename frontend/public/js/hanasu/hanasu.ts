@@ -207,6 +207,9 @@ class Hanasu {
 				
 			});
 			
+			if (Hanasu.prototype.IsMobile) {
+				$("#stations").listview('refresh');
+			}
 		});
 	}
 	
