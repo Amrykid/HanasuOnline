@@ -195,7 +195,7 @@ class Hanasu {
 						//$(stationHtml).append('<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="play" data-theme="a" data-disabled="false" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">' + stat.Name + '</span><span class="ui-icon ui-icon-star ui-icon-shadow">&nbsp;</span></span><button data-icon="star" data-theme="a" data-form="ui-btn-up-a" class="ui-btn-hidden" data-disabled="false">Button</button></div>');
 						//$(stationHtml).append('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div></div>');
 						//$(stationHtml).append('<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
-						stationHtml = '<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+						stationHtml = '<li><a href="javascript:self.App.playStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
 						
 						$(stationHtml).click(function() {
 							Hanasu.prototype.playStation(stat);
@@ -211,6 +211,15 @@ class Hanasu {
 				$("#stations").listview('refresh');
 			}
 		});
+	}
+	
+	public getStationByName(name: string): Station {
+		for(var i = 0; i < Hanasu.prototype.Stations.length; i++) {
+			if (Hanasu.prototype.Stations[i].Name == name) {
+				return Hanasu.prototype.Stations[i];
+			}
+		}
+		return null;
 	}
 	
 	public stopStation(clearPlayer: bool = true) {
