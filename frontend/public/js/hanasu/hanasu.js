@@ -1,3 +1,8 @@
+$(document).ready(function () {
+    var hanasu = new Hanasu();
+    hanasu.initializeApplication();
+    self.App = hanasu;
+});
 var Hanasu = (function () {
     function Hanasu() { }
     Hanasu.prototype.initializeApplication = function (isMobile) {
@@ -64,13 +69,15 @@ var Hanasu = (function () {
             Hanasu.prototype.setPlayStatus(false);
         });
         if(!Hanasu.prototype.IsMobile) {
+            $(window).on('beforeunload', function () {
+                $("#jquery_jplayer").jPlayer("destroy");
+            });
             $("#controlPlayPause").click(function () {
                 if(Hanasu.prototype.IsPlaying) {
                     Hanasu.prototype.stopStation();
                 } else {
                     if(Hanasu.prototype.CurrentStation == null) {
                     } else {
-                        Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
                     }
                 }
             });
@@ -128,6 +135,9 @@ var Hanasu = (function () {
                     $("#stations").append(stationHtml);
                 }
             });
+            if(Hanasu.prototype.IsMobile) {
+                $("#stations").listview('refresh');
+            }
         });
     };
     Hanasu.prototype.stopStation = function (clearPlayer) {
