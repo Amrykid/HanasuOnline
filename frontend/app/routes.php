@@ -11,7 +11,13 @@
 |
 */
 
+include "\lib\Holmes\Holmes.php"; // YOLO
+
 Route::get('/', function()
 {
-	return View::make('index');
+	if (Holmes::is_mobile()) {
+		return View::make('mobile_index');
+	} else {
+		return View::make('index');
+	}
 });

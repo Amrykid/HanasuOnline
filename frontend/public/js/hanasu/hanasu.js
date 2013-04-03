@@ -1,14 +1,11 @@
-$(document).ready(function () {
-    var hanasu = new Hanasu();
-    hanasu.initializeApplication();
-    self.App = hanasu;
-});
 var Hanasu = (function () {
     function Hanasu() { }
-    Hanasu.prototype.initializeApplication = function () {
+    Hanasu.prototype.initializeApplication = function (isMobile) {
+        if (typeof isMobile === "undefined") { isMobile = false; }
         Hanasu.prototype.muted = false;
         Hanasu.prototype.IsPlaying = false;
         Hanasu.prototype.PlayerIsReady = false;
+        Hanasu.prototype.IsMobile = isMobile;
         Hanasu.prototype.stationTimer = $.timer(function () {
             Hanasu.prototype.retrieveCurrentStationData();
         });
@@ -16,26 +13,39 @@ var Hanasu = (function () {
             time: 10000,
             autostart: false
         });
-        $("#jquery_jplayer").jPlayer({
-            swfPath: "js/jplayer",
-            solution: "flash, html",
-            supplied: "mp3",
-            wmode: "window",
-            error: function (event) {
-                switch(event.jPlayer.error.type) {
-                    case 'e_url': {
-                        alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
-                        break;
+        if(!Hanasu.prototype.IsMobile) {
+            $("#jquery_jplayer").jPlayer({
+                swfPath: "js/jplayer",
+                solution: "flash, html",
+                supplied: "mp3",
+                wmode: "window",
+                error: function (event) {
+                    switch(event.jPlayer.error.type) {
+                        case 'e_url': {
+                            alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+                            break;
+                        }
+                        default: {
+                            alert(event.jPlayer.error.type);
+                            break;
+                        }
                     }
-                    default: {
-                        alert(event.jPlayer.error.type);
-                        break;
-                    }
+                    Hanasu.prototype.setPlayStatus(false);
+                    Hanasu.prototype.clearSongInfo();
                 }
-                Hanasu.prototype.setPlayStatus(false);
-                Hanasu.prototype.clearSongInfo();
-            }
-        });
+            });
+        } else {
+            $("#jquery_jplayer").jPlayer({
+                swfPath: "js/jplayer",
+                solution: "html, flash",
+                supplied: "mp3",
+                wmode: "window",
+                error: function (event) {
+                    Hanasu.prototype.setPlayStatus(false);
+                    Hanasu.prototype.clearSongInfo();
+                }
+            });
+        }
         Hanasu.prototype.Player = $("#jquery_jplayer")[0];
         $("#jquery_jplayer").bind($.jPlayer.event.ready, function (event) {
             Hanasu.prototype.handleJPlayerReady();
@@ -53,23 +63,23 @@ var Hanasu = (function () {
         $("#jquery_jplayer").bind($.jPlayer.event.pause, function (event) {
             Hanasu.prototype.setPlayStatus(false);
         });
-        $(window).on('beforeunload', function () {
-            $("#jquery_jplayer").jPlayer("destroy");
-        });
-        $("#controlPlayPause").click(function () {
-            if(Hanasu.prototype.IsPlaying) {
-                Hanasu.prototype.stopStation();
-            } else {
-                if(Hanasu.prototype.CurrentStation == null) {
+        if(!Hanasu.prototype.IsMobile) {
+            $("#controlPlayPause").click(function () {
+                if(Hanasu.prototype.IsPlaying) {
+                    Hanasu.prototype.stopStation();
                 } else {
-                    Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
+                    if(Hanasu.prototype.CurrentStation == null) {
+                    } else {
+                        Hanasu.prototype.playStation(Hanasu.prototype.CurrentStation);
+                    }
                 }
-            }
-        });
-        $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
-        $("#volumeControl").change(function () {
-            Hanasu.prototype.changeVolume($(this).val());
-        });
+            });
+            $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
+            $("#volumeControl").change(function () {
+                Hanasu.prototype.changeVolume($(this).val());
+            });
+        } else {
+        }
         Hanasu.prototype.loadStations();
     };
     Hanasu.prototype.handleJPlayerReady = function () {
@@ -94,18 +104,27 @@ var Hanasu = (function () {
                     stat.Format = $(this).find("Format").text();
                     stat.StationType = $(this).find("StationType").text();
                     Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
-                    var stationHtml = $("<div></div>");
-                    $(stationHtml).attr('class', 'station');
-                    $(stationHtml).append("<img src=\"" + stat.Logo + "\">");
-                    $(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
-                    var titles = $("<div></div>");
-                    $(titles).attr('id', 'stationTitles');
-                    $(titles).append('<h1>' + stat.Name + '</h1>');
-                    $(titles).append('<h2>Play this station.</h2>');
-                    $(stationHtml).append(titles);
-                    $(stationHtml).click(function () {
-                        Hanasu.prototype.playStation(stat);
-                    });
+                    var stationHtml = '';
+                    if(!Hanasu.prototype.IsMobile) {
+                        stationHtml = $("<div></div>");
+                        $(stationHtml).attr('class', 'station');
+                        $(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+                        $(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+                        var titles = $("<div></div>");
+                        $(titles).attr('id', 'stationTitles');
+                        $(titles).append('<h1>' + stat.Name + '</h1>');
+                        $(titles).append('<h2>Play this station.</h2>');
+                        $(stationHtml).append(titles);
+                        $(stationHtml).click(function () {
+                            Hanasu.prototype.playStation(stat);
+                        });
+                    } else {
+                        stationHtml = $('');
+                        stationHtml = '<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>';
+                        $(stationHtml).click(function () {
+                            Hanasu.prototype.playStation(stat);
+                        });
+                    }
                     $("#stations").append(stationHtml);
                 }
             });
@@ -147,7 +166,10 @@ var Hanasu = (function () {
         Hanasu.prototype.CurrentStation = station;
         Hanasu.prototype.currentStationStream = stream;
         $(Hanasu.prototype.Player).jPlayer("clearMedia");
-        $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+        try  {
+            $(Hanasu.prototype.Player).jPlayer("volume", $("#volumeControl")[0].value / 100);
+        } catch (ex) {
+        }
         if(Hanasu.prototype.muted) {
             $(Hanasu.prototype.Player).jPlayer("mute");
         }
@@ -221,7 +243,9 @@ var Hanasu = (function () {
             });
         }
         if(!Hanasu.prototype.muted) {
-            window.updateVolumeIcon(volumeValue);
+            if(window.updateVolumeIcon != 'undefined') {
+                window.updateVolumeIcon(volumeValue);
+            }
         }
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
