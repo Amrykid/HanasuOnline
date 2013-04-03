@@ -328,6 +328,31 @@ footer {
   border-bottom: 1px solid #292929;
   box-shadow: 0px 0px 4px #232323;
 }
+footer #historyButton {
+  display: block;
+  background: none;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background-color: #efefef;
+  border: none;
+  border-radius: 4px;
+  line-height: 40px;
+  text-align: center;
+  font-size: 17px;
+  color: #1e1f23;
+  float: left;
+  width: auto;
+  margin: 12px 0 0 20px;
+  padding: 0 8px;
+}
+footer #historyButton:hover {
+  cursor: pointer;
+  background-color: #bcbcbc;
+}
+footer #historyButton:active {
+  background-color: #878787;
+}
 footer #informationPaneToggle {
   position: absolute;
   bottom: 0;
@@ -423,8 +448,8 @@ footer #settingsButton:active {
   background-color: rgba(0, 0, 0, 0.8);
 }
 #paneCover .pane header {
+  width: 100%;
   height: 40px;
-  width: 500px;
   background-color: #393b42;
   border-bottom: 1px solid #1e1f23;
   border-top-left-radius: 5px;
@@ -449,7 +474,7 @@ footer #settingsButton:active {
   font-size: 16px;
   color: #393b42;
   border-radius: 2px;
-  background-color: #e13b39;
+  background-color: #313b39;
 }
 #paneCover .pane header .closePane:hover {
   cursor: pointer;
@@ -514,11 +539,11 @@ footer #settingsButton:active {
 }
 #paneCover #settingsPane #tab0 a {
   float: left;
-  color: #e13b39;
+  color: #313b39;
   text-decoration: none;
 }
 #paneCover #settingsPane #tab0 a:visited {
-  color: #e13b39;
+  color: #313b39;
   text-decoration: none;
 }
 #paneCover #settingsPane #tab0 a:visited:hover {
