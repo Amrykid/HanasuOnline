@@ -11,6 +11,7 @@
 			"app/database/seeds",
 			"app/tests/TestCase.php"
 		]
+
 	},
 	"scripts": {
 		"post-update-cmd": "php artisan optimize"
