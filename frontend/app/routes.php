@@ -11,7 +11,7 @@
 |
 */
 
-include "\lib\Holmes\Holmes.php"; // YOLO
+include __DIR__."/lib/Holmes/Holmes.php"; // YOLO
 
 Route::get('/', function()
 {
