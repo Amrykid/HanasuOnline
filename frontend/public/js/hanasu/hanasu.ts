@@ -113,7 +113,9 @@ class Hanasu {
 						
 		if (!Hanasu.prototype.IsMobile) {
 		
-			$(window).on('beforeunload', function(){ $("#jquery_jplayer").jPlayer("destroy"); });
+			$(window).on('beforeunload', function() { 
+				$("#jquery_jplayer").jPlayer("destroy");  //Closes the player so we get no errors while trying to leave.
+			});
 				
 			//handles when the play/pause button is clicked.
 			$("#controlPlayPause").click(function() {
