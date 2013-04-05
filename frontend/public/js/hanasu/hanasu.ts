@@ -149,6 +149,10 @@ class Hanasu {
 			} else {			
 				if (Hanasu.prototype.CurrentStation == null) {
 				} else {
+					if (!Hanasu.prototype.PlayerIsReady && Hanasu.prototype.Mobile) {
+						alert('Player is not ready yet!');
+					}
+				
 					$("#jquery_jplayer").jPlayer("play");
 				}
 			}
