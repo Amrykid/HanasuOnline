@@ -12,8 +12,11 @@ var Hanasu = (function () {
         Hanasu.prototype.PlayerIsReady = false;
         Hanasu.prototype.IsMobile = isMobile;
         if(typeof (Storage) !== "undefined") {
-            $("#volumeControl").val(localStorage.playerVolume);
-            $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+            try  {
+                $("#volumeControl").val(localStorage.playerVolume);
+                $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+            } catch (ex) {
+            }
         }
         Hanasu.prototype.stationTimer = $.timer(function () {
             Hanasu.prototype.retrieveCurrentStationData();

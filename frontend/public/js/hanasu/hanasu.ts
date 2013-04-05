@@ -42,8 +42,12 @@ class Hanasu {
 		if(typeof(Storage)!=="undefined")
 		{
 			// HTML5 Web Storage is supported. Grab what the user last set.		
-			$("#volumeControl").val(localStorage.playerVolume);
-			$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+			
+			try {
+				$("#volumeControl").val(localStorage.playerVolume);
+				$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+			} catch (ex) {
+			}
 		}
 
 		//initalize station timer
