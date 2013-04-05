@@ -5,6 +5,11 @@ $(function () {
 	$('#settingsPane').tabs();
 	
 	setTimeout(function() {
+		var hanasu = new Hanasu();
+		hanasu.initializeApplication();
+
+		self.App = hanasu;
+	
 		if(window.webkitNotifications) {
 			if (window.webkitNotifications.checkPermission() == 0) {
 				$('#notiToggle').html("Disable Notifications");

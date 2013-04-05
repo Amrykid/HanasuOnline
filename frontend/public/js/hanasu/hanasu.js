@@ -1,8 +1,3 @@
-$(document).ready(function () {
-    var hanasu = new Hanasu();
-    hanasu.initializeApplication();
-    self.App = hanasu;
-});
 var Hanasu = (function () {
     function Hanasu() { }
     Hanasu.prototype.initializeApplication = function (isMobile) {

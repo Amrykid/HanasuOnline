@@ -9,12 +9,12 @@
 
 declare var $;
 
-$(document).ready(function () {
-	var hanasu = new Hanasu();
-	hanasu.initializeApplication();
+// $(document).ready(function () {
+	// var hanasu = new Hanasu();
+	// hanasu.initializeApplication();
 
-	self.App = hanasu;
-});
+	// self.App = hanasu;
+// });
 
 // main Application class.
 class Hanasu {	
