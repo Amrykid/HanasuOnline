@@ -278,7 +278,7 @@ var Hanasu = (function () {
             });
         }
         if(!Hanasu.prototype.muted) {
-            if(window.updateVolumeIcon != 'undefined') {
+            if(window.updateVolumeIcon != null) {
                 window.updateVolumeIcon(volumeValue);
             }
         }
