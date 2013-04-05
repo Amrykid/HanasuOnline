@@ -74,6 +74,13 @@ var Hanasu = (function () {
         });
         if(!Hanasu.prototype.IsMobile) {
             $(window).on('beforeunload', function () {
+                if(typeof (Storage) !== "undefined") {
+                    if(Hanasu.prototype.IsPlaying) {
+                        localStorage.lastStation = Hanasu.prototype.CurrentStation.Name;
+                    } else {
+                        localStorage.lastStation = null;
+                    }
+                }
                 $("#jquery_jplayer").jPlayer("destroy");
             });
             $("#controlPlayPause").click(function () {
@@ -97,6 +104,9 @@ var Hanasu = (function () {
         Hanasu.prototype.PlayerIsReady = true;
         if(typeof (Storage) !== "undefined") {
             $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+            if(localStorage.lastStation != null) {
+                Hanasu.prototype.playStation(Hanasu.prototype.getStationByName(localStorage.lastStation));
+            }
         }
     };
     Hanasu.prototype.loadStations = function () {

@@ -114,6 +114,18 @@ class Hanasu {
 		if (!Hanasu.prototype.IsMobile) {
 		
 			$(window).on('beforeunload', function() { 
+				
+			if(typeof(Storage)!=="undefined") {
+				// HTML5 Web Storage is supported. Grab what the user last set.	
+				
+				// Save the station so it can resume playing when the user comes back.
+				if (Hanasu.prototype.IsPlaying) {	
+					localStorage.lastStation = Hanasu.prototype.CurrentStation.Name;
+				} else {
+					localStorage.lastStation = null;
+				}
+			}
+			
 				$("#jquery_jplayer").jPlayer("destroy");  //Closes the player so we get no errors while trying to leave.
 			});
 				
@@ -146,6 +158,13 @@ class Hanasu {
 		{
 			// HTML5 Web Storage is supported. Grab what the user last set.	
 			$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+			
+			
+			// Get the station so we can resume playing the user's last station.
+			if (localStorage.lastStation != null) {
+				Hanasu.prototype.playStation(
+					Hanasu.prototype.getStationByName(localStorage.lastStation));
+			}
 		}
 	}
 	
