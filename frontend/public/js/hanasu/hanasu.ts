@@ -38,6 +38,13 @@ class Hanasu {
 		Hanasu.prototype.IsPlaying = false;
 		Hanasu.prototype.PlayerIsReady = false;
 		Hanasu.prototype.IsMobile = isMobile;
+		
+		if(typeof(Storage)!=="undefined")
+		{
+			// HTML5 Web Storage is supported. Grab what the user last set.		
+			$("#volumeControl").val(localStorage.playerVolume);
+			$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+		}
 
 		//initalize station timer
 		Hanasu.prototype.stationTimer = $.timer(function () {
@@ -132,6 +139,12 @@ class Hanasu {
 	
 	private handleJPlayerReady() {
 		Hanasu.prototype.PlayerIsReady = true;
+		
+		if(typeof(Storage)!=="undefined")
+		{
+			// HTML5 Web Storage is supported. Grab what the user last set.	
+			$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+		}
 	}
 	
 	private loadStations() {
@@ -360,6 +373,12 @@ class Hanasu {
 			if (window.updateVolumeIcon != 'undefined') {
 				window.updateVolumeIcon(volumeValue);
 			}
+		}
+		
+		if(typeof(Storage)!=="undefined")
+		{
+			// HTML5 Web Storage is supported. Store the last volume set there.
+			localStorage.playerVolume = volumeValue;
 		}
 	}
 	private toggleVolumeMuted() {

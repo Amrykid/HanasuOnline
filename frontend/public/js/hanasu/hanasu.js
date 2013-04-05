@@ -11,6 +11,10 @@ var Hanasu = (function () {
         Hanasu.prototype.IsPlaying = false;
         Hanasu.prototype.PlayerIsReady = false;
         Hanasu.prototype.IsMobile = isMobile;
+        if(typeof (Storage) !== "undefined") {
+            $("#volumeControl").val(localStorage.playerVolume);
+            $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+        }
         Hanasu.prototype.stationTimer = $.timer(function () {
             Hanasu.prototype.retrieveCurrentStationData();
         });
@@ -91,6 +95,9 @@ var Hanasu = (function () {
     };
     Hanasu.prototype.handleJPlayerReady = function () {
         Hanasu.prototype.PlayerIsReady = true;
+        if(typeof (Storage) !== "undefined") {
+            $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+        }
     };
     Hanasu.prototype.loadStations = function () {
         $.get("http://" + window.location.hostname + ":8888/stations", function (data) {
@@ -264,6 +271,9 @@ var Hanasu = (function () {
             if(window.updateVolumeIcon != 'undefined') {
                 window.updateVolumeIcon(volumeValue);
             }
+        }
+        if(typeof (Storage) !== "undefined") {
+            localStorage.playerVolume = volumeValue;
         }
     };
     Hanasu.prototype.toggleVolumeMuted = function () {
