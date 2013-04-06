@@ -251,6 +251,12 @@ html, body{
 			color: @white;
 			line-height: 30px;
 			text-align: center;
+			&:hover{
+				cursor: pointer;
+			}
+			&:active{
+				background-color: @colour2;
+			}
 		}
 	}
 	#settingsButton{
@@ -373,7 +379,56 @@ html, body{
 	}
 }
 
-/*** FAQ Pane ****/
+/**** History Pane ****/
+
+#paneCover #historyPane{
+	width: 500px;
+	height: 400px;
+	margin: -200px 0 0 -250px;
+	h2{
+		position: relative;
+		float: left;
+		width: 100%;
+		font-size: 28px;
+		line-height: 28px;
+		color: @colour1;
+		&:after{
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			content: attr(data-time);
+			font-size: 18px;
+			line-height: 28px;
+		}
+	}
+	p{
+		float: left;
+		width: 100%;
+		font-size: 18px;
+		line-height: 48px;
+		color: @colour1;
+	}
+	a{
+		float: left;
+		color: @red;
+		text-decoration: none;
+		&:visited{
+			color: @red;
+			text-decoration: none;
+		}
+		&:hover{
+			color: @redDark;
+		}
+	}
+	.innerPane{
+		height: 340px;
+		overflow-y: scroll; 
+	}
+}
+
+
+/**** FAQ Pane ****/
 
 #paneCover #faqPane{
 	width: 500px;
