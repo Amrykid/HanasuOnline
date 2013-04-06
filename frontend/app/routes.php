@@ -15,9 +15,9 @@ include __DIR__."/lib/Holmes/Holmes.php"; // YOLO
 
 Route::get('/', function()
 {
-	if (Holmes::is_mobile()) {
+	/*if (Holmes::is_mobile()) {
 		return View::make('mobile_index');
-	} else {
-		return View::make('index');
-	}
+	} else {*/
+	return View::make('index');
+	//}
 });
