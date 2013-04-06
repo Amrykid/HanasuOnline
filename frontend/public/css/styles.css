@@ -163,7 +163,7 @@ body {
 }
 #header #songArea {
   position: absolute;
-  left: 30px;
+  left: 20px;
   float: left;
 }
 #header #songArea img {
@@ -250,9 +250,9 @@ body {
   float: right;
   width: 100px;
   height: 60px;
-  margin: 0 30px 0 20px;
+  margin: 0 20px 0 20px;
 }
-/**** Stations ****/
+/******** Stations ********/
 
 #stations {
   overflow-y: scroll;
@@ -274,7 +274,7 @@ body {
 }
 .station:hover {
   cursor: pointer;
-  box-shadow: 0px 0px 4px #1e1f23, 0px 0px 0 4px #1e1f23;
+  box-shadow: 0px 0px 0 6px #e13b39;
 }
 .station img {
   position: absolute;
@@ -316,9 +316,9 @@ body {
 .station #stationTitles h1 {
   font-weight: bold;
 }
-/**** Footer ****/
+/******** Footer ********/
 
-footer {
+#footer {
   position: fixed;
   bottom: 0;
   z-index: 5;
@@ -328,7 +328,11 @@ footer {
   border-bottom: 1px solid #292929;
   box-shadow: 0px 0px 4px #232323;
 }
-footer #historyButton {
+#footer nav {
+  float: left;
+  margin: 0 0 0 20px;
+}
+#footer nav button {
   display: block;
   background: none;
   width: 38px;
@@ -343,17 +347,17 @@ footer #historyButton {
   color: #1e1f23;
   float: left;
   width: auto;
-  margin: 12px 0 0 20px;
+  margin: 12px 20px 0 0;
   padding: 0 8px;
 }
-footer #historyButton:hover {
+#footer nav button:hover {
   cursor: pointer;
   background-color: #bcbcbc;
 }
-footer #historyButton:active {
+#footer nav button:active {
   background-color: #878787;
 }
-footer #informationPaneToggle {
+#footer #informationPaneToggle {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -369,14 +373,14 @@ footer #informationPaneToggle {
   font-size: 26px;
   color: #efefef;
 }
-footer #informationPaneToggle:hover {
+#footer #informationPaneToggle:hover {
   cursor: pointer;
   color: #bcbcbc;
 }
-footer #informationPaneToggle:active {
+#footer #informationPaneToggle:active {
   color: #1b1b1b;
 }
-footer #searchContainer {
+#footer #searchContainer {
   position: absolute;
   right: 0;
   bottom: 10px;
@@ -387,7 +391,7 @@ footer #searchContainer {
   background-color: #efefef;
   border-radius: 4px;
 }
-footer #searchContainer input {
+#footer #searchContainer input {
   float: left;
   width: 320px;
   height: 38px;
@@ -400,20 +404,21 @@ footer #searchContainer input {
   border-bottom-left-radius: 4px;
   -webkit-appearance: none;
 }
-footer #searchContainer button {
+#footer #searchContainer button {
   display: block;
   float: right;
-  width: 38px;
-  height: 38px;
+  width: 28px;
+  height: 28px;
+  margin: 5px;
   padding: 0;
   border: none;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  color: #1b1b1b;
+  border-radius: 4px;
+  background-color: #393b42;
+  color: #efefef;
   line-height: 30px;
   text-align: center;
 }
-footer #settingsButton {
+#footer #settingsButton {
   display: block;
   background: none;
   width: 38px;
@@ -429,14 +434,14 @@ footer #settingsButton {
   float: right;
   margin: 12px 20px 0 0;
 }
-footer #settingsButton:hover {
+#footer #settingsButton:hover {
   cursor: pointer;
   background-color: #bcbcbc;
 }
-footer #settingsButton:active {
+#footer #settingsButton:active {
   background-color: #878787;
 }
-/**** Settings ****/
+/******** Panes ********/
 
 #paneCover {
   display: none;
@@ -447,11 +452,19 @@ footer #settingsButton:active {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
 }
+#paneCover .pane {
+  display: none;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  background-color: #f1f1f1;
+  border-radius: 7px;
+  box-shadow: 0px 0px 0px 6px #1e1f23;
+}
 #paneCover .pane header {
   width: 100%;
   height: 40px;
   background-color: #393b42;
-  border-bottom: 1px solid #1e1f23;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -480,9 +493,6 @@ footer #settingsButton:active {
   cursor: pointer;
   background-color: #b52f2f;
 }
-#paneCover .pane header hr {
-  border: 1px solid #393b42;
-}
 #paneCover .pane h2 {
   float: left;
   margin: 10px 10px 0 0;
@@ -499,17 +509,90 @@ footer #settingsButton:active {
 #paneCover .pane .btn:hover {
   cursor: pointer;
 }
-#paneCover #settingsPane {
-  display: none;
-  position: relative;
+#paneCover .pane hr {
+  border: 1px dashed lightgray;
+}
+#paneCover .pane .innerPane {
+  padding: 10px;
+  color: #393b42;
+}
+/**** Dialog ****/
+
+.dialog {
+  width: 340px;
+  height: 160px;
+  margin: -80px 0 0 -170px;
+}
+.dialog p {
+  float: left;
+  width: 280px;
+  padding: 10px;
+  height: 60px;
+}
+.dialog footer {
+  float: left;
+  width: 100%;
+  height: 40px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.dialog footer .dialogButton {
+  float: right;
+  display: block;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 10px;
+  padding: 0 8px;
+  background-color: #393b42;
+  border: none;
+  border-radius: 2px;
+  color: #efefef;
+}
+.dialog footer .dialogButton:hover {
+  cursor: pointer;
+}
+/*** FAQ Pane ****/
+
+#paneCover #faqPane {
   width: 500px;
   height: 400px;
-  top: 50%;
-  left: 50%;
   margin: -200px 0 0 -250px;
-  background-color: #efefef;
-  border-radius: 5px;
-  box-shadow: 0px 0px 4px #232323;
+}
+#paneCover #faqPane h2 {
+  float: left;
+  width: 100%;
+  font-size: 28px;
+  color: #393b42;
+}
+#paneCover #faqPane p {
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  line-height: 48px;
+  color: #393b42;
+}
+#paneCover #faqPane a {
+  float: left;
+  color: #e13b39;
+  text-decoration: none;
+}
+#paneCover #faqPane a:visited {
+  color: #e13b39;
+  text-decoration: none;
+}
+#paneCover #faqPane a:hover {
+  color: #b52f2f;
+}
+#paneCover #faqPane .innerPane {
+  height: 340px;
+  overflow-y: scroll;
+}
+/**** Settings Pane ****/
+
+#paneCover #settingsPane {
+  width: 500px;
+  height: 400px;
+  margin: -200px 0 0 -250px;
 }
 #paneCover #settingsPane ul {
   float: left;
@@ -530,12 +613,14 @@ footer #settingsButton:active {
   text-decoration: none;
 }
 #paneCover #settingsPane #tab0 h2 {
+  color: #393b42;
   font-size: 28px;
 }
 #paneCover #settingsPane #tab0 p {
   float: left;
   font-size: 18px;
   line-height: 48px;
+  color: #393b42;
 }
 #paneCover #settingsPane #tab0 a {
   float: left;
@@ -546,7 +631,7 @@ footer #settingsButton:active {
   color: #e13b39;
   text-decoration: none;
 }
-#paneCover #settingsPane #tab0 a:visited:hover {
+#paneCover #settingsPane #tab0 a:hover {
   color: #b52f2f;
 }
 #settingsPane .tab {
