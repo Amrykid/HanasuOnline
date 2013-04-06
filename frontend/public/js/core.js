@@ -9,7 +9,7 @@ $(function () {
 		hanasu.initializeApplication();
 
 		self.App = hanasu;
-
+	
 		if(window.webkitNotifications) {
 			if (window.webkitNotifications.checkPermission() == 0) {
 				$('#notiToggle').html("Disable Notifications");
@@ -44,9 +44,24 @@ $('#settingsButton').click(function(){
 	$('#settingsPane').tabs();
 });
 
-$('.closePane, #settingsButton').click(function(){
-	$('#paneCover, #paneCover .pane').fadeToggle(200);
+$('#dialogExampleButton').click(function(){
+	$('#paneCover, .dialog').fadeToggle(200);
 });
+
+$('#settingsButton').click(function(){
+	$('#paneCover, #settingsPane').fadeToggle(200);
+});
+
+$('.closePane, .dialogButton').click(function(){
+	$('#paneCover, .pane').fadeOut(200);
+});
+
+
+function dialog(title,message){
+	$('.dialog header h1').html(title);
+	$('.dialog p').html(message);
+	$('#paneCover, .dialog').fadeToggle(200);
+}
 
 $('#notiToggle').click(function(){
 	if (Hanasu.prototype.NotificationToggled) {
