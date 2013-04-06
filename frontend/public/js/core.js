@@ -48,6 +48,10 @@ $('#faqButton').click(function(){
 	$('#paneCover, #faqPane').fadeToggle(200);
 });
 
+$('#historyButton').click(function(){
+	$('#paneCover, #historyPane').fadeToggle(200);
+});
+
 $('#settingsButton').click(function(){
 	$('#paneCover, #settingsPane').fadeToggle(200);
 });

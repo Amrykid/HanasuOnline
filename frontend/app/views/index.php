@@ -54,7 +54,7 @@
 				<button class="closePane icon-remove"></button>
 			</header>
 			<div class="innerPane">
-				<h2>SongTitle<span class="playedAt">12:00 am ( 00 Minutes Ago)</span></h2>
+				<h2 data-time="2:00 am">Song Title</h2>
 				<p>Song Description</p>
 				<hr />
 			</div>

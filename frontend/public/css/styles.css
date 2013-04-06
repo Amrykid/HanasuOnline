@@ -418,6 +418,9 @@ body {
   line-height: 30px;
   text-align: center;
 }
+#footer #searchContainer button:hover {
+  pointer: cursor;
+}
 #footer #settingsButton {
   display: block;
   background: none;
@@ -551,7 +554,54 @@ body {
 .dialog footer .dialogButton:hover {
   cursor: pointer;
 }
-/*** FAQ Pane ****/
+/**** History Pane ****/
+
+#paneCover #historyPane {
+  width: 500px;
+  height: 400px;
+  margin: -200px 0 0 -250px;
+}
+#paneCover #historyPane h2 {
+  position: relative;
+  float: left;
+  width: 100%;
+  font-size: 28px;
+  line-height: 28px;
+  color: #393b42;
+}
+#paneCover #historyPane h2:after {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: attr(data-time);
+  font-size: 18px;
+  line-height: 28px;
+}
+#paneCover #historyPane p {
+  float: left;
+  width: 100%;
+  font-size: 18px;
+  line-height: 48px;
+  color: #393b42;
+}
+#paneCover #historyPane a {
+  float: left;
+  color: #e13b39;
+  text-decoration: none;
+}
+#paneCover #historyPane a:visited {
+  color: #e13b39;
+  text-decoration: none;
+}
+#paneCover #historyPane a:hover {
+  color: #b52f2f;
+}
+#paneCover #historyPane .innerPane {
+  height: 340px;
+  overflow-y: scroll;
+}
+/**** FAQ Pane ****/
 
 #paneCover #faqPane {
   width: 500px;
