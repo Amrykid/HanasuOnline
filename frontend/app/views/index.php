@@ -48,6 +48,17 @@
 				<button class="dialogButton">Dismiss</button>
 			</footer>
 		</div>
+		<div class="pane" id="historyPane">
+			<header>
+				<h1>History</h1>
+				<button class="closePane icon-remove"></button>
+			</header>
+			<div class="innerPane">
+				<h2>SongTitle<span class="playedAt">12:00 am ( 00 Minutes Ago)</span></h2>
+				<p>Song Description</p>
+				<hr />
+			</div>
+		</div>
 		<div class="pane" id="faqPane">
 			<header>
 				<h1>FAQ</h1>
