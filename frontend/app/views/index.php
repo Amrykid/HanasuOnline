@@ -27,7 +27,11 @@
 	<div id="stations">
 	</div>
 	<footer id="footer">
-		<button id="historyButton">History</button>
+		<nav>
+			<button id="historyButton">History</button>
+			<button id="faqButton">FAQ</button>
+			<button id="dialogExampleButton">Dialog Example</button>
+		</nav>
 		<div id="searchContainer">
 			<input type="search" placeholder="Search"/>
 			<button class="icon-search"></button>
@@ -35,13 +39,16 @@
 		<button id="settingsButton" class="icon-cog"></button>
 	</footer>
 	<div id="paneCover" class="">
-		<!--<div class="pane dialog">
+		<div class="pane dialog">
 			<header>
 				<h1>Dialog</h1>
 				<button class="closePane icon-remove"></button>
 			</header>
-			<p>Something fucked up</p>
-		</div>-->
+			<p>Message</p>
+			<footer>
+				<button class="dialogButton">Dismiss</button>
+			</footer>
+		</div>
 		<div class="pane" id="settingsPane">
 			<header>
 				<h1>Settings</h1>
