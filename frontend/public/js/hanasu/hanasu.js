@@ -1,8 +1,3 @@
-$(document).ready(function () {
-    var hanasu = new Hanasu();
-    hanasu.initializeApplication();
-    self.App = hanasu;
-});
 var Hanasu = (function () {
     function Hanasu() { }
     Hanasu.prototype.initializeApplication = function (isMobile) {
@@ -11,6 +6,13 @@ var Hanasu = (function () {
         Hanasu.prototype.IsPlaying = false;
         Hanasu.prototype.PlayerIsReady = false;
         Hanasu.prototype.IsMobile = isMobile;
+        if(typeof (Storage) !== "undefined") {
+            try  {
+                $("#volumeControl").val(localStorage.playerVolume);
+                $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+            } catch (ex) {
+            }
+        }
         Hanasu.prototype.stationTimer = $.timer(function () {
             Hanasu.prototype.retrieveCurrentStationData();
         });
@@ -70,16 +72,14 @@ var Hanasu = (function () {
         });
         if(!Hanasu.prototype.IsMobile) {
             $(window).on('beforeunload', function () {
-                $("#jquery_jplayer").jPlayer("destroy");
-            });
-            $("#controlPlayPause").click(function () {
-                if(Hanasu.prototype.IsPlaying) {
-                    Hanasu.prototype.stopStation();
-                } else {
-                    if(Hanasu.prototype.CurrentStation == null) {
+                if(typeof (Storage) !== "undefined") {
+                    if(Hanasu.prototype.IsPlaying) {
+                        localStorage.lastStation = Hanasu.prototype.CurrentStation.Name;
                     } else {
+                        localStorage.lastStation = null;
                     }
                 }
+                $("#jquery_jplayer").jPlayer("destroy");
             });
             $("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted);
             $("#volumeControl").change(function () {
@@ -87,10 +87,29 @@ var Hanasu = (function () {
             });
         } else {
         }
+        $("#controlPlayPause").click(function () {
+            if(Hanasu.prototype.IsPlaying) {
+                Hanasu.prototype.stopStation();
+            } else {
+                if(Hanasu.prototype.CurrentStation == null) {
+                } else {
+                    if(!Hanasu.prototype.PlayerIsReady && Hanasu.prototype.Mobile) {
+                        alert('Player is not ready yet!');
+                    }
+                    $("#jquery_jplayer").jPlayer("play");
+                }
+            }
+        });
         Hanasu.prototype.loadStations();
     };
     Hanasu.prototype.handleJPlayerReady = function () {
         Hanasu.prototype.PlayerIsReady = true;
+        if(typeof (Storage) !== "undefined") {
+            $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+            if(localStorage.lastStation != null) {
+                Hanasu.prototype.playStation(Hanasu.prototype.getStationByName(localStorage.lastStation));
+            }
+        }
     };
     Hanasu.prototype.loadStations = function () {
         $.get("http://" + window.location.hostname + ":8888/stations", function (data) {
@@ -127,7 +146,7 @@ var Hanasu = (function () {
                         });
                     } else {
                         stationHtml = $('');
-                        stationHtml = '<li><a href="javascript:self.App.playStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
+                        stationHtml = '<li><a href="javascript:self.App.setStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
                         $(stationHtml).click(function () {
                             Hanasu.prototype.playStation(stat);
                         });
@@ -147,6 +166,37 @@ var Hanasu = (function () {
             }
         }
         return null;
+    };
+    Hanasu.prototype.setStation = function (station) {
+        var wasPlaying = false;
+        if(Hanasu.prototype.IsMobile) {
+            if(Hanasu.prototype.IsPlaying) {
+                Hanasu.prototype.stopStation(true);
+                wasPlaying = true;
+            }
+            if(station.PlaylistExt == '') {
+                $(Hanasu.prototype.Player).jPlayer("setMedia", {
+                    mp3: station.Stream
+                });
+            } else {
+                $.get("http://" + window.location.hostname + ":8888/firststream?station=" + station.Name + '&callback=?', function (data) {
+                    if(wasPlaying) {
+                        Hanasu.prototype._playStation(station, data);
+                    } else {
+                        var stream = data;
+                        if(station.ServerType.toLowerCase() == 'shoutcast') {
+                            if(!stream.endsWith("/")) {
+                                stream += "/";
+                            }
+                            stream += ";stream/1";
+                        }
+                        $(Hanasu.prototype.Player).jPlayer("setMedia", {
+                            mp3: stream
+                        });
+                    }
+                });
+            }
+        }
     };
     Hanasu.prototype.stopStation = function (clearPlayer) {
         if (typeof clearPlayer === "undefined") { clearPlayer = true; }
@@ -261,9 +311,12 @@ var Hanasu = (function () {
             });
         }
         if(!Hanasu.prototype.muted) {
-            if(window.updateVolumeIcon != 'undefined') {
+            if(window.updateVolumeIcon != null) {
                 window.updateVolumeIcon(volumeValue);
             }
+        }
+        if(typeof (Storage) !== "undefined") {
+            localStorage.playerVolume = volumeValue;
         }
     };
     Hanasu.prototype.toggleVolumeMuted = function () {

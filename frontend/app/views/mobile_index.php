@@ -8,11 +8,14 @@
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.0/jquery.mobile.structure-1.3.0.min.css" />
 		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script src="http://code.jquery.com/mobile/1.3.0/jquery.mobile-1.3.0.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/fonts.css">
+		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	</head>
 	<body class="ui-mobile-viewport ui-overlay-a">
 		<div data-role="page" data-theme="a">
 			<div data-role="header" data-position="inline">
 				<h1>Hanasu</h1>
+				<button id="controlPlayPause" class="icon-play"></button>
 			</div>
 			<div data-role="content" data-theme="a" role="main">
 				<ul id="stations" data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">

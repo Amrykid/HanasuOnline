@@ -44,24 +44,9 @@ $('#settingsButton').click(function(){
 	$('#settingsPane').tabs();
 });
 
-$('#dialogExampleButton').click(function(){
-	$('#paneCover, .dialog').fadeToggle(200);
+$('.closePane, #settingsButton').click(function(){
+	$('#paneCover, #paneCover .pane').fadeToggle(200);
 });
-
-$('#settingsButton').click(function(){
-	$('#paneCover, #settingsPane').fadeToggle(200);
-});
-
-$('.closePane, .dialogButton').click(function(){
-	$('#paneCover, .pane').fadeOut(200);
-});
-
-
-function dialog(title,message){
-	$('.dialog header h1').html(title);
-	$('.dialog p').html(message);
-	$('#paneCover, .dialog').fadeToggle(200);
-}
 
 $('#notiToggle').click(function(){
 	if (Hanasu.prototype.NotificationToggled) {

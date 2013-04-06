@@ -9,12 +9,12 @@
 
 declare var $;
 
-$(document).ready(function () {
-	var hanasu = new Hanasu();
-	hanasu.initializeApplication();
+// $(document).ready(function () {
+	// var hanasu = new Hanasu();
+	// hanasu.initializeApplication();
 
-	self.App = hanasu;
-});
+	// self.App = hanasu;
+// });
 
 // main Application class.
 class Hanasu {	
@@ -38,6 +38,17 @@ class Hanasu {
 		Hanasu.prototype.IsPlaying = false;
 		Hanasu.prototype.PlayerIsReady = false;
 		Hanasu.prototype.IsMobile = isMobile;
+		
+		if(typeof(Storage)!=="undefined")
+		{
+			// HTML5 Web Storage is supported. Grab what the user last set.		
+			
+			try {
+				$("#volumeControl").val(localStorage.playerVolume);
+				$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+			} catch (ex) {
+			}
+		}
 
 		//initalize station timer
 		Hanasu.prototype.stationTimer = $.timer(function () {
@@ -106,18 +117,22 @@ class Hanasu {
 						
 		if (!Hanasu.prototype.IsMobile) {
 		
-			$(window).on('beforeunload', function(){ $("#jquery_jplayer").jPlayer("destroy"); });
+			$(window).on('beforeunload', function() { 
 				
-			//handles when the play/pause button is clicked.
-			$("#controlPlayPause").click(function() {
-				if (Hanasu.prototype.IsPlaying) {
-				Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
-				} else {			
-					if (Hanasu.prototype.CurrentStation == null) {
-					} else {
-					}
+			if(typeof(Storage)!=="undefined") {
+				// HTML5 Web Storage is supported. Grab what the user last set.	
+				
+				// Save the station so it can resume playing when the user comes back.
+				if (Hanasu.prototype.IsPlaying) {	
+					localStorage.lastStation = Hanasu.prototype.CurrentStation.Name;
+				} else {
+					localStorage.lastStation = null;
 				}
+			}
+			
+				$("#jquery_jplayer").jPlayer("destroy");  //Closes the player so we get no errors while trying to leave.
 			});
+				
 
 			$("#volumeIcon").click(Hanasu.prototype.toggleVolumeMuted); //handles when the volume icon is clicked.
 			$("#volumeControl").change(function() {
@@ -127,11 +142,40 @@ class Hanasu {
 		
 		}
 		
+		//handles when the play/pause button is clicked.
+		$("#controlPlayPause").click(function() {
+			if (Hanasu.prototype.IsPlaying) {
+				Hanasu.prototype.stopStation(); //stops playing the station if it is already in progress.
+			} else {			
+				if (Hanasu.prototype.CurrentStation == null) {
+				} else {
+					if (!Hanasu.prototype.PlayerIsReady && Hanasu.prototype.Mobile) {
+						alert('Player is not ready yet!');
+					}
+				
+					$("#jquery_jplayer").jPlayer("play");
+				}
+			}
+		});
+		
 		Hanasu.prototype.loadStations(); //loads stations from the local xml.
 	}
 	
 	private handleJPlayerReady() {
 		Hanasu.prototype.PlayerIsReady = true;
+		
+		if(typeof(Storage)!=="undefined")
+		{
+			// HTML5 Web Storage is supported. Grab what the user last set.	
+			$("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
+			
+			
+			// Get the station so we can resume playing the user's last station.
+			if (localStorage.lastStation != null) {
+				Hanasu.prototype.playStation(
+					Hanasu.prototype.getStationByName(localStorage.lastStation));
+			}
+		}
 	}
 	
 	private loadStations() {
@@ -195,7 +239,7 @@ class Hanasu {
 						//$(stationHtml).append('<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="play" data-theme="a" data-disabled="false" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">' + stat.Name + '</span><span class="ui-icon ui-icon-star ui-icon-shadow">&nbsp;</span></span><button data-icon="star" data-theme="a" data-form="ui-btn-up-a" class="ui-btn-hidden" data-disabled="false">Button</button></div>');
 						//$(stationHtml).append('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div></div>');
 						//$(stationHtml).append('<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
-						stationHtml = '<li><a href="javascript:self.App.playStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
+						stationHtml = '<li><a href="javascript:self.App.setStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
 						
 						$(stationHtml).click(function() {
 							Hanasu.prototype.playStation(stat);
@@ -220,6 +264,42 @@ class Hanasu {
 			}
 		}
 		return null;
+	}
+	
+	public setStation(station: Station) {
+		var wasPlaying: bool = false;
+		if (Hanasu.prototype.IsMobile) {
+			if (Hanasu.prototype.IsPlaying) {
+				Hanasu.prototype.stopStation(true);
+				wasPlaying = true;
+			}
+			
+			// Checks if the station requires any pre-processing.
+			if (station.PlaylistExt == '') {
+				$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: station.Stream }) //Loads the stream.
+			} else {
+				$.get("http://" + window.location.hostname + ":8888/firststream?station=" + station.Name + '&callback=?', function(data){
+					//Fetches the playlist data and gets ready to parse it.
+				
+					if (wasPlaying) {
+						Hanasu.prototype._playStation(station, data);
+					} else {
+						var stream = data;
+			
+						//If the station is a Shoutcast/Icecast station, construct the direct link to the audio stream.
+						if (station.ServerType.toLowerCase() == 'shoutcast') {
+							if (!stream.endsWith("/")) {
+								stream += "/";
+							}
+							stream += ";stream/1";
+						}
+						
+						$(Hanasu.prototype.Player).jPlayer("setMedia", { mp3: stream }) //Loads the stream.
+					}
+					
+				});
+			}
+		}
 	}
 	
 	public stopStation(clearPlayer: bool = true) {
@@ -357,9 +437,15 @@ class Hanasu {
 			}});
 		}
 		if (!Hanasu.prototype.muted) {
-			if (window.updateVolumeIcon != 'undefined') {
+			if (window.updateVolumeIcon != null) {
 				window.updateVolumeIcon(volumeValue);
 			}
+		}
+		
+		if(typeof(Storage)!=="undefined")
+		{
+			// HTML5 Web Storage is supported. Store the last volume set there.
+			localStorage.playerVolume = volumeValue;
 		}
 	}
 	private toggleVolumeMuted() {
