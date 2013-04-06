@@ -3,6 +3,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 @white: #efefef;
 @colour1: #393b42;
 @colour2: #1e1f23;
+@greyBright: #f1f1f1;
 @red: #e13b39;
 @redDark: #b52f2f;
 
@@ -21,16 +22,20 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 	color: @colour2;
 	&:hover{
 		cursor: pointer;
-		background-color: #bcbcbc;}
+		background-color: #bcbcbc;
+	}
 	&:active{
-		background-color: #878787;}}
+		background-color: #878787;
+	}
+}
 
 html, body{
 	position: absolute;
 	height: 100%;
 	width: 100%;
 	background-color: @colour1;
-	font-family: 'Source Sans Pro', sans-serif;}
+	font-family: 'Source Sans Pro', sans-serif;
+}
 
 #header{
 	position: fixed;
@@ -44,7 +49,7 @@ html, body{
 	box-shadow: 0px 0px 4px #232323;
 	#songArea{
 		position: absolute;
-		left: 30px;
+		left: 20px;
 		float: left;
 		img{
 			float: left;
@@ -53,20 +58,24 @@ html, body{
 			background-color: #ffffff;
 			box-shadow: 0px 0px 4px #232323;
 			border-bottom-left-radius: 5px;
-			border-bottom-right-radius: 5px;}
+			border-bottom-right-radius: 5px;
+		}
 		h1{
 			display: block;
 			height: 30px;
 			margin: 0 0 0 110px;
 			line-height: 30px;
 			font-size: 20px;
-			color: @white;}
+			color: @white;
+		}
 		h2{
 			display: block;
 			height: 30px;
 			margin: 0 0 0 110px;
 			line-height: 30px;
-			color: @white;}}
+			color: @white;
+		}
+	}
 	#controls{
 		position: absolute;
 		left: 0;
@@ -77,23 +86,30 @@ html, body{
 		button{
 			.button;
 			float: left;
-			margin: 11px;}}
+			margin: 11px;
+		}
+	}
 	#volumeIcon{
-		float: right;}
+		float: right;
+	}
 	#volumeIcon{
 		.button;
-		margin: 11px 0 0 0;}
+		margin: 11px 0 0 0;
+	}
 	#volumeControl{
 		float: right;
 		width: 100px;
 		height: 60px;
-		margin: 0 30px 0 20px;}}
+		margin: 0 20px 0 20px;
+	}
+}
 
-/**** Stations ****/
+/******** Stations ********/
 
 #stations{
 	overflow-y: scroll;
-	margin: 61px 0 30px 0;}
+	margin: 61px 0 30px 0;
+}
 
 .station{
 	position: relative;
@@ -108,15 +124,17 @@ html, body{
 		-webkit-transition: all 0.1s linear;
 		-moz-transition: all 0.1s linear;
 		-o-transition: all 0.1s linear;
-		&:hover{
-			cursor: pointer;
-			box-shadow: 0px 0px 4px @colour2, 0px 0px 0 4px @colour2;}
+	&:hover{
+		cursor: pointer;
+		box-shadow: 0px 0px 0 6px @red;
+	}
 	img{
 		position: absolute;
 		z-index: 0;
 		width: 200px;
 		height: 200px;
-		border-radius: 4px;}
+		border-radius: 4px;
+	}
 	.favouriteButton{
 		display: block;
 		position: absolute;
@@ -131,7 +149,9 @@ html, body{
 		font-size: 18px;
 		color: #ffffff;
 		&:hover{
-			cursor: pointer;}}
+			cursor: pointer;
+		}
+	}
 	#stationTitles{
 		position: absolute;
 		bottom: 0;
@@ -145,11 +165,14 @@ html, body{
 		border-bottom-left-radius: 4px;
 		border-bottom-right-radius: 4px;
 		h1{
-			font-weight: bold;}}}
+			font-weight: bold;
+		}
+	}
+}
 
-/**** Footer ****/
+/******** Footer ********/
 
-footer {
+#footer {
 	position: fixed;
 	bottom: 0;
 	z-index: 5;
@@ -158,12 +181,17 @@ footer {
 	background-color: @colour2;
 	border-bottom: 1px solid #292929;
 	box-shadow: 0px 0px 4px #232323;
-	#historyButton{
-		.button;
+	nav{
 		float: left;
-		width: auto;
-		margin: 12px 0 0 20px;
-		padding: 0 8px;}
+		margin: 0 0 0 20px;
+		button{
+			.button;
+			float: left;
+			width: auto;
+			margin: 12px 20px 0 0;
+			padding: 0 8px;
+		}
+	}
 	#informationPaneToggle{
 		position: absolute;
 		bottom: 0;
@@ -181,9 +209,12 @@ footer {
 		color: @white;
 		&:hover{
 			cursor: pointer;
-			color: #bcbcbc;}
+			color: #bcbcbc;
+		}
 		&:active{
-			color: #1b1b1b;}}
+			color: #1b1b1b;
+		}
+	}
 	#searchContainer{
 		position: absolute;
 		right: 0;
@@ -195,35 +226,41 @@ footer {
 		background-color: @white;
 		border-radius: 4px;
 		input{
-				float: left;
-				width: 320px;
-				height: 38px;
-				background-color: @white;
-				border: none;
-				outline: none;
-				padding: 0 10px;
-				margin: 0;
-				border-top-left-radius: 4px;
-				border-bottom-left-radius: 4px;
-				-webkit-appearance: none;}
+			float: left;
+			width: 320px;
+			height: 38px;
+			background-color: @white;
+			border: none;
+			outline: none;
+			padding: 0 10px;
+			margin: 0;
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+			-webkit-appearance: none;
+		}
 		button{
-				display: block;
-				float: right;
-				width: 38px;
-				height: 38px;
-				padding: 0;
-				border: none;
-				border-top-right-radius: 4px;
-				border-bottom-right-radius: 4px;
-				color: #1b1b1b;
-				line-height: 30px;
-				text-align: center;}}
+			display: block;
+			float: right;
+			width: 28px;
+			height: 28px;
+			margin: 5px;
+			padding: 0;
+			border: none;
+			border-radius: 4px;
+			background-color: @colour1;
+			color: @white;
+			line-height: 30px;
+			text-align: center;
+		}
+	}
 	#settingsButton{
 		.button;
 		float: right;
-		margin: 12px 20px 0 0;}}
+		margin: 12px 20px 0 0;
+	}
+}
 
-/**** Settings ****/
+/******** Panes ********/
 
 #paneCover{
 	display: none;
@@ -232,65 +269,153 @@ footer {
 	top: 0;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(0,0,0,0.8);}
+	background-color: rgba(0,0,0,0.8);
+}
 
 #paneCover .pane{
+	display: none;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	background-color: @greyBright;
+	border-radius: 7px;
+	box-shadow: 0px 0px 0px 6px #1e1f23;
 	header{
 		width: 100%;
 		height: 40px;
 		background-color: @colour1;
-		border-bottom: 1px solid @colour2;
 		border-top-left-radius: 5px;
 		border-top-right-radius: 5px;
-			h1{
-				float: left;
-				margin: 0 0 0 10px;
-				line-height: 40px;
-				font-size: 20px;
-				color: @white;}
-			.closePane{
-				float: right;
-				width: 21px;
-				height: 21px;
-				margin: 10px 10px 0 0;
-				padding: 0;
-				border: none;
-				background: none;
-				text-align: center;
-				font-size: 16px;
-				color: @colour1;
-				border-radius: 2px;
-				background-color: @red;
-				&:hover{
-					cursor: pointer;
-					background-color: @redDark;}}
-			hr{
-				border: 1px solid @colour1;}}
-		h2{
+		h1{
 			float: left;
+			margin: 0 0 0 10px;
+			line-height: 40px;
+			font-size: 20px;
+			color: @white;
+		}
+		.closePane{
+			float: right;
+			width: 21px;
+			height: 21px;
 			margin: 10px 10px 0 0;
-			font-size: 18px;
-			line-height: 18px;}
-		.btn{
-			padding: 8px;
+			padding: 0;
+			border: none;
+			background: none;
+			text-align: center;
+			font-size: 16px;
+			color: @colour1;
+			border-radius: 2px;
+			background-color: @red;
+			&:hover{
+				cursor: pointer;
+				background-color: @redDark;
+			}
+		}
+	}
+	h2{
+		float: left;
+		margin: 10px 10px 0 0;
+		font-size: 18px;
+		line-height: 18px;
+	}
+	.btn{
+		padding: 8px;
+		background-color: @colour1;
+		border: none;
+		border-radius: 2px;
+		color: @white;
+		&:hover{
+			cursor: pointer;
+		}
+	}
+	hr{
+		border: 1px dashed #d3d3d3;
+	}
+	.innerPane{
+		padding: 10px;
+		color: @colour1;
+	}
+}
+
+/**** Dialog ****/
+
+.dialog{
+	width: 340px;
+	height: 160px;
+	margin: -80px 0 0 -170px;
+	p{
+		float: left;
+		width: 280px;
+		padding: 10px;
+		height: 60px;
+	}
+	footer{
+		float: left;
+		width: 100%;
+		height: 40px;
+		border-bottom-left-radius: 5px;
+		border-bottom-right-radius: 5px;
+		.dialogButton{
+			float: right;
+			display: block;
+			height: 30px;
+			line-height: 30px;
+			margin: 0 10px;
+			padding: 0 8px;
 			background-color: @colour1;
 			border: none;
 			border-radius: 2px;
 			color: @white;
 			&:hover{
-				cursor: pointer;}}}
+				cursor: pointer;
+			}
+		}
+	}
+}
 
-#paneCover #settingsPane{
-	display: none;
-	position: relative;
+/*** FAQ Pane ****/
+
+#paneCover #faqPane{
 	width: 500px;
 	height: 400px;
-	top: 50%;
-	left: 50%;
 	margin: -200px 0 0 -250px;
-	background-color: @white;
-	border-radius: 5px;
-	box-shadow: 0px 0px 4px #232323;
+	h2{
+		float: left;
+		width: 100%;
+		font-size: 28px;
+		color: @colour1;
+	}
+	p{
+		float: left;
+		width: 100%;
+		font-size: 18px;
+		line-height: 48px;
+		color: @colour1;
+	}
+	a{
+		float: left;
+		color: @red;
+		text-decoration: none;
+		&:visited{
+			color: @red;
+			text-decoration: none;
+		}
+		&:hover{
+			color: @redDark;
+		}
+	}
+	.innerPane{
+		height: 340px;
+		overflow-y: scroll; 
+	}
+}
+
+/**** Settings Pane ****/
+
+#paneCover #settingsPane{
+	width: 500px;
+	height: 400px;
+	margin: -200px 0 0 -250px;
 	ul{
 		float: left;
 		width: 130px;
@@ -306,31 +431,45 @@ footer {
 			padding: 0 15px;
 			color: @colour2;
 			font-size: 18px;
-			text-decoration: none;}}
+			text-decoration: none;
+		}
+	}
 	#tab0{
 		h2{
-			font-size: 28px;}
+			color: @colour1;
+			font-size: 28px;
+		}
 		p{
 			float: left;
 			font-size: 18px;
-			line-height: 48px;}
+			line-height: 48px;
+			color: @colour1;
+		}
 		a{
 			float: left;
 			color: @red;
 			text-decoration: none;
 			&:visited{
 				color: @red;
-				text-decoration: none;
+				text-decoration: none;}
 			&:hover{
-				color: @redDark;}}}}}
+				color: @redDark;
+			}
+		}
+	}
+}
 
 #settingsPane{
 	.tab{
 		float: right;
 		width: 350px;
 		height: 329px;
-		padding: 10px;}
-		h2{
-			margin: 10px 10px 0 0;}
-		.btn{
-			float: left;}}
+		padding: 10px;
+	}
+	h2{
+		margin: 10px 10px 0 0;
+	}
+	.btn{
+		float: left;
+	}
+}
