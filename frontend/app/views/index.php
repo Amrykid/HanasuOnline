@@ -30,7 +30,6 @@
 		<nav>
 			<button id="historyButton">History</button>
 			<button id="faqButton">FAQ</button>
-			<button id="dialogExampleButton">Dialog Example</button>
 		</nav>
 		<div id="searchContainer">
 			<input type="search" placeholder="Search"/>

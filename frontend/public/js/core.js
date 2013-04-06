@@ -44,10 +44,6 @@ $('#settingsButton').click(function(){
 	$('#settingsPane').tabs();
 });
 
-$('#dialogExampleButton').click(function(){
-	$('#paneCover, .dialog').fadeToggle(200);
-});
-
 $('#settingsButton').click(function(){
 	$('#paneCover, #settingsPane').fadeToggle(200);
 });
@@ -55,7 +51,6 @@ $('#settingsButton').click(function(){
 $('.closePane, .dialogButton').click(function(){
 	$('#paneCover, .pane').fadeOut(200);
 });
-
 
 function dialog(title,message){
 	$('.dialog header h1').html(title);
