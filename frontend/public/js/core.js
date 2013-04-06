@@ -44,6 +44,10 @@ $('#settingsButton').click(function(){
 	$('#settingsPane').tabs();
 });
 
+$('#faqButton').click(function(){
+	$('#paneCover, #faqPane').fadeToggle(200);
+});
+
 $('#settingsButton').click(function(){
 	$('#paneCover, #settingsPane').fadeToggle(200);
 });

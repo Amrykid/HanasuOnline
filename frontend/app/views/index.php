@@ -48,6 +48,17 @@
 				<button class="dialogButton">Dismiss</button>
 			</footer>
 		</div>
+		<div class="pane" id="faqPane">
+			<header>
+				<h1>FAQ</h1>
+				<button class="closePane icon-remove"></button>
+			</header>
+			<div class="innerPane">
+				<h2>What is Hanasu</h2>
+				<p>It is a radio for playing Asian music... or something</p>
+				<hr />
+			</div>
+		</div>
 		<div class="pane" id="settingsPane">
 			<header>
 				<h1>Settings</h1>
