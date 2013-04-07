@@ -10,7 +10,7 @@
 <body>
 	<header id="header">
 		<div id="songArea">
-			<img id="coverImg" src="img/square.png">
+			<img id="coverImg" src="img/hanasu_logo.png">
 			<h1 id="songTitle">Ready</h1>
 			<h2 id="artistName">and Waiting</h2>
 		</div>
