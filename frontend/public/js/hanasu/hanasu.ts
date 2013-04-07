@@ -8,7 +8,6 @@
 */
 
 declare var $;
-
 // $(document).ready(function () {
 	// var hanasu = new Hanasu();
 	// hanasu.initializeApplication();
