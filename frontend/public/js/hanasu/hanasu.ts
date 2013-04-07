@@ -368,11 +368,23 @@ class Hanasu {
 	}
 	
 	private updateSongInfo(song: string, artist: string, logo: string, notify: bool = true) {
-		if ($("#songTitle").html() != song && $("#artistName").html() != artist && notify) {
-			try {
-				Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
-			} catch (e) {
+		if ($("#songTitle").html() != song && $("#artistName").html() != artist) {
+			if (notify) {
+				try {
+					Hanasu.prototype.sendSongChangeNotification(song, artist, Hanasu.prototype.CurrentStation.Logo);
+				} catch (e) {
+				}
 			}
+			
+			var currentdate = new Date();
+
+			
+			var entry = $("");
+			$(entry).append("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
+			$(entry).append("<p>" + artist + "</p>");
+			$(entry).append("<hr />");
+			
+			$(".historyPane .innerPane").append(entry);
 		}
 	
 		$("#songTitle").html(song);

@@ -54,9 +54,9 @@
 				<button class="closePane icon-remove"></button>
 			</header>
 			<div class="innerPane">
-				<h2 data-time="2:00 am">Song Title</h2>
+				<!--<h2 data-time="2:00 am">Song Title</h2>
 				<p>Song Description</p>
-				<hr />
+				<hr />-->
 			</div>
 		</div>
 		<div class="pane" id="faqPane">
