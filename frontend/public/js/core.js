@@ -60,6 +60,8 @@ $('.closePane, .dialogButton').click(function(){
 	$('#paneCover, .pane').fadeOut(200);
 });
 
+$(".pane").draggable();
+
 function dialog(title,message){
 	$('.dialog header h1').html(title);
 	$('.dialog p').html(message);
