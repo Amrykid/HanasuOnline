@@ -66,8 +66,18 @@
 			</header>
 			<div class="innerPane">
 				<h2>What is Hanasu?</h2>
-				<p>It is a radio for playing Asian music... or something</p>
+				<p>Hanasu is an online Asian music streaming website.</p>
+				<p>We connect you with some of the popular online radio streams and allow you to listen from anywhere in the world.</p>
+				<p>Originally started by <a style="float: none" href="http://github.com/Amrykid">Amrykid</a> as a program for Windows computers, 
+					Hanasu has existed on Desktop/Laptops (PC), Phones (Windows Phone 7) and Windows 8/Windows RT (Microsoft Surface).</p>
 				<hr />
+				<h2>Who made Hanasu?</h2>
+				<p>Hanasu is made by otakus and programmers alike.</p>
+				<hr />
+				<h2>Why won't Hanasu work on my mobile device (Android, iOS [iPhone/iPad/iPod], Windows Phone)?</h2>
+				<p>For the time being, we are working on a way to get streaming to work on mobile devices. Until then, the mobile version of this site has been disabled.</p>
+				<h2>How can I add other stations to Hanasu?</h2>
+				<p>For the time being, you can't. Hopefully, in the future we may be able to provide such a feature!</p>
 			</div>
 		</div>
 		<div class="pane" id="settingsPane">
