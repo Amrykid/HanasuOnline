@@ -1,10 +1,11 @@
-console.log("HanasuOnline Backend v0.1.10");
+console.log("HanasuOnline Backend v0.1.11");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');
 var nowplay = require('./nowplaying');
 var XML = require('xml-simple');
 var fs = require('fs');
+var Path = require('path');
 
 var Memcached = require('memcached');
 var memcached = new Memcached('127.0.0.1:11211');
@@ -96,7 +97,8 @@ server.start(function(path, query, response, callback) {
 					if (err) console.error(err); //if theres an error, report it.
 					
 					if (result == 'undefined' || result == false) {
-						fs.readFile('./Stations.xml', function(err, data) {
+						fs.readFile(Path.resolve(__dirname, 'Stations.xml'), function(err, data) {
+							if (err) console.error(err); //if theres an error, report it.
 							memcached.set("_stations", data, 3600 * 5, function( err, result ){
 								if( err ) console.error( err );
 							});
@@ -164,7 +166,9 @@ server.start(function(path, query, response, callback) {
 function getStation(name, callback) {
 	var station = null;
 	var serverurl = '';
-	fs.readFile('./Stations.xml', function(err, data) {
+	var stationsXmlPath = Path.resolve(__dirname, 'Stations.xml');
+	console.log(stationsXmlPath);
+	fs.readFile(stationsXmlPath, function(err, data) {
 		XML.parse(data, function(e,parsed) {
 			var stations = Object(Object(parsed)["Station"]);
 			console.log(stations.length);
