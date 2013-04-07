@@ -67,7 +67,7 @@ function get_stream_asx(link, callback) {
 		callback(stream)
 	});
 	var streams = $(data).find("ref");
-				return $(streams[0]).attr('href');
+	return $(streams[0]).attr('href');
 }
 
 function get_stream(link, callback) {
