@@ -106,9 +106,13 @@ var Hanasu = (function () {
         Hanasu.prototype.PlayerIsReady = true;
         if(typeof (Storage) !== "undefined") {
             $("#jquery_jplayer").jPlayer("volume", localStorage.playerVolume / 100);
-            if(localStorage.lastStation != null) {
+            if(localStorage.lastStation != "null") {
                 Hanasu.prototype.playStation(Hanasu.prototype.getStationByName(localStorage.lastStation));
             }
+        }
+        try  {
+            $('#loadingSplash').fadeOut(2000);
+        } catch (ex) {
         }
     };
     Hanasu.prototype.loadStations = function () {

@@ -170,10 +170,15 @@ class Hanasu {
 			
 			
 			// Get the station so we can resume playing the user's last station.
-			if (localStorage.lastStation != null) {
+			if (localStorage.lastStation != "null") {
 				Hanasu.prototype.playStation(
 					Hanasu.prototype.getStationByName(localStorage.lastStation));
 			}
+		}
+		
+		try {
+			$('#loadingSplash').fadeOut(2000);
+		} catch (ex) {
 		}
 	}
 	
