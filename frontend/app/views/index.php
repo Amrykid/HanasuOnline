@@ -8,6 +8,12 @@
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
 <body>
+	<div id="loadingSplash">
+		<div id="inSplash">
+			<h1>Hanasu</h1>
+			<h2>Loading <span class="icon-spinner"></span></h2>
+		</div>
+	</div>
 	<header id="header">
 		<div id="songArea">
 			<img id="coverImg" src="img/hanasu_logo.png">
@@ -76,6 +82,7 @@
 				<hr />
 				<h2>Why won't Hanasu work on my mobile device (Android, iOS [iPhone/iPad/iPod], Windows Phone)?</h2>
 				<p>For the time being, we are working on a way to get streaming to work on mobile devices. Until then, the mobile version of this site has been disabled.</p>
+				<hr />
 				<h2>How can I add other stations to Hanasu?</h2>
 				<p>For the time being, you can't. Hopefully, in the future we may be able to provide such a feature!</p>
 			</div>
