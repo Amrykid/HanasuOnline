@@ -255,9 +255,9 @@ var Hanasu = (function () {
                 }
             }
             var currentdate = new Date();
-            $("#historyPane .innerPane").append("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
-            $("#historyPane .innerPane").append("<p>" + artist + "</p>");
-            $("#historyPane .innerPane").append("<hr />");
+            $("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
+            $("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
+            $("#historyPane .innerPane").prepend("<hr />");
         }
         $("#songTitle").html(song);
         $("#artistName").html(artist);
