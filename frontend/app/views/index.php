@@ -95,7 +95,7 @@
 			</div>
 			<div class="tab" id="tab1">Empty</div>
 			<div class="tab" id="tab0">
-				<h2>HanasuOnline 0.1</h2>
+				<h2>HanasuOnline 0.2</h2>
 				<p>A radio player for listening to asian music.</p>
 				<a href="https://github.com/Amrykid/HanasuOnline">View on Github</a>
 			</div>
