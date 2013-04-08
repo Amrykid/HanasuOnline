@@ -114,6 +114,9 @@ var Hanasu = (function () {
             $('#loadingSplash').fadeOut(2000);
         } catch (ex) {
         }
+        if(onHanasuInitialized != "undefined") {
+            onHanasuInitialized();
+        }
     };
     Hanasu.prototype.loadStations = function () {
         $.get("http://" + window.location.hostname + ":8888/stations", function (data) {

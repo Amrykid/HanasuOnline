@@ -32,6 +32,7 @@ $(function () {
 			$('#notiToggle').html("Disable Notifications");
 			Hanasu.prototype.NotificationToggled = true;
 		}
+		
 	}, 1); //wait for the dom to load.
 });
 
@@ -60,7 +61,6 @@ $('.closePane, .dialogButton').click(function(){
 	$('#paneCover, .pane').fadeOut(200);
 });
 
-$(".station").click(function() { $(this).effect("shake", {direction: "up"}); } );
 $(".pane").draggable({ containment: $(document.body), scroll: false , opacity: 0.35}); //http://api.jqueryui.com/draggable/#option-containment
 
 function dialog(title,message){
@@ -100,4 +100,10 @@ function toggleMuteCallback() {
 	} else {
 		updateVolumeIcon($("#volumeControl").val());
 	}
+}
+
+function onHanasuInitialized() {
+	$(".station").click(function() {
+		$(this).effect("shake", {direction: "up"}); 
+	});
 }

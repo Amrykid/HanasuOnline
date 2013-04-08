@@ -180,6 +180,9 @@ class Hanasu {
 			$('#loadingSplash').fadeOut(2000);
 		} catch (ex) {
 		}
+		if (onHanasuInitialized != "undefined") {
+			onHanasuInitialized();
+		}
 	}
 	
 	private loadStations() {
