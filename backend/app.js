@@ -1,5 +1,5 @@
 console.log("HanasuOnline Backend v0.1.11");
-console.log("HanasuOnline v0.2");
+console.log("HanasuOnline v0.3");
 console.log("http://github.com/Amrykid/HanasuOnline");
 
 var playlist = require('./playlist_parser');

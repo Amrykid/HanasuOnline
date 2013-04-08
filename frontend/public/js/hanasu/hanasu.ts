@@ -1,5 +1,5 @@
 /* 
-	HanasuOnline 0.2
+	HanasuOnline 0.3
 	
 	Authors:
 		Amrykid (https://github.com/Amrykid)
