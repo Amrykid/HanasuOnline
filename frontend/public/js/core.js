@@ -64,9 +64,19 @@ $('.closePane, .dialogButton').click(function(){
 $(".pane").draggable({ containment: $(document.body), scroll: false , opacity: 0.35}); //http://api.jqueryui.com/draggable/#option-containment
 
 function dialog(title,message){
-	$('.dialog header h1').html(title);
-	$('.dialog p').html(message);
-	$('#paneCover, .dialog').fadeToggle(200);
+	$('.dialog.closeable header h1').html(title);
+	$('.dialog.closeable p').html(message);
+	$('#paneCover, .dialog.closeable').fadeToggle(200);
+}
+function non_close_dialog(title,message){
+	$('.dialog.noncloseable header h1').html(title);
+	$('.dialog.noncloseable p').html(message);
+	$('#paneCover, .dialog.noncloseable').fadeToggle(200);
+	
+	return function() { 
+		$('#paneCover').fadeOut(200);
+		$('.dialog.noncloseable').fadeOut(200);
+	};
 }
 
 $('#notiToggle').click(function(){

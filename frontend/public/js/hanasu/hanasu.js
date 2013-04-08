@@ -39,6 +39,9 @@ var Hanasu = (function () {
                     }
                     Hanasu.prototype.setPlayStatus(false);
                     Hanasu.prototype.clearSongInfo();
+                    if(Hanasu.prototype.loadingScreenHandle != "null") {
+                        Hanasu.prototype.loadingScreenHandle();
+                    }
                 }
             });
         } else {
@@ -63,6 +66,9 @@ var Hanasu = (function () {
                 Hanasu.prototype.stationTimer.play();
             }
             Hanasu.prototype.retrieveCurrentStationData(false);
+            if(Hanasu.prototype.loadingScreenHandle != "null") {
+                Hanasu.prototype.loadingScreenHandle();
+            }
         });
         $("#jquery_jplayer").bind($.jPlayer.event.ended, function (event) {
             Hanasu.prototype.setPlayStatus(false);
@@ -222,6 +228,7 @@ var Hanasu = (function () {
             Hanasu.prototype.stopStation(true);
         }
         Hanasu.prototype.obtainNotificationsPermission();
+        Hanasu.prototype.loadingScreenHandle = non_close_dialog("Connecting...", "One moment please...");
         if(station.PlaylistExt == '') {
             Hanasu.prototype._playStation(station, station.Stream);
         } else {

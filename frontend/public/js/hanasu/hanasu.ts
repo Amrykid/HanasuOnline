@@ -30,6 +30,8 @@ class Hanasu {
 	public CurrentStation: Station;	
 	public NotificationToggled: bool;
 	
+	private loadingScreenHandle: any;
+	
 	public initializeApplication(isMobile: bool = false) {
 		//any important starting procedures, we can put here.
 		
@@ -78,6 +80,11 @@ class Hanasu {
 					
 					Hanasu.prototype.setPlayStatus(false);
 					Hanasu.prototype.clearSongInfo();
+					
+					
+					if (Hanasu.prototype.loadingScreenHandle != "null") {
+						Hanasu.prototype.loadingScreenHandle();
+					}
 				}
 			});
 		} else {
@@ -105,6 +112,10 @@ class Hanasu {
 			}
 			
 			Hanasu.prototype.retrieveCurrentStationData(false); //Grabs the song title and artist name in depending on what the Station ServerType is.
+			
+			if (Hanasu.prototype.loadingScreenHandle != "null") {
+				Hanasu.prototype.loadingScreenHandle();
+			}
 		});
 		
 		$("#jquery_jplayer").bind($.jPlayer.event.ended, function(event) {
@@ -329,6 +340,8 @@ class Hanasu {
 		}
 		
 		Hanasu.prototype.obtainNotificationsPermission();
+		
+		Hanasu.prototype.loadingScreenHandle = non_close_dialog("Connecting...","One moment please...");
 		
 		// Checks if the station requires any pre-processing.
 		if (station.PlaylistExt == '') {
