@@ -61,6 +61,7 @@ $('.closePane, .dialogButton').click(function(){
 });
 
 $(".pane").draggable({ containment: "window" });
+$(".station").click(function() { $(this).effect("shake", {direction: "up"}); } );
 
 function dialog(title,message){
 	$('.dialog header h1').html(title);
