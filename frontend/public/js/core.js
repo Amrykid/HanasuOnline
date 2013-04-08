@@ -60,8 +60,8 @@ $('.closePane, .dialogButton').click(function(){
 	$('#paneCover, .pane').fadeOut(200);
 });
 
-$(".pane").draggable({ containment: "window" });
 $(".station").click(function() { $(this).effect("shake", {direction: "up"}); } );
+$(".pane").draggable({ containment: $(document.body), scroll: false , opacity: 0.35}); //http://api.jqueryui.com/draggable/#option-containment
 
 function dialog(title,message){
 	$('.dialog header h1').html(title);
