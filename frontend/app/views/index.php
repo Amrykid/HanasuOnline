@@ -44,7 +44,7 @@
 		<button id="settingsButton" class="icon-cog"></button>
 	</footer>
 	<div id="paneCover" class="">
-		<div class="pane dialog">
+		<div class="pane dialog closeable">
 			<header>
 				<h1>Dialog</h1>
 				<button class="closePane icon-remove"></button>
@@ -53,6 +53,12 @@
 			<footer>
 				<button class="dialogButton">Dismiss</button>
 			</footer>
+		</div>
+		<div class="pane dialog noncloseable">
+			<header>
+				<h1>Dialog</h1>
+			</header>
+			<p>Message</p>
 		</div>
 		<div class="pane" id="historyPane">
 			<header>
