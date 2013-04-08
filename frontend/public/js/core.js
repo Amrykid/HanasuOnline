@@ -119,6 +119,7 @@ function onHanasuInitialized() {
 }
 
 $("input[type='search']").on('search', function () {
+	//http://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
 	var query = $(this).val();
 	$("#stations").empty();
 
