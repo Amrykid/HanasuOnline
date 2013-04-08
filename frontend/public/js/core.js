@@ -128,10 +128,15 @@ $("input[type='search']").on('search', function () {
 			Hanasu.prototype.addStationToUI(this);
 		});
 	} else {
-		$(Hanasu.prototype.Stations).filter(function(index) {
+		var searched = $(Hanasu.prototype.Stations).filter(function(index) {
 			return this.Name.indexOf(query) !== -1; // http://stackoverflow.com/questions/1789945/method-like-string-contains-in-javascript
-		}).each(function() {
+		});
+		searched.each(function() {
 			Hanasu.prototype.addStationToUI(this);
 		});
+		
+		if (searched.length == 1) {
+			Hanasu.prototype.playStation(searched[0]);
+		}
 	}
 });
