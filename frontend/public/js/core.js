@@ -117,3 +117,26 @@ function onHanasuInitialized() {
 		$(this).effect("shake", {direction: "up"}); 
 	});
 }
+
+$("input[type='search']").on('search', function () {
+	//http://stackoverflow.com/questions/2977023/how-do-you-detect-the-clearing-of-a-search-html5-input
+	var query = $(this).val();
+	$("#stations").empty();
+
+	if (query == '') {
+		$(Hanasu.prototype.Stations).each(function() {
+			Hanasu.prototype.addStationToUI(this);
+		});
+	} else {
+		var searched = $(Hanasu.prototype.Stations).filter(function(index) {
+			return this.Name.indexOf(query) !== -1; // http://stackoverflow.com/questions/1789945/method-like-string-contains-in-javascript
+		});
+		searched.each(function() {
+			Hanasu.prototype.addStationToUI(this);
+		});
+		
+		if (searched.length == 1) {
+			Hanasu.prototype.playStation(searched[0]);
+		}
+	}
+});
