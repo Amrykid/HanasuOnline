@@ -118,7 +118,7 @@ function onHanasuInitialized() {
 	});
 }
 
-$("input[type='search']").change(function() {
+$("input[type='search']").on('search', function () {
 	var query = $(this).val();
 	$("#stations").empty();
 
