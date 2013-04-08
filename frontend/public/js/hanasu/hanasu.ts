@@ -180,6 +180,9 @@ class Hanasu {
 			$('#loadingSplash').fadeOut(2000);
 		} catch (ex) {
 		}
+		if (onHanasuInitialized != "undefined") {
+			onHanasuInitialized();
+		}
 	}
 	
 	private loadStations() {
@@ -385,12 +388,25 @@ class Hanasu {
 			$("#historyPane .innerPane").prepend("<hr />");
 			$("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
 			$("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
+
 			
+			$("#songTitle").toggle("drop", { direction: "right"})
+			.promise().done(function(){
+				$("#songTitle").html(song);
+				$("#songTitle").toggle("drop", { direction: "right"});
+			});
+			$("#artistName").toggle("drop", { direction: "right"})
+			.promise().done(function(){
+				$("#artistName").html(artist);
+				$("#artistName").toggle("drop", { direction: "right"});
+			});
+			
+			$("#coverImg").toggle("drop", { direction: "up"})
+			.promise().done(function(){
+				$("#coverImg").attr('src', logo); //wait until the animation is done before setting the new image. http://api.jquery.com/promise/ http://stackoverflow.com/questions/1065806/how-do-you-get-jquery-to-wait-until-an-effect-is-finished
+				$("#coverImg").toggle("drop", { direction: "up"});
+			});
 		}
-	
-		$("#songTitle").html(song);
-		$("#artistName").html(artist);
-		$("#coverImg").attr('src', logo);
 	}
 	private clearSongInfo() {
 		$("#songTitle").html("Ready");
