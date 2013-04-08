@@ -66,12 +66,12 @@ $(".pane").draggable({ containment: $(document.body), scroll: false , opacity: 0
 function dialog(title,message){
 	$('.dialog.closeable header h1').html(title);
 	$('.dialog.closeable p').html(message);
-	$('#paneCover, .dialog.closeable').fadeToggle(200);
+	$('#paneCover, .dialog.closeable').fadeIn(200);
 }
 function non_close_dialog(title,message){
 	$('.dialog.noncloseable header h1').html(title);
 	$('.dialog.noncloseable p').html(message);
-	$('#paneCover, .dialog.noncloseable').fadeToggle(200);
+	$('#paneCover, .dialog.noncloseable').fadeIn(200);
 	
 	return function() { 
 		$('#paneCover').fadeOut(200);

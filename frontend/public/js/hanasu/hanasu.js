@@ -27,9 +27,12 @@ var Hanasu = (function () {
                 supplied: "mp3",
                 wmode: "window",
                 error: function (event) {
+                    if(Hanasu.prototype.loadingScreenHandle != "null") {
+                        Hanasu.prototype.loadingScreenHandle();
+                    }
                     switch(event.jPlayer.error.type) {
                         case 'e_url': {
-                            alert('Sorry about that. We are unable to connect to that station at this time. Please try again later.');
+                            dialog('Unable to connnect', 'Sorry about that. We are unable to connect to that station at this time. Please try again later.');
                             break;
                         }
                         default: {
@@ -39,9 +42,6 @@ var Hanasu = (function () {
                     }
                     Hanasu.prototype.setPlayStatus(false);
                     Hanasu.prototype.clearSongInfo();
-                    if(Hanasu.prototype.loadingScreenHandle != "null") {
-                        Hanasu.prototype.loadingScreenHandle();
-                    }
                 }
             });
         } else {
