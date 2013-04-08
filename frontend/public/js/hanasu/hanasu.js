@@ -143,28 +143,7 @@ var Hanasu = (function () {
                     stat.Format = $(this).find("Format").text();
                     stat.StationType = $(this).find("StationType").text();
                     Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat;
-                    var stationHtml = '';
-                    if(!Hanasu.prototype.IsMobile) {
-                        stationHtml = $("<div></div>");
-                        $(stationHtml).attr('class', 'station');
-                        $(stationHtml).append("<img src=\"" + stat.Logo + "\">");
-                        $(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
-                        var titles = $("<div></div>");
-                        $(titles).attr('id', 'stationTitles');
-                        $(titles).append('<h1>' + stat.Name + '</h1>');
-                        $(titles).append('<h2>Play this station.</h2>');
-                        $(stationHtml).append(titles);
-                        $(stationHtml).click(function () {
-                            Hanasu.prototype.playStation(stat);
-                        });
-                    } else {
-                        stationHtml = $('');
-                        stationHtml = '<li><a href="javascript:self.App.setStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
-                        $(stationHtml).click(function () {
-                            Hanasu.prototype.playStation(stat);
-                        });
-                    }
-                    $("#stations").append(stationHtml);
+                    Hanasu.prototype.addStationToUI(stat);
                 }
             });
             if(Hanasu.prototype.IsMobile) {
@@ -173,6 +152,30 @@ var Hanasu = (function () {
         }).fail(function () {
             dialog("Unable to retrieve stations", "Hanasu wasn't able to retrieve the radio stations from the backend. It may be down. Please try again later!");
         });
+    };
+    Hanasu.prototype.addStationToUI = function (stat) {
+        var stationHtml = '';
+        if(!Hanasu.prototype.IsMobile) {
+            stationHtml = $("<div></div>");
+            $(stationHtml).attr('class', 'station');
+            $(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+            $(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+            var titles = $("<div></div>");
+            $(titles).attr('id', 'stationTitles');
+            $(titles).append('<h1>' + stat.Name + '</h1>');
+            $(titles).append('<h2>Play this station.</h2>');
+            $(stationHtml).append(titles);
+            $(stationHtml).click(function () {
+                Hanasu.prototype.playStation(stat);
+            });
+        } else {
+            stationHtml = $('');
+            stationHtml = '<li><a href="javascript:self.App.setStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
+            $(stationHtml).click(function () {
+                Hanasu.prototype.playStation(stat);
+            });
+        }
+        $("#stations").append(stationHtml);
     };
     Hanasu.prototype.getStationByName = function (name) {
         for(var i = 0; i < Hanasu.prototype.Stations.length; i++) {

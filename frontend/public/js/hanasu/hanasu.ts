@@ -223,48 +223,7 @@ class Hanasu {
 					
 					Hanasu.prototype.Stations[Hanasu.prototype.Stations.length] = stat; //Adds the Station object to the Stations array.
 					
-					var stationHtml = '';
-					if (!Hanasu.prototype.IsMobile) {
-						stationHtml = $("<div></div>");
-						$(stationHtml).attr('class', 'station');
-						$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
-						$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
-						
-						var titles = $("<div></div>");
-						$(titles).attr('id', 'stationTitles');
-						$(titles).append('<h1>' + stat.Name + '</h1>');
-						$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
-						
-						
-						$(stationHtml).append(titles);
-						
-						$(stationHtml).click(function() {
-							Hanasu.prototype.playStation(stat);
-						});
-					} else {
-						//<!--<li data-form="ui-btn-up-a" data-swatch="a" 
-						//	data-theme="a" class="ui-li ui-li-static ui-btn-up-a">Read-only list item</li>-->
-						/*stationHtml = $("<li></li>");
-						$(stationHtml).attr('data-form','ui-btn-up-a');
-						$(stationHtml).attr('data-switch','a');
-						$(stationHtml).attr('data-theme','a');
-						$(stationHtml).attr('class', 'ui-li ui-li-static ui-btn-up-a');*/
-						stationHtml = $('');
-						
-						//<div class="ui-btn-inner ui-li">
-						//<div class="ui-btn-text"><a href="#" class="ui-link-inherit">Linked list item
-						//</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div>
-						//$(stationHtml).append('<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="play" data-theme="a" data-disabled="false" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">' + stat.Name + '</span><span class="ui-icon ui-icon-star ui-icon-shadow">&nbsp;</span></span><button data-icon="star" data-theme="a" data-form="ui-btn-up-a" class="ui-btn-hidden" data-disabled="false">Button</button></div>');
-						//$(stationHtml).append('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div></div>');
-						//$(stationHtml).append('<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
-						stationHtml = '<li><a href="javascript:self.App.setStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
-						
-						$(stationHtml).click(function() {
-							Hanasu.prototype.playStation(stat);
-						});
-					}
-					
-					$("#stations").append(stationHtml);
+					Hanasu.prototype.addStationToUI(stat);
 				}
 				
 			});
@@ -275,6 +234,51 @@ class Hanasu {
 		}).fail(function() {
 			dialog("Unable to retrieve stations", "Hanasu wasn't able to retrieve the radio stations from the backend. It may be down. Please try again later!");
 		});
+	}
+	
+	public addStationToUI(stat: Station) {
+		var stationHtml = '';
+		if (!Hanasu.prototype.IsMobile) {
+			stationHtml = $("<div></div>");
+			$(stationHtml).attr('class', 'station');
+			$(stationHtml).append("<img src=\"" + stat.Logo + "\">");
+			$(stationHtml).append("<button class=\"favouriteButton icon-heart-empty\"></button>");
+			
+			var titles = $("<div></div>");
+			$(titles).attr('id', 'stationTitles');
+			$(titles).append('<h1>' + stat.Name + '</h1>');
+			$(titles).append('<h2>Play this station.</h2>'); //May be changed in the future to a station slogan.
+			
+			
+			$(stationHtml).append(titles);
+			
+			$(stationHtml).click(function() {
+				Hanasu.prototype.playStation(stat);
+			});
+		} else {
+			//<!--<li data-form="ui-btn-up-a" data-swatch="a" 
+			//	data-theme="a" class="ui-li ui-li-static ui-btn-up-a">Read-only list item</li>-->
+			/*stationHtml = $("<li></li>");
+			$(stationHtml).attr('data-form','ui-btn-up-a');
+			$(stationHtml).attr('data-switch','a');
+			$(stationHtml).attr('data-theme','a');
+			$(stationHtml).attr('class', 'ui-li ui-li-static ui-btn-up-a');*/
+			stationHtml = $('');
+			
+			//<div class="ui-btn-inner ui-li">
+			//<div class="ui-btn-text"><a href="#" class="ui-link-inherit">Linked list item
+			//</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div>
+			//$(stationHtml).append('<div data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-icon="play" data-theme="a" data-disabled="false" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-icon-left ui-btn-up-a" aria-disabled="false"><span class="ui-btn-inner"><span class="ui-btn-text">' + stat.Name + '</span><span class="ui-icon ui-icon-star ui-icon-shadow">&nbsp;</span></span><button data-icon="star" data-theme="a" data-form="ui-btn-up-a" class="ui-btn-hidden" data-disabled="false">Button</button></div>');
+			//$(stationHtml).append('<div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div></div>');
+			//$(stationHtml).append('<li data-form="ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-last-child ui-btn-up-a"><div class="ui-btn-inner ui-li"><div class="ui-btn-text"><a href="#" class="ui-link-inherit">' + stat.Name + '</a></div><span class="ui-icon ui-icon-arrow-r ui-icon-shadow">&nbsp;</span></div></li>');
+			stationHtml = '<li><a href="javascript:self.App.setStation(self.App.getStationByName(\'' + stat.Name + '\'))">' + stat.Name + '</a></li>';
+			
+			$(stationHtml).click(function() {
+				Hanasu.prototype.playStation(stat);
+			});
+		}
+		
+		$("#stations").append(stationHtml);
 	}
 	
 	public getStationByName(name: string): Station {

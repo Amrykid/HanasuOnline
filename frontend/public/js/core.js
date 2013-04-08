@@ -117,3 +117,20 @@ function onHanasuInitialized() {
 		$(this).effect("shake", {direction: "up"}); 
 	});
 }
+
+$("input[type='search']").change(function() {
+	var query = $(this).val();
+	$("#stations").empty();
+
+	if (query == '') {
+		$(Hanasu.prototype.Stations).each(function() {
+			Hanasu.prototype.addStationToUI(this);
+		});
+	} else {
+		$(Hanasu.prototype.Stations).filter(function(index) {
+			return this.Name.indexOf(query) !== -1; // http://stackoverflow.com/questions/1789945/method-like-string-contains-in-javascript
+		}).each(function() {
+			Hanasu.prototype.addStationToUI(this);
+		});
+	}
+});
