@@ -382,10 +382,10 @@ class Hanasu {
 			
 			var currentdate = new Date();
 
-			
-			$("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
-			$("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
 			$("#historyPane .innerPane").prepend("<hr />");
+			$("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
+			$("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
+			
 		}
 	
 		$("#songTitle").html(song);
