@@ -265,10 +265,18 @@ var Hanasu = (function () {
             $("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
             $("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
             $("#historyPane .innerPane").prepend("<hr />");
+            $("#songTitle").html(song);
+            $("#artistName").html(artist);
+            $("#coverImg").toggle("drop", {
+                direction: "up"
+            });
+            $("#coverImg").promise().done(function () {
+                $("#coverImg").attr('src', logo);
+                $("#coverImg").toggle("drop", {
+                    direction: "up"
+                });
+            });
         }
-        $("#songTitle").html(song);
-        $("#artistName").html(artist);
-        $("#coverImg").attr('src', logo);
     };
     Hanasu.prototype.clearSongInfo = function () {
         $("#songTitle").html("Ready");
