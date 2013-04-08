@@ -197,7 +197,7 @@ class Hanasu {
 	}
 	
 	private loadStations() {
-		$.get("http://" + window.location.hostname + ":8888/stations", function(data) { 
+		$.get("http://" + window.location.hostname + ":8888/stations").done(function(data) { 
 			//fetches the xml that contains all of the stations.
 			var $stations = $(data).find("Station");
 			
@@ -272,6 +272,8 @@ class Hanasu {
 			if (Hanasu.prototype.IsMobile) {
 				$("#stations").listview('refresh');
 			}
+		}).fail(function() {
+			dialog("Unable to retrieve stations", "Hanasu wasn't able to retrieve the radio stations from the backend. It may be down. Please try again later!");
 		});
 	}
 	

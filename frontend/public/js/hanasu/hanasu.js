@@ -125,7 +125,7 @@ var Hanasu = (function () {
         }
     };
     Hanasu.prototype.loadStations = function () {
-        $.get("http://" + window.location.hostname + ":8888/stations", function (data) {
+        $.get("http://" + window.location.hostname + ":8888/stations").done(function (data) {
             var $stations = $(data).find("Station");
             Hanasu.prototype.Stations = new Array();
             $stations.each(function () {
@@ -170,6 +170,8 @@ var Hanasu = (function () {
             if(Hanasu.prototype.IsMobile) {
                 $("#stations").listview('refresh');
             }
+        }).fail(function () {
+            dialog("Unable to retrieve stations", "Hanasu wasn't able to retrieve the radio stations from the backend. It may be down. Please try again later!");
         });
     };
     Hanasu.prototype.getStationByName = function (name) {
