@@ -265,12 +265,25 @@ var Hanasu = (function () {
             $("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
             $("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
             $("#historyPane .innerPane").prepend("<hr />");
-            $("#songTitle").html(song);
-            $("#artistName").html(artist);
+            $("#songTitle").toggle("drop", {
+                direction: "right"
+            }).promise().done(function () {
+                $("#songTitle").html(song);
+                $("#songTitle").toggle("drop", {
+                    direction: "right"
+                });
+            });
+            $("#artistName").toggle("drop", {
+                direction: "right"
+            }).promise().done(function () {
+                $("#artistName").html(artist);
+                $("#artistName").toggle("drop", {
+                    direction: "right"
+                });
+            });
             $("#coverImg").toggle("drop", {
                 direction: "up"
-            });
-            $("#coverImg").promise().done(function () {
+            }).promise().done(function () {
                 $("#coverImg").attr('src', logo);
                 $("#coverImg").toggle("drop", {
                     direction: "up"
