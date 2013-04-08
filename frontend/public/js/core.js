@@ -32,6 +32,7 @@ $(function () {
 			$('#notiToggle').html("Disable Notifications");
 			Hanasu.prototype.NotificationToggled = true;
 		}
+		
 	}, 1); //wait for the dom to load.
 });
 
@@ -99,4 +100,10 @@ function toggleMuteCallback() {
 	} else {
 		updateVolumeIcon($("#volumeControl").val());
 	}
+}
+
+function onHanasuInitialized() {
+	$(".station").click(function() {
+		$(this).effect("shake", {direction: "up"}); 
+	});
 }

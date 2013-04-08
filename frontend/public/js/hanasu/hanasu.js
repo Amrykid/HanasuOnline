@@ -114,6 +114,9 @@ var Hanasu = (function () {
             $('#loadingSplash').fadeOut(2000);
         } catch (ex) {
         }
+        if(onHanasuInitialized != "undefined") {
+            onHanasuInitialized();
+        }
     };
     Hanasu.prototype.loadStations = function () {
         $.get("http://" + window.location.hostname + ":8888/stations", function (data) {
@@ -259,13 +262,34 @@ var Hanasu = (function () {
                 }
             }
             var currentdate = new Date();
-            $("#historyPane .innerPane").prepend("<hr />");
-            $("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
             $("#historyPane .innerPane").prepend("<h2 data-time='" + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + "'>" + song + "</h2>");
+            $("#historyPane .innerPane").prepend("<p>" + artist + "</p>");
+            $("#historyPane .innerPane").prepend("<hr />");
+            $("#songTitle").toggle("drop", {
+                direction: "right"
+            }).promise().done(function () {
+                $("#songTitle").html(song);
+                $("#songTitle").toggle("drop", {
+                    direction: "right"
+                });
+            });
+            $("#artistName").toggle("drop", {
+                direction: "right"
+            }).promise().done(function () {
+                $("#artistName").html(artist);
+                $("#artistName").toggle("drop", {
+                    direction: "right"
+                });
+            });
+            $("#coverImg").toggle("drop", {
+                direction: "up"
+            }).promise().done(function () {
+                $("#coverImg").attr('src', logo);
+                $("#coverImg").toggle("drop", {
+                    direction: "up"
+                });
+            });
         }
-        $("#songTitle").html(song);
-        $("#artistName").html(artist);
-        $("#coverImg").attr('src', logo);
     };
     Hanasu.prototype.clearSongInfo = function () {
         $("#songTitle").html("Ready");
