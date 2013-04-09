@@ -1,3 +1,4 @@
+
 html,
 body,
 div,
@@ -129,6 +130,22 @@ table {
     -webkit-transform: rotate(360deg);
   }
 }
+@-moz-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
 .button {
   display: block;
   background: none;
@@ -159,15 +176,14 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
 }
 /******** Loading Splash ********/
-
 #loadingSplash {
   position: absolute;
   z-index: 9001;
-  background: -moz-linear-gradient(top, white 0%, #efefef 100%);
-  background: -webkit-linear-gradient(top, white 0%, #efefef 100%);
-  background: -o-linear-gradient(top, white 0%, #efefef 100%);
-  background: -ms-linear-gradient(top, white 0%, #efefef 100%);
-  background: linear-gradient(to bottom, white 0%, #efefef 100%);
+  background: -moz-linear-gradient(top, #ffffff 0%, #efefef 100%);
+  background: -webkit-linear-gradient(top, #ffffff 0%, #efefef 100%);
+  background: -o-linear-gradient(top, #ffffff 0%, #efefef 100%);
+  background: -ms-linear-gradient(top, #ffffff 0%, #efefef 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #efefef 100%);
   width: 100%;
   height: 100%;
 }
@@ -179,7 +195,7 @@ body {
   height: 200px;
   margin: -100px 0 0 -200px;
   /* border: 1px solid #000000; */
-
+ 
 }
 #loadingSplash #inSplash h1 {
   width: 400px;
@@ -204,9 +220,9 @@ body {
   margin: 0 0 0 10px;
   -webkit-animation: spin 2s infinite linear;
   -moz-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
 }
 /******** Header and Footer ********/
-
 #header {
   position: fixed;
   top: 0;
@@ -227,7 +243,7 @@ body {
   float: left;
   width: 90px;
   height: 90px;
-  background-color: white;
+  background-color: #ffffff;
   box-shadow: 0px 0px 4px #232323;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -310,7 +326,6 @@ body {
   margin: 0 20px 0 20px;
 }
 /******** Stations ********/
-
 #stations {
   overflow-y: scroll;
   margin: 61px 0 30px 0;
@@ -321,7 +336,7 @@ body {
   width: 200px;
   height: 200px;
   margin: 60px 30px 0 30px;
-  background-color: white;
+  background-color: #ffffff;
   box-shadow: 0px 0px 4px #1e1f23;
   border-radius: 4px;
   transition: all 2s linear;
@@ -352,7 +367,7 @@ body {
   background: none;
   border: none;
   font-size: 18px;
-  color: white;
+  color: #ffffff;
 }
 .station .favouriteButton:hover {
   cursor: pointer;
@@ -374,7 +389,6 @@ body {
   font-weight: bold;
 }
 /******** Footer ********/
-
 #footer {
   position: fixed;
   bottom: 0;
@@ -505,7 +519,6 @@ body {
   background-color: #878787;
 }
 /******** Panes ********/
-
 #paneCover {
   display: none;
   position: absolute;
@@ -573,14 +586,13 @@ body {
   cursor: pointer;
 }
 #paneCover .pane hr {
-  border: 1px dashed lightgray;
+  border: 1px dashed #d3d3d3;
 }
 #paneCover .pane .innerPane {
   padding: 10px;
   color: #393b42;
 }
 /**** Dialog ****/
-
 .dialog {
   width: 340px;
   height: 160px;
@@ -615,7 +627,6 @@ body {
   cursor: pointer;
 }
 /**** History Pane ****/
-
 #paneCover #historyPane {
   width: 500px;
   height: 400px;
@@ -662,7 +673,6 @@ body {
   overflow-y: scroll;
 }
 /**** FAQ Pane ****/
-
 #paneCover #faqPane {
   width: 500px;
   height: 400px;
@@ -699,7 +709,6 @@ body {
   overflow-y: scroll;
 }
 /**** Settings Pane ****/
-
 #paneCover #settingsPane {
   width: 500px;
   height: 400px;
@@ -710,7 +719,7 @@ body {
   width: 130px;
   height: 349px;
   padding: 10px 0 0 0;
-  background-color: white;
+  background-color: #ffffff;
   border-bottom-left-radius: 5px;
 }
 #paneCover #settingsPane ul li a {
@@ -756,4 +765,35 @@ body {
 }
 #settingsPane .btn {
   float: left;
+}
+/*** Subpage controls ***/
+#subPageControls {
+  overflow: hidden;
+}
+#subPageControls #leftPageArrow {
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#subPageControls #leftPageArrow button {
+  position: absolute;
+  top: 50%;
+}
+#subPageControls #rightPageArrow {
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#subPageControls #rightPageArrow button {
+  position: absolute;
+  top: 50%;
+  right: 0%;
+}
+/*** Now Playing sub-page ***/
+#nowplaying {
+  height: 460px;
 }
