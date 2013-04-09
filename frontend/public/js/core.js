@@ -148,7 +148,7 @@ $("input[type='search']").on('search', function () {
 		});
 	} else {
 		var searched = $(Hanasu.prototype.Stations).filter(function(index) {
-			return this.Name.indexOf(query) !== -1; // http://stackoverflow.com/questions/1789945/method-like-string-contains-in-javascript
+			return this.Name.toLowerCase().indexOf(query.toLowerCase()) !== -1; // http://stackoverflow.com/questions/1789945/method-like-string-contains-in-javascript
 		});
 		searched.each(function() {
 			Hanasu.prototype.addStationToUI(this);
