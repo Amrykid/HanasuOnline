@@ -57,24 +57,43 @@ $('#settingsButton').click(function(){
 	$('#paneCover, #settingsPane').fadeToggle(200);
 });
 
-$('.closePane, .dialogButton').click(function(){
-	$('#paneCover, .pane').fadeOut(200);
+$('.pane.window > header > .closePane, .pane.window .dialogButton').click(function(){
+	$('.pane.window').fadeOut(200);
+	
+	if ($('.dialog.closeable').is(":visible") || $('.dialog.noncloseable').is(":visible")) {
+		// a dialog is open. don't close the pane.
+	} else {
+		$('#paneCover').fadeOut(200);
+	}
+});
+$('.dialog > header > .closePane, .dialog .dialogButton').click(function(){
+	$('.dialog').fadeOut(200);
+	
+	if ($('.pane.window').is(":visible")) {
+		// a dialog is open. don't close the pane.
+	} else {
+		$('#paneCover').fadeOut(200);
+	}
 });
 
-$(".pane").draggable({ containment: $(document.body), scroll: false , opacity: 0.35}); //http://api.jqueryui.com/draggable/#option-containment
+$(".pane.window").draggable({ containment: $(document.body), scroll: false , opacity: 0.35}); //http://api.jqueryui.com/draggable/#option-containment
 
 function dialog(title,message){
-	$('.dialog.closeable header h1').html(title);
-	$('.dialog.closeable p').html(message);
+	$('.dialog.closeable > header h1').html(title);
+	$('.dialog.closeable > p').html(message);
 	$('#paneCover, .dialog.closeable').fadeIn(200);
 }
 function non_close_dialog(title,message){
-	$('.dialog.noncloseable header h1').html(title);
-	$('.dialog.noncloseable p').html(message);
+	$('.dialog.noncloseable > header h1').html(title);
+	$('.dialog.noncloseable > p').html(message);
 	$('#paneCover, .dialog.noncloseable').fadeIn(200);
 	
 	return function() { 
-		$('#paneCover').fadeOut(200);
+		if ($('.pane.window').is(":visible")) {
+			// a window is open. don't close the pane.
+		} else {
+			$('#paneCover').fadeOut(200);
+		}
 		$('.dialog.noncloseable').fadeOut(200);
 	};
 }

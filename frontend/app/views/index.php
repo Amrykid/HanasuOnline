@@ -60,7 +60,7 @@
 			</header>
 			<p>Message</p>
 		</div>
-		<div class="pane" id="historyPane">
+		<div class="pane window" id="historyPane">
 			<header>
 				<h1>History</h1>
 				<button class="closePane icon-remove"></button>
@@ -71,7 +71,7 @@
 				<hr />-->
 			</div>
 		</div>
-		<div class="pane" id="faqPane">
+		<div class="pane window" id="faqPane">
 			<header>
 				<h1>FAQ</h1>
 				<button class="closePane icon-remove"></button>
@@ -93,7 +93,7 @@
 				<p>For the time being, you can't. Hopefully, in the future we may be able to provide such a feature!</p>
 			</div>
 		</div>
-		<div class="pane" id="settingsPane">
+		<div class="pane window" id="settingsPane">
 			<header>
 				<h1>Settings</h1>
 				<button class="closePane icon-remove"></button>
