@@ -163,3 +163,22 @@ $("input[type='search']").on('search', function () {
 		$(this).effect("shake", {direction: "up"}); 
 	});
 });
+
+$("#nowplaying").effect("drop");
+$("#leftPageArrow").hide();
+
+$("#leftPageArrow, #rightPageArrow").click(function() {
+	$(this).hide();
+	
+	if (this.id == "leftPageArrow") {
+		$("#nowplaying").toggle("drop", { direction: "left"}).promise().done(function() {
+			$("#stations").toggle("drop", { direction: "right"});
+			$("#rightPageArrow").show();
+		});
+	} else {
+		$("#stations").toggle("drop", { direction: "right"}).promise().done(function() {
+			$("#nowplaying").toggle("drop", { direction: "left"});
+			$("#leftPageArrow").show();
+		});
+	}
+});

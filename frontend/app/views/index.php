@@ -32,6 +32,9 @@
 	</div>
 	<div id="stations">
 	</div>
+	<div id="nowplaying">
+		<h1 style="text-align: center;position: absolute; top: 50%; left: 47%;">Coming Soon</h1>
+	</div>
 	<footer id="footer">
 		<nav>
 			<button id="historyButton">History</button>
@@ -112,6 +115,14 @@
 				<p>A radio player for listening to asian music.</p>
 				<a href="https://github.com/Amrykid/HanasuOnline">View on Github</a>
 			</div>
+		</div>
+	</div>
+	<div id="subPageControls">
+		<div id="leftPageArrow">
+			<button class="icon-chevron-left"></button>
+		</div>
+		<div id="rightPageArrow" style="">
+			<button class="icon-chevron-right"></button>
 		</div>
 	</div>
 </body>
