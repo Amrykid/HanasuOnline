@@ -164,20 +164,22 @@ $("input[type='search']").on('search', function () {
 	});
 });
 
-$("#nowplaying").effect("drop");
+$("#nowplaying").effect("slide").promise().done(function() { $(this).hide(); });
 $("#leftPageArrow").hide();
 
 $("#leftPageArrow, #rightPageArrow").click(function() {
 	$(this).hide();
 	
 	if (this.id == "leftPageArrow") {
-		$("#nowplaying").toggle("drop", { direction: "left"}).promise().done(function() {
-			$("#stations").toggle("drop", { direction: "right"});
+		$("#nowplaying").toggle("slide", { direction: "left"}).promise().done(function() {
+			$(this).hide();
+			$("#stations").toggle("slide", { direction: "right"});
 			$("#rightPageArrow").show();
 		});
 	} else {
-		$("#stations").toggle("drop", { direction: "right"}).promise().done(function() {
-			$("#nowplaying").toggle("drop", { direction: "left"});
+		$("#stations").toggle("slide", { direction: "right"}).promise().done(function() {
+			$(this).hide();
+			$("#nowplaying").toggle("slide", { direction: "left"});
 			$("#leftPageArrow").show();
 		});
 	}
