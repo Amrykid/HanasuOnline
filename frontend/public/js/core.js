@@ -158,4 +158,8 @@ $("input[type='search']").on('search', function () {
 			Hanasu.prototype.playStation(searched[0]);
 		}
 	}
+	
+	$(".station").click(function() {
+		$(this).effect("shake", {direction: "up"}); 
+	});
 });
